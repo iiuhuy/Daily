@@ -32,3 +32,6 @@ https://medium.com/husarion-blog/bootstrap-4-ros-creating-a-web-ui-for-your-robo
 
 需要自行科学上网。
 
+## ROS-02
+
+今天家里 Ubuntu 安装 ROS 失败了，心塞。 
