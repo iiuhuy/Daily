@@ -1,5 +1,7 @@
 # Jan
 
+有关的详细笔记我会存到 telegram 上到 channel，同时也包括了一些自己总结的东西，希望对大家有用：🚪 [点击传送门](https://t.me/joinchat/AAAAAFN6x9m8LhwqkkHG4w) 🚪
+
 ## ROS-01 记录
 1.官方 ROS WIKI 教程：http://wiki.ros.org/ROS/Tutorials 走一遍，理解里面重要的概念。
 
@@ -30,8 +32,21 @@ https://blog.csdn.net/zhangrelay/article/details/69382096
 
 https://medium.com/husarion-blog/bootstrap-4-ros-creating-a-web-ui-for-your-robot-9a77a8e373f9 
 
-需要自行科学上网。
+需要自己趴在梯子上看。
 
 ## ROS-02
 
 今天家里 Ubuntu 安装 ROS 失败了，心塞。 
+
+## 03 练习
+
+- 本地图床搭建，参考了 PicGo: https://github.com/Molunerfinn/PicGo。这个方法挺好的，也方便，教程详细。GitHub 也不会跑路。
+- 小程序商城练习
+- CSS 练习
+
+开始学习 Google Analytics。 GA 官方文档， GAIQ 考试都是很好的内容，学习数据分析管理的思维。
+
+- 深入学习 Google Analytics，有什么教程可以推荐吗？https://www.zhihu.com/question/19599402
+- Google Analytics（分析）学院: https://analytics.google.com/analytics/academy/
+- https://www.youtube.com/watch?v=JAT-jxF4et4&list=PLPh89N96p446NsAxXP5ZuuglOUZG_l6-w
+
