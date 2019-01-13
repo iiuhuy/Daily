@@ -49,4 +49,4 @@ https://medium.com/husarion-blog/bootstrap-4-ros-creating-a-web-ui-for-your-robo
 - 深入学习 Google Analytics，有什么教程可以推荐吗？https://www.zhihu.com/question/19599402
 - Google Analytics（分析）学院: https://analytics.google.com/analytics/academy/
 - https://www.youtube.com/watch?v=JAT-jxF4et4&list=PLPh89N96p446NsAxXP5ZuuglOUZG_l6-w
-
+- 每日坚持积累英语词汇量 130～150，(生词 10～25 个)。
