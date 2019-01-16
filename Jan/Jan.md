@@ -2,7 +2,7 @@
 
 有关的详细笔记我会存到 telegram 上到 channel，同时也包括了一些自己总结的东西，希望对大家有用：🚪 [点击传送门](https://t.me/joinchat/AAAAAFN6x9m8LhwqkkHG4w) 🚪
 
-## ROS-01 记录
+## 记录
 1.官方 ROS WIKI 教程：http://wiki.ros.org/ROS/Tutorials 走一遍，理解里面重要的概念。
 
 2.ETH 的 Introduction to Robotics，这个课把 ROS 的基本点都讲了一遍。
@@ -38,7 +38,7 @@ https://medium.com/husarion-blog/bootstrap-4-ros-creating-a-web-ui-for-your-robo
 
 今天家里 Ubuntu 安装 ROS 失败了，心塞。 
 
-## 03 练习
+## 练习
 
 - 本地图床搭建，参考了 PicGo: https://github.com/Molunerfinn/PicGo。这个方法挺好的，也方便，教程详细。GitHub 也不会跑路。
 - 小程序商城练习
@@ -50,3 +50,9 @@ https://medium.com/husarion-blog/bootstrap-4-ros-creating-a-web-ui-for-your-robo
 - Google Analytics（分析）学院: https://analytics.google.com/analytics/academy/
 - https://www.youtube.com/watch?v=JAT-jxF4et4&list=PLPh89N96p446NsAxXP5ZuuglOUZG_l6-w
 - 每日坚持积累英语词汇量 130～150，(生词 10～25 个)。
+
+## 记
+
+- 抓住自己最有兴趣的东西，由浅入深，循序渐进地学。 (华罗康)
+- 我学习了一生，现在我还在学习，而将来，只要我还有精力，我还要学习下去。(别林斯基)
+
