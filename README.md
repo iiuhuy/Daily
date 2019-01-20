@@ -27,4 +27,5 @@ Daily Practise in 2019. [你们创建了你们的 daily 项目了吗？](https:/
 - Jan.17 「饿伐？要伐要帮侬叫个披萨 ？」
 - Jan.18  人无完人。
 - Jan.19  「 See? He is her lobster」据《老友记》中的 Phoebe 说，龙虾的配偶都是一辈子的。
+- Jan.20  今日大寒。
 - todo...
