@@ -28,4 +28,5 @@ Daily Practise in 2019. [你们创建了你们的 daily 项目了吗？](https:/
 - Jan.18  人无完人。
 - Jan.19  「 See? He is her lobster」据《老友记》中的 Phoebe 说，龙虾的配偶都是一辈子的。
 - Jan.20  今日大寒。
+- Jan.21  「City of stars, are you shining just for me?」。
 - todo...

@@ -56,3 +56,12 @@ https://medium.com/husarion-blog/bootstrap-4-ros-creating-a-web-ui-for-your-robo
 - 抓住自己最有兴趣的东西，由浅入深，循序渐进地学。 (华罗康)
 - 我学习了一生，现在我还在学习，而将来，只要我还有精力，我还要学习下去。(别林斯基)
 
+## 学习写 react native 的界面
+
+- Mac 下搭建 react native 开发环境
+- 总结今日的东西
+- 看 docker 相关的文档
+
+by 01-21
+
+## 
