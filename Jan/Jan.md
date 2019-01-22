@@ -64,4 +64,9 @@ https://medium.com/husarion-blog/bootstrap-4-ros-creating-a-web-ui-for-your-robo
 
 by 01-21
 
-## 
+### 学习 http & 「重学前端」第四讲
+
+学习了 http 协议的东西，看了一下基本的东西。使用 url 传递参数。
+
+HTML 语义化。
+

@@ -29,4 +29,5 @@ Daily Practise in 2019. [你们创建了你们的 daily 项目了吗？](https:/
 - Jan.19  「 See? He is her lobster」据《老友记》中的 Phoebe 说，龙虾的配偶都是一辈子的。
 - Jan.20  今日大寒。
 - Jan.21  「City of stars, are you shining just for me?」。
+- Jan.22  交通领域字体设计原则：1⃣️ 让司机一眼看清路牌，专注开车。2⃣️ 让监控快速识别并准确开罚单。(我的驾照荒废了...)
 - todo...
