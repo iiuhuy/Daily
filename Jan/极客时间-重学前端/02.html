@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>运用语义类标签呈现 wiki 网页</title>
+  <style>
+    .first {
+      border-bottom: 1px solid #a2a961;
+    }
+  </style>
+</head>
+
+<body>
+  <hgroup>
+    <h1>World Wide Web </h1>
+    <h2>From Wikipedia, the free encyclopedia</h2>
+  </hgroup>
+
+  abbr 标签表示缩写
+  <abbr title="World Wide Web">WWW</abbr>.
+
+  <!-- <hr> 不是使用 hr 实现-->
+  <h1 class="first">使用 css 的 border 来当作纯视觉效果.</h1>
+
+  <cite>"What is the difference between the Web and the Internet?"</cite>. W3C Help and FAQ. W3C. 2009. Archived from
+  the original on 9 July 2015. Retrieved 16 July 2015.
+
+  <figure>
+    <img src="https://raw.githubusercontent.com/AlvinMi/2019-Pic/master/20190124193714.gif" />
+    <figcaption>The NeXT Computer used by Tim Berners-Lee at CERN.</figcaption>
+  </figure>
+
+  pre samp code 标签，wiki 上还加了样式。
+  <pre><samp>
+      GET /home.html HTTP/1.1
+      Host: www.example.org
+      </samp></pre>
+
+  <pre><code>
+      &lt;html&gt;
+        &lt;head&gt;
+          &lt;title&gt;Example.org – The World Wide Web&lt;/title&gt;
+        &lt;/head&gt;
+        &lt;body&gt;
+          &lt;p&gt;The World Wide Web, abbreviated as WWW and commonly known ...&lt;/p&gt;
+        &lt;/body&gt;
+      &lt;/html&gt;
+      </code></pre>
+
+</body>
+
+</html>
