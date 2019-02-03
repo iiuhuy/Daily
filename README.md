@@ -44,5 +44,7 @@ Daily Practise in 2019. [你们创建了你们的 daily 项目了吗？](https:/
 
 - Feb.1  推荐一款漂亮的连体字 ligatures。
 - Feb.2  设计者曾经无日无夜的舞动着她的彩带，而这些流畅优雅的曲线也留在了她设计的字体中。
+- Feb.3  辞旧～
+
 
 - todo...
