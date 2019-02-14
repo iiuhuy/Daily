@@ -55,4 +55,5 @@ Daily Practise in 2019. [你们创建了你们的 daily 项目了吗？](https:/
 - Feb.11 Variex 打破了许多字体设计时的条框，用最古老的正圆弧和直线玩出了后现代的感觉。
 - Feb.12 Tangerine 高挑优雅的上升部，宛如灵动逸荡的手写乐谱。字体设计和音乐看似风马牛不相及，实则在美学的纬度上高度相关。
 - Feb.13 一款同时内含高级狗粮和精神粮食的字体。(PMN Caecilia, PMN 是设计师的名字缩写，Caecilia 是设计师妻子的名字。)精神粮食明天就知道了。
+- Feb.14 PMN Caecilia Sans 是 PMN Caecilia 的非衬线情侣款。PMN Caecilia 是 Kindle 使用的系统字体。
 - todo...
