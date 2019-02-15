@@ -56,4 +56,5 @@ Daily Practise in 2019. [你们创建了你们的 daily 项目了吗？](https:/
 - Feb.12 Tangerine 高挑优雅的上升部，宛如灵动逸荡的手写乐谱。字体设计和音乐看似风马牛不相及，实则在美学的纬度上高度相关。
 - Feb.13 一款同时内含高级狗粮和精神粮食的字体。(PMN Caecilia, PMN 是设计师的名字缩写，Caecilia 是设计师妻子的名字。)精神粮食明天就知道了。
 - Feb.14 PMN Caecilia Sans 是 PMN Caecilia 的非衬线情侣款。PMN Caecilia 是 Kindle 使用的系统字体。
+- Feb.15 Roboto 是 Google 产品家族的御用字体，包括 Android、YouTube、Google Maps 等，也是 Google Fonts 上使用量排名第一的字体。
 - todo...
