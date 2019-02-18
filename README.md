@@ -59,4 +59,5 @@ Daily Practise in 2019. [你们创建了你们的 daily 项目了吗？](https:/
 - Feb.15 Roboto 是 Google 产品家族的御用字体，包括 Android、YouTube、Google Maps 等，也是 Google Fonts 上使用量排名第一的字体。
 - Feb.16 高挑的 x 字高(小写字母 x 的高度)是 Open Sans 的一大特色。它也是 Google Fonts 上使用量排名第二的字体。
 - Feb.17 Bello 字体，这种类似手写街头嘻哈风字体已经成为游行抗议标牌的最常用字体。
+- Feb.18 Starling 有 「八哥鸟」的意思，正呼应了这款字体衬线和笔触末端仿佛鸟喙一般尖锐而灵动。
 - todo...
