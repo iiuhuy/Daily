@@ -63,4 +63,5 @@ Daily Practise in 2019. [你们创建了你们的 daily 项目了吗？](https:/
 - Feb.19 去年元夜时，花市灯如昼。月上柳梢头，人约黄昏后。今年元夜时，月与灯依旧。不见去年人，泪湿春衫袖。 元宵节快乐！
 - Feb.20 Study。2019 没有别的「储备」，好好工作。
 - Feb.21 Minion3，Minion 最初设计时主要是用来满足刷教科书的需求。
+- Feb.22 [Lo-Res](https://www.emigre.com/Fonts/Lo-Res) 像素字体。原来是有像素字体的，孤陋寡闻了。
 - todo...
