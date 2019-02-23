@@ -64,4 +64,5 @@ Daily Practise in 2019. [你们创建了你们的 daily 项目了吗？](https:/
 - Feb.20 Study。2019 没有别的「储备」，好好工作。
 - Feb.21 Minion3，Minion 最初设计时主要是用来满足刷教科书的需求。
 - Feb.22 [Lo-Res](https://www.emigre.com/Fonts/Lo-Res) 像素字体。原来是有像素字体的，孤陋寡闻了。
+- Feb.23 [Anonymous](https://www.marksimonson.com/fonts/view/anonymous-pro) 等宽字符的字体，是不是看起来黑客感十足？
 - todo...
