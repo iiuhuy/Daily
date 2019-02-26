@@ -67,4 +67,5 @@ Daily Practise in 2019. [你们创建了你们的 daily 项目了吗？](https:/
 - Feb.23 [Anonymous](https://www.marksimonson.com/fonts/view/anonymous-pro) 等宽字符的字体，是不是看起来黑客感十足？
 - Feb.24 [OCR A](https://fonts.adobe.com/fonts/ocr-a)。OCR-A 是一种在计算机光学字符识别的早期出现的字体，当时需要一种不仅可以被当天的计算机识别而且还可以被人识别的字体。
 - Feb.25 [Voltage](https://fonts.adobe.com/fonts/voltage)。这款漂亮的连体字常被用作酒吧的霓虹灯牌。
+- Feb.26 [Remedy](https://fonts.adobe.com/fonts/remedy#packages-section)。花饰繁多的字体最早被设计用于反抗字体模块化的潮流。
 - todo...
