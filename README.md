@@ -69,4 +69,5 @@ Daily Practise in 2019. [你们创建了你们的 daily 项目了吗？](https:/
 - Feb.25 [Voltage](https://fonts.adobe.com/fonts/voltage)。这款漂亮的连体字常被用作酒吧的霓虹灯牌。
 - Feb.26 [Remedy](https://fonts.adobe.com/fonts/remedy#packages-section)。花饰繁多的字体最早被设计用于反抗字体模块化的潮流。
 - Feb.27 [DINosaur](https://www.fontspace.com/category/dinosaurs)。这款字体是为公路标识设计的字体。
+- Feb.28 [Luckiest+Guy](https://fonts.google.com/specimen/Luckiest+Guy)。2 月最后一天，今年不是闰年。写完 2 月前端学习笔记总结。
 - todo...
