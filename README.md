@@ -70,4 +70,9 @@ Daily Practise in 2019. [你们创建了你们的 daily 项目了吗？](https:/
 - Feb.26 [Remedy](https://fonts.adobe.com/fonts/remedy#packages-section)。花饰繁多的字体最早被设计用于反抗字体模块化的潮流。
 - Feb.27 [DINosaur](https://www.fontspace.com/category/dinosaurs)。这款字体是为公路标识设计的字体。
 - Feb.28 [Luckiest+Guy](https://fonts.google.com/specimen/Luckiest+Guy)。2 月最后一天，今年不是闰年。写完 2 月前端学习笔记总结。
+
+## Mar
+
+- Mar.01 [Alice](https://www.fontsquirrel.com/fonts/alice)。一款特意为排印《爱丽丝梦游仙境》而创作，所有的衬线都调整了弧度，增加了一丝俏皮都感觉。
+
 - todo...
