@@ -75,4 +75,5 @@ Daily Practise in 2019. [你们创建了你们的 daily 项目了吗？](https:/
 
 - Mar.01 [Alice](https://www.fontsquirrel.com/fonts/alice)。一款特意为排印《爱丽丝梦游仙境》而创作，所有的衬线都调整了弧度，增加了一丝俏皮都感觉。
 - Mar.02 [CINZEL](https://www.fontsquirrel.com/fonts/cinzel)。「它的灵感来自罗马碑文，但一些调整使它看起来更现代一点」。
+- Mar.03 [Bell Centennial Std](https://fonts.adobe.com/fonts/bell-centennial-std)。这款字是 AT&T 公司为纪念其创始人————电话的发明人「贝尔」而设计，最初被用于印制电话黄页。
 - todo...
