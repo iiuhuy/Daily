@@ -77,4 +77,5 @@ Daily Practise in 2019. [你们创建了你们的 daily 项目了吗？](https:/
 - Mar.02 [CINZEL](https://www.fontsquirrel.com/fonts/cinzel)。「它的灵感来自罗马碑文，但一些调整使它看起来更现代一点」。
 - Mar.03 [Bell Centennial Std](https://fonts.adobe.com/fonts/bell-centennial-std)。这款字是 AT&T 公司为纪念其创始人————电话的发明人「贝尔」而设计，最初被用于印制电话黄页。
 - Mar.04 [Axia Stencil Black](https://www.wfonts.com/font/axia-stencil-black)。Stensil 指的画笔镂空的字体模板。
+- Mar.05 [Just Another Hand](https://fonts.google.com/specimen/Just+Another+Hand)。山穷水尽疑无路，柳岸花名又一村。
 - todo...
