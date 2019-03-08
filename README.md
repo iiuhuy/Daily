@@ -80,4 +80,5 @@ Daily Practise in 2019. [你们创建了你们的 daily 项目了吗？](https:/
 - Mar.05 [Just Another Hand](https://fonts.google.com/specimen/Just+Another+Hand)。山穷水尽疑无路，柳岸花名又一村。
 - Mar.06 [Average](https://fonts.google.com/specimen/Average)。一款用许多衬线字体平均出来的「标准字」。
 - Mar.07 [Curly](https://www.1001fonts.com/curly-fonts.html)。😂对于一款不直不舒服斯基都字体，Curly (卷曲) 这个名字可以说是很贴切了。
+- Mar.08 [Eskorte](https://fonts.adobe.com/fonts/eskorte)，3.8~ 今天女生节，祝朋友圈里所有的女神们，多喝热水！
 - todo...
