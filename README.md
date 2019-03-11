@@ -83,5 +83,6 @@ Daily Practise in 2019. [你们创建了你们的 daily 项目了吗？](https:/
 - Mar.08 [Eskorte](https://fonts.adobe.com/fonts/eskorte)，3.8~ 今天女生节，祝朋友圈里所有的女神们，多喝热水！
 - Mar.09 [Press Start 2P](https://fonts.google.com/specimen/Press+Start+2P)。熟悉的像素风格。
 - Mar.10 [Josefin Sans](https://fonts.google.com/specimen/Josefin+Sans)。
+- Mar.11 [Alike Angular](https://fonts.google.com/specimen/Alike+Angular)。字体中都钢铁直男说得大概就是他了。
 
 - todo...
