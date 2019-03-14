@@ -86,5 +86,6 @@ Daily Practise in 2019. [你们创建了你们的 daily 项目了吗？](https:/
 - Mar.11 [Alike Angular](https://fonts.google.com/specimen/Alike+Angular)。字体中都钢铁直男说得大概就是他了。
 - Mar.12 [FAIRWATER](https://www.myfonts.com/fonts/laura-worthington/fairwater/)植树节快乐。
 - Mar.13 [IM Fell DW Pica SC](https://fonts.google.com/specimen/IM+Fell+DW+Pica+SC)。
+- Mar.14 [JAF DOMUS TITLING](https://fonts.adobe.com/fonts/jaf-domus-titling)。
 
 - todo...
