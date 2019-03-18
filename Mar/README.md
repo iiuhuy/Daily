@@ -15,3 +15,8 @@
 
 在网上看到一款 notion 笔记， 听说是 markdown + word ≈ notion 。
 但是目前转比较困难，继续观望...
+
+3.18
+
+update [Developer-Notes](https://alvinmi.github.io/Developer-notes/)
+
