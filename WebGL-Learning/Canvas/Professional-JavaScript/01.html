@@ -27,19 +27,33 @@
         context.moveTo(194, 100);
         context.arc(100, 100, 94, 0, 2 * Math.PI, false);
 
+        // // 绘制分针
+        // context.moveTo(100, 100);
+        // context.lineTo(100, 15);
+
+        // // 绘制时针
+        // context.moveTo(100, 100);
+        // context.lineTo(35, 100);
+
+        // // 绘制数字 12 
+        // context.font = "bold 14px Arial";
+        // context.textAlign = "center";
+        // context.textBaseline = "middle";
+        // context.fillText("12", 100, 20);
+
+        // ---------------- 变换原点 --------------- //
+        context.translate(100, 100);
+
+        // 旋转表针
+        context.rotate(1);
+
         // 绘制分针
-        context.moveTo(100, 100);
-        context.lineTo(100, 15);
+        context.moveTo(0, 0);
+        context.lineTo(0, -85);
 
         // 绘制时针
-        context.moveTo(100, 100);
-        context.lineTo(35, 100);
-
-        // 绘制数字 12 
-        context.font = "bold 14px Arial";
-        context.textAlign = "center";
-        context.textBaseline = "middle";
-        context.fillText("12", 100, 20);
+        context.moveTo(0, 0);
+        context.lineTo(-65, 0);
 
         // 描边路径
         context.stroke();

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+
+<body onload="drawing()">
+  <canvas id="ctx" width="200" height="200">Canvas!!!
+  </canvas>
+  <div style="display:none;">
+    <img id="source" src="https://mdn.mozillademos.org/files/5397/rhino.jpg" width="300" height="227">
+  </div>
+  <script>
+    function drawing() {
+      var ctx = document.getElementById("ctx");
+
+      if (ctx.getContext) {
+        var context = ctx.getContext("2d");
+
+        var image = document.images[0];
+        context.drawImage(image, 10, 10);
+        context.drawImage(image, 50, 10, 20, 30);
+        context.drawImage(image, 0, 10, 50, 50, 0, 100, 40, 60);
+
+        // var image = document.getElementById('source');
+        // ctx.drawImage(image, 33, 71, 104, 124, 21, 20, 87, 104);
+
+      }
+    }
+  </script>
+</body>
+
+</html>
