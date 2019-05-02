@@ -1,6 +1,6 @@
 # 学习 React & 练习
 
-## 目录
+## 本项目目录结构
 
 ```
 public
@@ -8,7 +8,12 @@ public
   |——
 ```
 
-### 
+### 使用
+
+`cd my-app` 目录下:
+
+- yarn or npm install 
+- yarn dev(start) or npm run dev
 
 ## React 
 
