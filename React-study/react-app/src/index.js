@@ -7,6 +7,7 @@ import ChatApp from "./01/ChatApp"
 import CommentBox from "./02/CommentBox"
 import ListSample from "./31/App";
 import WizardSample from "./35/App";
+import D3Sample from "./38/D3"
 
 // 样式
 import "./index.css";
@@ -24,6 +25,8 @@ const routeMap = {
 
   "list-page": ListSample,
   "wizard-sample": WizardSample,
+
+  D3Sample: D3Sample,     // 38
 
 }
 
