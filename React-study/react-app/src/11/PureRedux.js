@@ -1,6 +1,8 @@
 import React from "react"
 import {
-  creatStore
+  creatStore,
+  combineReducers,
+  bindActionCreators
 } from "redux"
 
 function run() {
@@ -31,6 +33,9 @@ function run() {
     // 不是这三种类型，只需要返回原来的状态即可
     return state;
   }
+
+  // 
+  const todos = (state) => state;
 
   // Create Store , 接收一个 reducer， 所以需要一个 reducer 
   const store = creatStore(
@@ -63,9 +68,13 @@ function run() {
     };
   }
 
+  // bindActionCreators 包装
+  plusOne = bindActionCreators(plusOne, store.dispatch);
+
   // 使用 action 的时候，需要拿到 store -> dispatch 出去
   store.subscribe(() => console.log(store.getState()));
-  store.dispatch(plusOne);
+  // store.dispatch(plusOne);
+  plusOne();    // bindActionCreators 包装后，直接调用这个函数。(这样的好处就是不用知道 store 在哪儿，也不用调 dispatch，直接用名字就行)
   store.dispatch(minusOne);
   store.dispatch(customCount(5));
 }
