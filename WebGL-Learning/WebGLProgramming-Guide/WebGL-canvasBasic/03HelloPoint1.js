@@ -2,9 +2,11 @@
 // 顶点着色器程序
 let VSHADER_SOURCE =
   'attribute vec4 a_Position;\n' + // 声明 Attribute 变量
+  'attribute float a_PointSize; \n' + 
   'void main() {\n' +
   ' gl_Position = a_Position;\n' +
-  ' gl_PointSize = 10.0;\n' + // 设置尺寸 -> gl_PointSize
+  // ' gl_PointSize = 10.0;\n' + // 设置尺寸 -> gl_PointSize
+  ' gl_PointSize = a_PointSize; \n' + 
   '}\n';
 
 // 片元着色器程序
@@ -40,9 +42,12 @@ function main() {
     return;
   }
 
+  var a_PointSize = gl.getAttribLocation(gl.program, 'a_PointSize');
   
   // 将顶点位置传输给 Attribute 变量
   gl.vertexAttrib3f(a_Position, 0.0, 0.0, 0.0);
+  // 同族函数
+  gl.vertexAttrib1f(a_PointSize, 5.0);
 
   // 指定清空 canvas 的颜色
   gl.clearColor(0.0, 0.0, 0.0, 1.0);
