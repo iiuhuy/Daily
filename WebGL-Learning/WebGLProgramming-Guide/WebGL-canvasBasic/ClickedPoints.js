@@ -2,20 +2,17 @@
 
 // 顶点着色器
 var VSHADER_SOURCE =
-  'attribute vec4 aPosition;\n' +
+  'attribute vec4 a_Position;\n' +
   'void main() { \n' +
   '   gl_Position = a_Position;\n' +
   '   gl_PointSize = 10.0;\n' +
   '}\n';
 
 // 片元着色器
-
 let FSHADER_SOURCE =
   'void main() {\n' +
-  '   gl_Position = a_Position;\n' +
-  '   gl_PointSize = 10.0;\n' +
+  '   gl_FragColor = vec4(1.0, 0.0, 0.0, 1.0);\n' + // 设置颜色
   '}\n';
-
 
 function main() {
   // 获取 canvas 
@@ -49,20 +46,21 @@ function main() {
   }
 
   // 清空 canvas 背景色
+  gl.clearColor(0.0, 0.0, 0.0, 1.0);   // 没有清空就是白色了
+
   gl.clear(gl.COLOR_BUFFER_BIT);
 }
 
 let g_points = []; // 鼠标点击的位置数组
-
 function click(ev, gl, canvas, a_Position) {
-  let x = ev.clientX;      // 鼠标点击处的 x 坐标
-  let y = ev.clientY;      // 鼠标点击处的 y 坐标
+  let x = ev.clientX; // 鼠标点击处的 x 坐标
+  let y = ev.clientY; // 鼠标点击处的 y 坐标
 
   let rect = ev.target.getBoundingClientRect();
 
-  x = ((x - rect.left) - canvas.height/2)/(canvas.height/2);
-  y = (canvas.width/2 - (y - rect.top))/(canvas.width/2);
-  
+  x = ((x - rect.left) - canvas.height / 2) / (canvas.height / 2);
+  y = (canvas.width / 2 - (y - rect.top)) / (canvas.width / 2);
+
   // 将坐标存储到 g_points 数组里面
   g_points.push(x);
   g_points.push(y);
@@ -73,7 +71,7 @@ function click(ev, gl, canvas, a_Position) {
   let len = g_points.length;
   for (var i = 0; i < len; i += 2) {
     // 将点的位置传递变量中 a_Position 
-    gl.vertexAttrib3f(a_Position, g_points[i], g_points[i+1], 0.0);
+    gl.vertexAttrib3f(a_Position, g_points[i], g_points[i + 1], 0.0);
     // 绘制点
     gl.drawArrays(gl.POINTS, 0, 1);
   }
