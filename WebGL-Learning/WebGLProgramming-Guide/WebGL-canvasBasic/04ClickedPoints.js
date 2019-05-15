@@ -42,6 +42,7 @@ function main() {
 
   // 注册鼠标点击事件响应函数
   canvas.onmousedown = function (ev) {
+    // 在匿名函数中调用 click 函数。 这种方式很常见，在这本书中
     click(ev, gl, canvas, a_Position);
   }
 
@@ -55,23 +56,38 @@ let g_points = []; // 鼠标点击的位置数组
 function click(ev, gl, canvas, a_Position) {
   let x = ev.clientX; // 鼠标点击处的 x 坐标
   let y = ev.clientY; // 鼠标点击处的 y 坐标
-
+  console.log(x, y);
   let rect = ev.target.getBoundingClientRect();
+  console.log(rect);
+  console.log("canvas 原点在浏览器客户区中的坐标： (" + rect.left + "," + rect.top + ")");
+  console.log("转换成 canvas 坐标系下的坐标： (" + (x-rect.left) + "," + (y-rect.top) + ")");
+  console.log("canvas 中心点的坐标： (" + (canvas.height/2) + "," + (canvas.width/2) + ")");
+  console.log("将 canvas 的原点平移到中心点： (" + ((x-rect.left)-canvas.height/2) + "," + (canvas.width/2-(y-rect.top)) + ")");
 
+  // 由于浏览器客户区 -> canvas 坐标系 -> WebGL 坐标系 
   x = ((x - rect.left) - canvas.height / 2) / (canvas.height / 2);
   y = (canvas.width / 2 - (y - rect.top)) / (canvas.width / 2);
 
   // 将坐标存储到 g_points 数组里面
-  g_points.push(x);
-  g_points.push(y);
+  // g_points.push(x);
+  // g_points.push(y);
+  // 也可以组合存储在数组中
+  g_points.push([x, y]);
 
-  // 清除 canvas
-  gl.clear(gl.COLOR_BUFFER_BIT);
+  // 清除 canvas，背景色默认是透明，(0.0, 0.0, 0.0, 0.0)
+  gl.clear(gl.COLOR_BUFFER_BIT);    // 应该在每次绘画之前都要来调用 gl.clear 用来指定背景色清空
 
   let len = g_points.length;
+  console.log("g_points 数组的长度：" + len);
   for (var i = 0; i < len; i += 2) {
+
     // 将点的位置传递变量中 a_Position 
-    gl.vertexAttrib3f(a_Position, g_points[i], g_points[i + 1], 0.0);
+    // gl.vertexAttrib3f(a_Position, g_points[i], g_points[i + 1], 0.0);
+
+    // 如果是使用 g_postions.push([x,y]) 的方式
+    let xy = g_points[i];
+    gl.vertexAttrib3f(a_Position, xy[0], xy[1], 0.0);
+    
     // 绘制点
     gl.drawArrays(gl.POINTS, 0, 1);
   }
