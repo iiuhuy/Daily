@@ -19,7 +19,7 @@ const instructions = Platform.select({
     'Shake or press menu button for dev menu',
 });
 
-type Props = {};
+// type Props = {};
 
 // 在 Greeting 组件中将 name 作为一个属性来定制 
 class Greeting extends Component {
@@ -71,7 +71,7 @@ class Blink extends Component {
 //   }
 // }
 
-export default class App extends Component<Props> {
+export default class App extends Component {
   render() {
     let pic = {
       uri: 'https://upload.wikimedia.org/wikipedia/commons/d/de/Bananavarieties.jpg'
