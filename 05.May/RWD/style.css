@@ -25,3 +25,9 @@ body {
     background-color: green;
   }
 }
+
+#wrapper {
+  margin-right: auto;
+  margin-left: auto;
+  width: 960px;
+}

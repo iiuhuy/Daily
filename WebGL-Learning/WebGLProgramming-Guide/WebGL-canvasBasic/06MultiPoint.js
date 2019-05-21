@@ -57,64 +57,35 @@ function main() {
   // let a_Positi = gl.getAttribLocation(gl.program, 'a_Position');
 }
 
-// function initVertexBuffers(gl) {
-//   let vertices = new Float32Array([
-//     0.0, 0.5, -0.5, -0.5, 0.5, -0.5
-//   ]);
-
-//   let n = 3;
-
-//   // 创建缓冲区对象
-//   let vertexBuffer = gl.createBuffer();
-//   if (!vertexBuffer) {
-//     console.log("创建 Buffer 对象失败！");
-//     return -1;
-//   }
-
-//   // 将缓冲区对象绑定到目标
-//   gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
-
-//   // 想缓冲区对象中写入数据
-//   gl.bufferData(gl.ARRAY_BUFFER, vertices, gl.STATIC_DRAW);
-
-//   let a_Position = gl.getAttribLocation(gl.program, 'a_Postion');
-
-//   // 将缓冲区对象分配给 a_Position 变量
-//   gl.vertexAttribPointer(a_Position, 2, gl.FLOAT, false, 0, 0);
-
-//   // 连接 a_Position 变量与分配给它的缓冲区对象
-//   gl.enableVertexAttribArray(a_Position);
-
-//   return n;
-// }
-
 function initVertexBuffers(gl) {
   var vertices = new Float32Array([
     0.0, 0.5, -0.5, -0.5, 0.5, -0.5
   ]);
-  var n = 3; // The number of vertices
+
+  var n = 3;
 
   // 创建缓冲区对象
   var vertexBuffer = gl.createBuffer();
   if (!vertexBuffer) {
-    console.log('Failed to create the buffer object');
+    console.log("创建 Buffer 对象失败！");
     return -1;
   }
 
-  // 绑定到目标
+  // 将缓冲区对象绑定到目标
   gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
-  // 将数据写入到对象
+  // 向缓冲区对象中写入数据
   gl.bufferData(gl.ARRAY_BUFFER, vertices, gl.STATIC_DRAW);
 
   var a_Position = gl.getAttribLocation(gl.program, 'a_Position');
   if (a_Position < 0) {
-    console.log('Failed to get the storage location of a_Position');
+    console.log('获取本地存储位置失败！');
     return -1;
   }
-  // Assign the buffer object to a_Position variable
+
+  // 将缓冲区对象分配给 a_Position 变量
   gl.vertexAttribPointer(a_Position, 2, gl.FLOAT, false, 0, 0);
 
-  // Enable the assignment to a_Position variable
+  // 连接 a_Position 变量与分配给它的缓冲区对象
   gl.enableVertexAttribArray(a_Position);
 
   return n;
