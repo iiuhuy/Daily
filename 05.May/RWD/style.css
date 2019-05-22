@@ -29,5 +29,57 @@ body {
 #wrapper {
   margin-right: auto;
   margin-left: auto;
-  width: 960px;
+  width: 96%;
+}
+
+#header {
+  margin-right: 10px;
+  margin-left: 10px;
+  /* width: 940px; */
+  width: 97.9166667%; /* 940 ÷ 960 */
+}
+
+#navigation {
+  padding-bottom: 25px;
+  margin-top: 26px;
+  margin-left: -10px;
+  padding-right: 10px;
+  padding-left: 10px;
+  /* width: 940px; */
+  width: 72.7083333%; /* 698 ÷ 960 */
+}
+
+#navigation ul li {
+  display: inline-block;
+}
+
+#content {
+  margin-top: 58px;
+  margin-right: 10px;
+  float: right;
+  /* width: 698px; */
+  width: 72.7083333%; /* 698 ÷ 960 */
+}
+
+#sidebar {
+  border-right-color: #e8e8e8;
+  border-right-style: solid;
+  border-right-width: 2px;
+  margin-top: 58px;
+  padding-right: 10px;
+  margin-right: 10px;
+  margin-left: 10px;
+  float: left;
+  /* width: 220px; */
+  width: 22.7083333%;  /* 220 ÷ 960 */
+}
+
+#footer {
+  float: left;
+  margin-top: 20px;
+  margin-right: 10px;
+  margin-left: 10px;
+  clear: both;
+  /* width: 940px; */
+  width: 97.9166667%; /* 940 ÷ 960 */
 }
