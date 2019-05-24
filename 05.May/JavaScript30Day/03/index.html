@@ -68,7 +68,8 @@
 
     function handleUpdate() {
       const suffix = this.dataset.sizing || '';
-      document.documentElement.style.setProperty(`--${this.name}`, this.value + suffix);
+      console.log(suffix);
+      document.documentElement.style.setProperty(`--${this.name}`, this.value + suffix);  // 给一个声明了 CSS 样式的对象设置一个新的值
     }
     inputs.forEach(input => input.addEventListener('change', handleUpdate));
     inputs.forEach(input => input.addEventListener('mousemove', handleUpdate));
