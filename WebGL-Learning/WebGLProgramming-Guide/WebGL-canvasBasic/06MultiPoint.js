@@ -20,7 +20,7 @@ let VSHADER_SOURCE =
   "attribute vec4 a_Position;\n" +
   "void main() {\n" +
   "  gl_Position = a_Position;\n" +
-  "  gl_PointSize = 10.0;\n" +
+  "  gl_PointSize = 10.0;\n" +  // 这个语句只有在绘制单个点的时候起作用
   "}\n";
 
 // 片元着色器
@@ -58,16 +58,24 @@ function main() {
   gl.clear(gl.COLOR_BUFFER_BIT);
 
   // 绘制三个点
-  gl.drawArrays(gl.POINTS, 0, n); // n 是 3
+  // gl.drawArrays(gl.POINTS, 0, n); // n 是 3
+  // gl.drawArrays(gl.LINES, 0, n);
+  // gl.drawArrays(gl.LINE_STRIP, 0, n);
+  // gl.drawArrays(gl.LINE_LOOP, 0, n);
+  gl.drawArrays(gl.TRIANGLES, 0, n);
+  // gl.drawArrays(gl.TRIANGLE_STRIP, 0, n );
+  // gl.drawArrays(gl.TRIANGLE_FAN, 0, n);
+
 
   // 获取 a_Position 变量的存储位置
   // let a_Positi = gl.getAttribLocation(gl.program, 'a_Position');
 }
 
 function initVertexBuffers(gl) {
-  var vertices = new Float32Array([0.0, 0.5, -0.5, -0.5, 0.5, -0.5]);
+  // vertices 变量, 后面需要缓存区对象传递的变量
+  var vertices = new Float32Array([0.0, 0.5, -0.5, -0.5, 0.5, -0.5,]);
 
-  var n = 3;
+  var n = 3;  // 点的个数
 
   // 创建缓冲区对象
   var vertexBuffer = gl.createBuffer();
@@ -76,9 +84,10 @@ function initVertexBuffers(gl) {
     return -1;
   }
 
-  // 将缓冲区对象绑定到目标
+  // 将缓冲区对象绑定到目标 gl.bindBuffer(target, buffer)
+  // target 有四种参数 - 这里将缓冲区对象绑定到了 ARRAY_BUFFER 目标上，表示缓冲区对象中包含了顶点的数据
   gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
-  // 向缓冲区对象中写入数据
+  // 向缓冲区对象中写入数据: 将 vertices 中的数据写入了绑定到第一个参数 gl.ARRAY_BUFFER 对象上
   gl.bufferData(gl.ARRAY_BUFFER, vertices, gl.STATIC_DRAW);
 
   var a_Position = gl.getAttribLocation(gl.program, "a_Position");
@@ -88,6 +97,7 @@ function initVertexBuffers(gl) {
   }
 
   // 将缓冲区对象分配给 a_Position 变量
+  // 第二个参数, 表示缓冲区中每个顶点有一个分量
   gl.vertexAttribPointer(a_Position, 2, gl.FLOAT, false, 0, 0);
 
   // 连接 a_Position 变量与分配给它的缓冲区对象
