@@ -63,8 +63,8 @@ function main() {
   // gl.drawArrays(gl.LINE_STRIP, 0, n);
   // gl.drawArrays(gl.LINE_LOOP, 0, n);
   // gl.drawArrays(gl.TRIANGLES, 0, n);
-  gl.drawArrays(gl.TRIANGLE_STRIP, 0, n ); // 增加顶点数量
-  // gl.drawArrays(gl.TRIANGLE_FAN, 0, n);
+  // gl.drawArrays(gl.TRIANGLE_STRIP, 0, n ); // 增加顶点数量
+  gl.drawArrays(gl.TRIANGLE_FAN, 0, n);
 
   // 获取 a_Position 变量的存储位置
   // let a_Positi = gl.getAttribLocation(gl.program, 'a_Position');
