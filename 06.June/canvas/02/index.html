@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title> == 和 === 的区别 </title>
+</head>
+<body>
+
+  <h2>Javascript 中 == 和 === 区别是什么？</h2>
+  
+  <div style="color:salmon"><a href="https://dorey.github.io/JavaScript-Equality-Table/">参考</a>   总之不要使用 == ，要使用 === 做全等于判断
+  </div>
+  <canvas id="drawCanvas" width="1600" height="1600" style="height:800px;width:800px"/>
+
+  <script>
+    var cmp = function(v1, v2) { return v1 == v2; };
+    var vals = [
+        ["null", function() { return null; }],
+        ["undefined", function() { return undefined; }],
+        ["false", function() { return false; }], 
+        ['"false"', function() { return "false"; }],
+        ["Boolean(false)", function() { return new Boolean(false); }],
+        ["[]", function() { return []; }], 
+        ["[[]]", function() { return [[]]; }], 
+        ['""', function() { return ""; }],
+        ['String("")',function(){return new String('')}],
+        
+        ["0", function() { return 0; }],
+        ["Number(0)",function(){return new Number(0)}],
+        ['"0"', function() { return "0"; }], 
+        ['String("0")',function(){return new String('0')}],
+        
+        
+        ["[0]", function() { return [0]; }], 
+        
+        ["true", function() { return true; }],
+        ['"true"', function() { return "true"; }],
+        ["Boolean(true)", function() { return new Boolean(true); }],
+        
+        
+        ["1",function() { return  1; }],
+        ["Number(1)",function(){return new Number(1)}],
+        ['"1"', function() { return "1"; }],
+        ['String("1")',function(){return new String('1')}],
+        
+        
+        ["[1]", function() { return [1]; }],
+        
+            
+        ["-1", function() { return -1; }],
+        ["Number(-1)",function(){return new Number(-1)}],
+        ['"-1"', function() { return "-1"; }],
+        ['String("-1")',function(){return new String('-1')}],
+        ["[-1]", function() { return [-1]; }],
+        
+        ["Infinity", function() { return Infinity; }],
+        ["-Infinity", function() { return -Infinity; }],
+        
+        
+        ["{}", function() { return {}; }], 
+        ["NaN", function() { return NaN; }]
+    ];
+
+    var canvas = document.getElementById("drawCanvas");
+    var ctx = canvas.getContext("2d");
+    var n = vals.length;
+    var r = 40; // diameter of grid squares
+    var p = 160; // padding space for labels
+
+    // color grid cells
+    for (var i = 0; i < n; i++) {
+        var v1 = vals[i][1]();
+        for (var j = 0; j < n; j++) {
+            var v2 = vals[j][1]();
+            var eq = cmp(v1, v2);
+            ctx.fillStyle = eq ? "orange" : "white";
+            ctx.fillRect(p+i*r,p+j*r,r,r);
+        }
+    }
+
+    // draw labels
+    ctx.fillStyle = "black";
+    var f = 24;
+    ctx.font = f + "px Helvetica";
+    for (var i = 0; i < n; i++) {
+        var s = vals[i][0];
+        var w = ctx.measureText(s).width;
+        ctx.save();
+        ctx.translate(p+i*r+r/2-f*0.4,p-w-2);
+        ctx.rotate(3.14159/2);
+        ctx.fillText(s, 0, 0);
+        ctx.restore();
+    }
+    for (var i = 0; i < n; i++) {
+        var s = vals[i][0];
+        var w = ctx.measureText(s).width;
+        ctx.fillText(s, p-w-2, p+i*r+r/2+f*0.4);
+    }
+
+    // draw grid lines
+    ctx.beginPath();
+    ctx.strokeStyle = "black";
+    for (var i = 0; i <= n; i++) {
+        ctx.moveTo(p+r*i, p);
+        ctx.lineTo(p+r*i, p+r*n);
+        ctx.moveTo(p, p+r*i);
+        ctx.lineTo(p+r*n, p+r*i);
+    }
+    ctx.stroke();
+
+  </script>
+</body>
+</html>
