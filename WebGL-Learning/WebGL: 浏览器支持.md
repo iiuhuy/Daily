@@ -69,3 +69,8 @@ WebGL(Web 图形库) 是一种用于浏览器中渲染交互式 3D 图形的技�
 WebGL 2.0 查看: https://www.khronos.org/blog/webgl-2.0-arrives 。访问[该链接 http://toji.github.io/webgl2-particles-2/](http://toji.github.io/webgl2-particles-2/) 就能查看 WebGL 2.
 
 <img src="https://raw.githubusercontent.com/AlvinMi/2019-Pic/master/2019/20190624233402.png"/>
+
+当然可以参考 MDN 官网查询兼容性，还有 Caniuse 查询兼容性。
+
+> https://developer.mozilla.org/en-US/search
+> https://caniuse.com/
