@@ -18,15 +18,35 @@ app.get("/", function(req, res, next) {
     // console.log(sres.text);
     // res.send(sres.text);
     var items = [];
-    $("#topic_list .topic_title").each(function(idx, element) {
+
+    $("#topic_list .topic_title").each(function(
+      idx,
+      element
+    ) {
       var $element = $(element);
-      console.log(element);
+      // console.log(idx);
+
       items.push({
         title: $element.attr("title"),
         href: $element.attr("href"),
-        author: $element.attr("user_avatar")
+        author: $element.parents('.cell').find('img').attr('title')
       });
     });
+    // console.log(items);
+
+    // $("#topic_list .user_avatar.pull-left").each(function(idx, element) {
+    //   var $element = $(element);
+    //   // console.log($element.attr("href"));
+    //   items.map((i, index) => {
+    //     // console.log(i);
+    //     console.log(index);
+    //     items2.push({
+
+    //     })
+    //   })
+    // });
+
+    // console.log(items);
 
     res.send(items);
   });
