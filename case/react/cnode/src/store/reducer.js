@@ -6,6 +6,7 @@ import { reducer as user } from './../pages/user/store'
 import { reducer as login } from './../common/login/store'
 import { reducer as create } from './../pages/create/store'
 import { reducer as message } from './../pages/message/store'
+// 答复
 import { reducer as replies } from './../pages/replies/store'
 
 const reducer = combineReducers({
