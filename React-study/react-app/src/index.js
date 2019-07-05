@@ -2,12 +2,14 @@ import React from "react";
 import { render } from "react-dom";
 import Hello from "./Hello";
 
-// import 
-import ChatApp from "./01/ChatApp"
-import CommentBox from "./02/CommentBox"
+// import
+import ChatApp from "./01/ChatApp";
+import CommentBox from "./02/CommentBox";
+
+import PureRedux from "./11/PureRedux";
 import ListSample from "./31/App";
 import WizardSample from "./35/App";
-import D3Sample from "./38/D3"
+import D3Sample from "./38/D3";
 
 // 样式
 import "./index.css";
@@ -15,37 +17,36 @@ import "./index.css";
 // 字体样式
 const styles = {
   fontFamily: "sans-serif",
-  paddingLeft: "250px",
-}
+  paddingLeft: "250px"
+};
 
 // router map
 const routeMap = {
-  chat: ChatApp,    // 01
-  "comment-box": CommentBox,   // 02
+  chat: ChatApp, // 01
+  "comment-box": CommentBox, // 02
+  "pure-redux": PureRedux,
+  "list-page": ListSample, // 31
+  "wizard-sample": WizardSample, // 35
 
-  "list-page": ListSample,
-  "wizard-sample": WizardSample,
-
-  D3Sample: D3Sample,     // 38
-
-}
+  D3Sample: D3Sample // 38
+};
 
 class App extends React.PureComponent {
   handleLinkClick = key => {
     // window.location.hash = `#${key}`
     window.history.pushState(null, "", `/#/${key}`);
     this.forceUpdate();
-  }
+  };
 
-  render () {
+  render() {
     // 正则匹配当前的路由
     const currentPage = document.location.hash.replace(/#\/?/, "");
 
     let CurrentPage = routeMap[currentPage] || Hello;
-    if(currentPage.match(/\/user\/w+|\/list-page/)) {
+    if (currentPage.match(/\/user\/w+|\/list-page/)) {
       CurrentPage = ListSample;
     }
-    if(currentPage.match(/\/wizard\/step\/\w+/)) {
+    if (currentPage.match(/\/wizard\/step\/\w+/)) {
       CurrentPage = WizardSample;
     }
     return (
@@ -67,8 +68,8 @@ class App extends React.PureComponent {
           <CurrentPage />
         </div>
       </div>
-    )
-  } 
+    );
+  }
 }
 
-render(<App/>, document.getElementById("root"));
+render(<App />, document.getElementById("root"));
