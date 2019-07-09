@@ -1,0 +1,17 @@
+{
+  "name": "lesson5",
+  "version": "0.0.0",
+  "description": "使用 async 控制并发 ",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "alsotang <alsotang@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "async": "^0.9.0",
+    "cheerio": "^1.0.0-rc.3",
+    "express": "^4.17.1",
+    "superagent": "^5.1.0"
+  }
+}
