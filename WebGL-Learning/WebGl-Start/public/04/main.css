@@ -1,0 +1,4 @@
+/* 追加样式, 可以方便调试查看 */
+canvas {
+  border: 1px solid black;
+}

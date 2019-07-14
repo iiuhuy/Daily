@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Page Title</title>
+    <link rel="stylesheet" type="text/css" media="screen" href="./main.css" />
+
+    <!-- 从 http://glmatrix.net/ 下载的 gl-matrix 文件... -->
+    <script src="./gl-matrix-min.js" defer></script>
+    <!-- 告诉浏览器异步加载 script -->
+    <script src="./main.js" defer></script>
+    <!-- 给 canvas 边框添加一个样式 -->
+  </head>
+
+  <body>
+    <h1>
+      WebGL！！！
+    </h1>
+    <!-- <canvas id="canvas"></canvas> -->
+    <!-- 需要添加 canvas 的长宽，不然在旋转的时候 三角形会变形～ -->
+    <canvas id="canvas" width="240px" height="240px"></canvas>
+  </body>
+</html>
