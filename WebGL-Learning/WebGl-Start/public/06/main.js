@@ -166,6 +166,11 @@ const uniformLocations = {
 };
 // const matrix = mat4.create();   // 会报错...
 const matrix = glMatrix.mat4.create(); // http://glmatrix.net/docs/module-mat4.html
+const projectionMatrix = glMatrix.mat4.create();
+glMatrix.mat4.perspective(projectionMatrix,
+  75 * Math.PI / 180, //
+  canvas.width / canvas.height, // aspect
+);
 // let result = glMatrix.mat4.create();
 // let result = mat4.translate(glMatrix.mat4.create(), matrix, [2, 5, 1]);
 // let result2 = mat4.translate(glMatrix.mat4.create(), result, [2, 5, 1]);
