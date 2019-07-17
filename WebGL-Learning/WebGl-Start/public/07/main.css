@@ -1,0 +1,10 @@
+/* 追加样式, 可以方便调试查看 */
+body {
+  margin: 0;
+}
+
+canvas {
+  /* border: 1px solid black; */
+  width: 100%;
+  height: 100%;
+}

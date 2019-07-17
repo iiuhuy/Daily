@@ -231,7 +231,6 @@ glMatrix.mat4.perspective(
   projectionMatrix,
   (75 * Math.PI) / 180, // vertical field-of-view (angle, radians) 垂直的视角
   canvas.width / canvas.height, // aspect W/H
-  // 2, // near cull distance
   1e-4, // near cull distance
   1e4 // far null distance
 );
