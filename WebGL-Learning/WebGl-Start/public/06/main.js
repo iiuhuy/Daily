@@ -233,7 +233,8 @@ glMatrix.mat4.perspective(
   canvas.width / canvas.height, // aspect W/H
   // 2, // near cull distance
   1e-4, // near cull distance
-  1e4 // far null distance
+  // 1e4 // far null distance
+  1e4
 );
 
 const finalMatrix = glMatrix.mat4.create();

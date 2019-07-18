@@ -224,7 +224,8 @@ const uniformLocations = {
   matrix: gl.getUniformLocation(program, `matrix`)
 };
 // const matrix = mat4.create();   // 会报错...
-const matrix = glMatrix.mat4.create(); // http://glmatrix.net/docs/module-mat4.html
+const modelMatrix = glMatrix.mat4.create(); // http://glmatrix.net/docs/module-mat4.html\
+const viewMatrix = glMatrix.mat4.create();
 const projectionMatrix = glMatrix.mat4.create(); // 创建第二个矩阵，投影矩阵代替透视矩阵
 // 创建一个占位符矩阵，最终将要调用它, 它是两者相乘的结果，上传到着色器程序
 glMatrix.mat4.perspective(
@@ -235,16 +236,16 @@ glMatrix.mat4.perspective(
   1e4 // far null distance
 );
 
-const finalMatrix = glMatrix.mat4.create();
-// let result = glMatrix.mat4.create();
-// let result = mat4.translate(glMatrix.mat4.create(), matrix, [2, 5, 1]);
-// let result2 = mat4.translate(glMatrix.mat4.create(), result, [2, 5, 1]);
-// glMatrix.mat4.translate(matrix, matrix, [2, 5, 1]);
-// glMatrix.mat4.translate(matrix, matrix, [-1, -3, 0]);
+const mvMatrix = glMatrix.mat4.create(); // 创建一个中间的矩阵, 因为一次只能乘两个
+// const finalMatrix = glMatrix.mat4.create();
+const mvpMatrix = glMatrix.mat4.create();   // mvp
 
-glMatrix.mat4.translate(matrix, matrix, [0.2, 0.5, -2]); // 移动
-glMatrix.mat4.scale(matrix, matrix, [0.5, 0.5, 0.5]); // 缩放
-console.log(matrix);
+glMatrix.mat4.translate(modelMatrix, modelMatrix, [-2, 0, -2]); // 移动
+glMatrix.mat4.translate(viewMatrix, viewMatrix, [-3, 0, 1]); // 向左和向后
+glMatrix.mat4.invert(viewMatrix, viewMatrix);  // 反转
+
+// glMatrix.mat4.scale(mvMatrix, mvMatrix, [0.5, 0.5, 0.5]); // 缩放
+console.log(mvMatrix);
 
 // gl.drawArrays(gl.LINE_LOOP, 0, 3);
 
@@ -255,12 +256,10 @@ console.log(matrix);
 function animate() {
   requestAnimationFrame(animate);
 
-  glMatrix.mat4.rotateX(matrix, matrix, Math.PI / 2 / 70);
-  // glMatrix.mat4.rotateZ(matrix, matrix, Math.PI / 2 / 70); // 绕 z 轴旋转角度
-  // glMatrix.mat4.rotateY(matrix, matrix, Math.PI / 2 / 120);
-  glMatrix.mat4.multiply(finalMatrix, projectionMatrix, matrix); // P * M
+  glMatrix.mat4.multiply(mvMatrix, viewMatrix, modelMatrix);  
+  glMatrix.mat4.multiply(mvpMatrix, projectionMatrix, mvMatrix);  // model view projection matrix  -> mvpMatrix
 
-  gl.uniformMatrix4fv(uniformLocations.matrix, false, finalMatrix);
+  gl.uniformMatrix4fv(uniformLocations.matrix, false, mvpMatrix);  
   gl.drawArrays(gl.TRIANGLES, 0, vertexData.length / 3);
 }
 
