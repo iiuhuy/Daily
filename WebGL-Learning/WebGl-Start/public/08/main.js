@@ -13,7 +13,7 @@ function spherePointCloud(pointCount) {
     const inputPoint = [r(), r(), r()];
     // console.log(inputPoint);
 
-    const outputPoint = vec3.normalize(vec3.create(), inputPoint);
+    const outputPoint = glMatrix.vec3.normalize(glMatrix.vec3.create(), inputPoint);
 
     points.push(...outputPoint);
   }
@@ -63,7 +63,7 @@ gl.shaderSource(
 `
 );
 gl.compileShader(fragmentShader);
-console.log(gl.getShaderInfoLog(fragmentShader));
+// console.log(gl.getShaderInfoLog(fragmentShader));
 
 // 将其链接起来
 const program = gl.createProgram();
