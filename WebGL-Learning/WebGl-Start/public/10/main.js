@@ -96,6 +96,16 @@ const uvData = repeat(6, [
   1, 1
 ]);
 
+// F|L|B|R|T|U
+const normalData = [
+  ...repeat(6, [0, 0, 1 ]), // +Z
+  ...repeat(6, [-1,0, 0 ]), // -X
+  ...repeat(6, [0, 0, -1]), // +Z
+  ...repeat(6, [1, 0, 0]), // +X
+  ...repeat(6, [0, 1, 0]), // +Y
+  ...repeat(6, [0, -1, 0]), // -Y
+];
+
 const positionBuffer = gl.createBuffer(); // 创建一个缓存
 gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
 gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertexData), gl.STATIC_DRAW);
@@ -123,8 +133,8 @@ function loadTexture(url) {
   return texture;
 }
 
-const brick = loadTexture(`image/cubetexture.png`);
-// const brick = loadTexture(`image/ysb.jpg`);
+// const brick = loadTexture(`image/cubetexture.png`);
+const brick = loadTexture(`image/ysb.jpg`);
 
 gl.activeTexture(gl.TEXTURE0);
 gl.bindTexture(gl.TEXTURE_2D, brick);
