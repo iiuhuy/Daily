@@ -1,6 +1,7 @@
 /* 追加样式, 可以方便调试查看 */
 body {
   margin: 0;
+  background: linear-gradient(#f0f8ff, black)
 }
 
 canvas {

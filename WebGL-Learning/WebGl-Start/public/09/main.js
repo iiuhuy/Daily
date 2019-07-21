@@ -149,8 +149,8 @@ let uniformLocations;
     uniform mat4 matrix;
 
     void main() {
-        vUV = uv;
-        gl_Position = matrix * vec4(position, 1);
+      vUV = uv;
+      gl_Position = matrix * vec4(position, 1);
     }
     `
   );

@@ -71,40 +71,25 @@ function repeat(n, pattern) {
 
 // 创建 uv
 const uvData = repeat(6, [
-  /*
-    (0,1)               (1,1) 
-      ②*****************④
-      * *                *
-      *   *              *
-      *     *            *
-      *       *          *
-      *         *        *
-      *           *      *
-      *             *    *
-      *               *  *
-      ①*****************③
-    (0,0)               (1,0)
-  */ 
-  // 如何将图像映射到三角形或者面上, 使用 uv 贴图 
-  // start  0,0 move cw, 两个三角形
-  0, 0,
-  0, 1,
-  1, 0,
+  1, 1, // top r
+  1, 0, // bottom r 
+  0, 1, // top left
 
-  1, 0,
-  0, 1,
-  1, 1
+  0, 1, // top left
+  1, 0, // bottom right
+  0, 0  // bottom left
 ]);
 
-// F|L|B|R|T|U
+// F|L|B|R|T|U 正常数据
 const normalData = [
-  ...repeat(6, [0, 0, 1 ]), // +Z
-  ...repeat(6, [-1,0, 0 ]), // -X
-  ...repeat(6, [0, 0, -1]), // +Z
-  ...repeat(6, [1, 0, 0]), // +X
-  ...repeat(6, [0, 1, 0]), // +Y
-  ...repeat(6, [0, -1, 0]), // -Y
+  ...repeat(6, [0,  0,  1 ]), // +Z
+  ...repeat(6, [-1, 0,  0 ]), // -X
+  ...repeat(6, [0,  0, -1 ]), // +Z
+  ...repeat(6, [1,  0,  0 ]), // +X
+  ...repeat(6, [0,  1,  0 ]), // +Y
+  ...repeat(6, [0, -1,  0 ]), // -Y
 ];
+
 
 const positionBuffer = gl.createBuffer(); // 创建一个缓存
 gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
@@ -113,6 +98,11 @@ gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertexData), gl.STATIC_DRAW);
 const uvBuffer = gl.createBuffer();
 gl.bindBuffer(gl.ARRAY_BUFFER, uvBuffer);
 gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(uvData), gl.STATIC_DRAW);
+
+// normal buffer
+const normalBuffer = gl.createBuffer();
+gl.bindBuffer(gl.ARRAY_BUFFER, normalBuffer);
+gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(normalData), gl.STATIC_DRAW);
 
 // RESOURCE LOADING
 // ================
@@ -133,8 +123,8 @@ function loadTexture(url) {
   return texture;
 }
 
-// const brick = loadTexture(`image/cubetexture.png`);
-const brick = loadTexture(`image/ysb.jpg`);
+const brick = loadTexture(`image/cubetexture.png`);
+// const brick = loadTexture(`image/ysb.jpg`);
 
 gl.activeTexture(gl.TEXTURE0);
 gl.bindTexture(gl.TEXTURE_2D, brick);
@@ -151,16 +141,26 @@ let uniformLocations;
     `
     precision mediump float;
 
+    const vec3 lightDirection = normalize(vec3(0, 1.0, 1.0));
+    const float ambient = 0.1;
+
     attribute vec3 position;
     attribute vec2 uv;
+    attribute vec3 normal;
 
     varying vec2 vUV;
+    varying float vBrightness;
 
     uniform mat4 matrix;
+    uniform mat4 normalMatrix;
 
     void main() {
-        vUV = uv;
-        gl_Position = matrix * vec4(position, 1);
+      vec3 worldNormal = (normalMatrix * vec4(normal, 1)).xyz;
+      float diffuse = max(0.0, dot(worldNormal, lightDirection));
+
+      vUV = uv;
+      vBrightness = diffuse + ambient;
+      gl_Position = matrix * vec4(position, 1);
     }
     `
   );
@@ -174,10 +174,15 @@ let uniformLocations;
     precision mediump float;
 
     varying vec2 vUV;
+    varying float vBrightness;
+
     uniform sampler2D textureID;
 
     void main() {
-        gl_FragColor = texture2D(textureID, vUV);
+      vec4 texel = texture2D(textureID, vUV);
+      texel.xyz *= vBrightness;
+
+      gl_FragColor = texel;
     }
   `
   );
@@ -199,6 +204,11 @@ let uniformLocations;
   gl.enableVertexAttribArray(uvLocation);
   gl.bindBuffer(gl.ARRAY_BUFFER, uvBuffer);
   gl.vertexAttribPointer(uvLocation, 2, gl.FLOAT, false, 0, 0);
+
+  const normalLocation = gl.getAttribLocation(program, `normal`);
+  gl.enableVertexAttribArray(normalLocation);
+  gl.bindBuffer(gl.ARRAY_BUFFER, uvBuffer);
+  gl.vertexAttribPointer(normalLocation, 3, gl.FLOAT, false, 0, 0);  // 3 个
   
   gl.useProgram(program);
   gl.enable(gl.DEPTH_TEST); // depth 测试 三维启动深度测试。不然会发现形状标变得很奇怪～
@@ -207,6 +217,7 @@ let uniformLocations;
   // uniformLocations object
   uniformLocations = {
     matrix: gl.getUniformLocation(program, `matrix`),
+    normalMatrix: gl.getUniformLocation(program, `normalMatrix`),
     textureID: gl.getUniformLocation(program, 'textureID')
   };
 
@@ -239,6 +250,8 @@ console.log(mvMatrix);
 
 // gl.drawArrays(gl.LINE_LOOP, 0, 3);
 
+const normalMatrix = glMatrix.mat4.create();
+
 /* 着色器 GLSL 语言里面不要忘记分号, 否则显示不出来诶。 */
 // 如何让它转动起来，我们可以做一个动画函数
 // 使用 requestAnimationFrame(animate) 做一个简单的动画循环
@@ -251,7 +264,13 @@ function animate() {
 
   glMatrix.mat4.multiply(mvMatrix, viewMatrix, modelMatrix);
   glMatrix.mat4.multiply(mvpMatrix, projectionMatrix, mvMatrix); // model view projection matrix  -> mvpMatrix
+
+  glMatrix.mat4.invert(normalMatrix, mvMatrix);
+  glMatrix.mat4.transpose(normalMatrix, normalMatrix);
+
   gl.uniformMatrix4fv(uniformLocations.matrix, false, mvpMatrix);
+  gl.uniformMatrix4fv(uniformLocations.matrix, false, normalMatrix);
+
   gl.drawArrays(gl.TRIANGLES, 0, vertexData.length / 3);
   // gl.drawArrays(gl.POINTS, 0, vertexData.length / 3);     // 使用点画
 }
