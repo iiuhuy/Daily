@@ -207,7 +207,7 @@ let uniformLocations;
 
   const normalLocation = gl.getAttribLocation(program, `normal`);
   gl.enableVertexAttribArray(normalLocation);
-  gl.bindBuffer(gl.ARRAY_BUFFER, uvBuffer);
+  gl.bindBuffer(gl.ARRAY_BUFFER, normalBuffer);
   gl.vertexAttribPointer(normalLocation, 3, gl.FLOAT, false, 0, 0);  // 3 个
   
   gl.useProgram(program);
@@ -259,8 +259,8 @@ function animate() {
   requestAnimationFrame(animate);
 
   // glMatrix.mat4.rotateY(modelMatrix, modelMatrix, 0.03);
-  glMatrix.mat4.rotateX(modelMatrix, modelMatrix, Math.PI / 60);
-  glMatrix.mat4.rotateY(modelMatrix, modelMatrix, Math.PI / 160);
+  glMatrix.mat4.rotateX(modelMatrix, modelMatrix, Math.PI / 100);
+  glMatrix.mat4.rotateY(modelMatrix, modelMatrix, Math.PI / 200);
 
   glMatrix.mat4.multiply(mvMatrix, viewMatrix, modelMatrix);
   glMatrix.mat4.multiply(mvpMatrix, projectionMatrix, mvMatrix); // model view projection matrix  -> mvpMatrix
@@ -268,8 +268,8 @@ function animate() {
   glMatrix.mat4.invert(normalMatrix, mvMatrix);
   glMatrix.mat4.transpose(normalMatrix, normalMatrix);
 
+  gl.uniformMatrix4fv(uniformLocations.normalMatrix, false, normalMatrix);
   gl.uniformMatrix4fv(uniformLocations.matrix, false, mvpMatrix);
-  gl.uniformMatrix4fv(uniformLocations.matrix, false, normalMatrix);
 
   gl.drawArrays(gl.TRIANGLES, 0, vertexData.length / 3);
   // gl.drawArrays(gl.POINTS, 0, vertexData.length / 3);     // 使用点画
