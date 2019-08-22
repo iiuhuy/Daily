@@ -77,8 +77,6 @@ class HomeECharts extends Component {
       } else {
         Alert.alert("queryHomePageByConditions not 200", response.message);
       }
-
-      console.log("emememememem", response.data);
     });
 
     // test
@@ -87,129 +85,53 @@ class HomeECharts extends Component {
   }
 
   _separator = () => {
-    return <View style={{ height: 2, backgroundColor: "gray" }} />;
+    return <View style={{ height: 1, backgroundColor: "gray" }} />;
   };
 
-  // _gotoTeacherLogin = () => {
-  // };
-
-  _loadParams = () => {
+  _loadParams(item) {
     // 路由需要的参数 obj, 使用这个读取 this.props.navigation.state.params
     storage.load("person", data => {
+      // hint 在后级页面 button 做提示用, 根据返回的数据结构排序
+      // const hint = ["使用时长", "布置作业", "学生成绩", "备课数量", "试题数量"];
+      const hint = [
+        "布置作业",
+        "备课数量",
+        "创建试题数量",
+        "使用时长",
+        "学生成绩"
+      ];
       let params = {};
+      let all = []; // 存储数据
       let gradeCode = [];
-      let queryType = [];
-      for (let i = 0; i < this.state.teacherLogin.length; i++) {
-        gradeCode.push(this.state.teacherLogin[i].gradeCode);
-        queryType.push(this.state.teacherLogin[i].queryType);
+      let queryType = null;
+
+      // console.log("我可以无所谓..", this.state.resData);
+      const obj = this.state.resData;
+
+      for (const key in obj) {
+        if (obj.hasOwnProperty(key)) {
+          all.push(obj[key]);
+        }
       }
-      // console.log(gradeCode, queryType);
-      // console.log(data.schoolId);
+
+      console.log("寂寞却一直掉眼泪", all, item);
+      for (let i = 0; i < all[item].length; i++) {
+        // 因为在二维数组中
+        gradeCode.push(all[item][i].gradeCode);
+        // queryType.push(all[item][0].queryType);
+        queryType = all[item][0].queryType;
+      }
+
       params.schoolId = data.schoolId;
+      // console.log("搬砖", gradeCode, queryType);
       params.gradeCodes = gradeCode;
-      params.queryType = queryType[0]; // queryType 是一样的
-      // console.log("我太难了~", params);
+      params.queryType = queryType;
+      params.hint = hint;
+
+      console.log("首页传向后面的参数:", params);
       this.props.navigation.navigate("TeacherLoginData", params);
     });
-  };
-
-  _alert(i) {
-    switch (i) {
-      case 0:
-        // 路由需要的参数 obj, 使用这个读取 this.props.navigation.state.params
-        storage.load("person", data => {
-          let params = {};
-          let gradeCode = [];
-          let queryType = [];
-
-          for (let j = 0; j < this.state.teacherLogin.length; j++) {
-            gradeCode.push(this.state.teacherLogin[j].gradeCode);
-            queryType.push(this.state.teacherLogin[j].queryType);
-          }
-          // console.log(gradeCode, queryType);
-          // console.log(data.schoolId);
-          params.schoolId = data.schoolId;
-          params.gradeCodes = gradeCode;
-          params.queryType = queryType[0]; // queryType 是一样的
-          console.log("我太难了~", params);
-          this.props.navigation.navigate("TeacherLoginData", params);
-        });
-        break;
-      case 1:
-        storage.load("person", data => {
-          let params = {};
-          let gradeCode = [];
-          let queryType = [];
-          for (let j = 0; j < this.state.homeWork.length; j++) {
-            gradeCode.push(this.state.homeWork[j].gradeCode);
-            queryType.push(this.state.homeWork[j].queryType);
-          }
-          params.schoolId = data.schoolId;
-          params.gradeCodes = gradeCode;
-          params.queryType = queryType[0];
-          console.log("我太难了~", params);
-          this.props.navigation.navigate("TeacherLoginData", params);
-        });
-        break;
-      case 2:
-        storage.load("person", data => {
-          let params = {};
-          let gradeCode = [];
-          let queryType = [];
-          for (let j = 0; j < this.state.achievement.length; j++) {
-            gradeCode.push(this.state.homeWork[j].gradeCode);
-            queryType.push(this.state.homeWork[j].queryType);
-          }
-          params.schoolId = data.schoolId;
-          params.gradeCodes = gradeCode;
-          params.queryType = queryType[0];
-          console.log("我太难了~", params);
-          this.props.navigation.navigate("TeacherLoginData", params);
-        });
-        break;
-      case 3:
-        storage.load("person", data => {
-          let params = {};
-          let gradeCode = [];
-          let queryType = [];
-          for (let j = 0; j < this.state.lessionFileCountlist.length; j++) {
-            gradeCode.push(this.state.homeWork[j].gradeCode);
-            queryType.push(this.state.homeWork[j].queryType);
-          }
-          params.schoolId = data.schoolId;
-          params.gradeCodes = gradeCode;
-          params.queryType = queryType[0];
-          console.log("我太难了~", params);
-          this.props.navigation.navigate("TeacherLoginData", params);
-        });
-        break;
-      case 4:
-        storage.load("person", data => {
-          let params = {};
-          let gradeCode = [];
-          let queryType = [];
-          for (let j = 0; j < this.state.testPaperCountlist.length; j++) {
-            gradeCode.push(this.state.homeWork[j].gradeCode);
-            queryType.push(this.state.homeWork[j].queryType);
-          }
-          params.schoolId = data.schoolId;
-          params.gradeCodes = gradeCode;
-          params.queryType = queryType[0];
-          console.log("我太难了~", params);
-          this.props.navigation.navigate("TeacherLoginData", params);
-        });
-        break;
-
-      default:
-        break;
-    }
   }
-
-  _jumpTeacherLoginApp = () => {
-    // this.props.navigation.navigate("Other");
-    console.log("得不到永远在 xx");
-    this.props.navigation.navigate("TeacherLoginData");
-  };
 
   // 渲染的条目 ({ index })
   _renderItem = item => {
@@ -258,10 +180,10 @@ class HomeECharts extends Component {
     }
 
     const option = {
-      title: {
-        text: title[item.index],
-        x: "center"
-      },
+      // title: {
+      //   text: title[item.index],
+      //   x: "center"
+      // },
       tooltip: {
         trigger: "item",
         formatter: "{a} <br/>{b}: {c} ({d}%)"
@@ -281,10 +203,8 @@ class HomeECharts extends Component {
       ]
     };
     return (
-      <View>
-        {/* <ScrollView> */}
-        {/* <Button onPress={this._gotoTeacherLogin.bind(this)} title="点我！" /> */}
-        {/* <Echarts option={option} height={400} /> */}
+      <View style={styles.container}>
+        <Text style={styles.title}>{title[item.index]}</Text>
         <WebChart
           style={styles.chart}
           option={option}
@@ -303,18 +223,16 @@ class HomeECharts extends Component {
           // onMessage={this.alertMessage}
         />
         {/* <TouchableNativeFeedback> */}
-        <View style={{ height: px2dp(15) }}>
+        {/* <View style={{ height: px2dp(15) }}>
           <Text style={{ color: "blue", fontSize: px2dp(15) }} />
-        </View>
+        </View> */}
         {/* </TouchableNativeFeedback> */}
-        <View style={styles.container}>
-          {/* <Button title="显示详情数据" onPress={this._jumpTeacherLoginApp} /> */}
+        <View style={styles.btn}>
           <Button
-            title="显示详情数据"
-            onPress={this._alert.bind(this, item.index)}
+            title={`显示 ${title[item.index]} 详情数据`}
+            onPress={this._loadParams.bind(this, item.index)}
           />
         </View>
-        {/* </ScrollView> */}
       </View>
     );
   };
@@ -322,8 +240,6 @@ class HomeECharts extends Component {
   // ================== test =============================== //
   _keyExtractor = (item, index) => {
     item.id;
-    // console.log(item.homeWork, item.teacherLoginCountlist);
-    // console.log(item, item.key);
     // console.log("heihei.", item.key);
   };
 
@@ -346,6 +262,7 @@ class HomeECharts extends Component {
           //   console.warn(info.distanceFromEnd);
           // }}
           //}}
+
           // 使用 id 作为列表每一项的 key
           keyExtractor={this._keyExtractor}
           // ItemSeparatorComponent={() => (
@@ -357,9 +274,6 @@ class HomeECharts extends Component {
           //   />
           // )}
         />
-        {/* <View style={styles.container}>
-          <Button title="显示其他页面" onPress={this._showMoreApp} />
-        </View> */}
       </View>
     );
   }
@@ -454,51 +368,49 @@ export default createAppContainer(
 );
 
 const styles = StyleSheet.create({
-  actionBar: {
-    height: theme.actionBar.height,
-    backgroundColor: theme.actionBar.backgroundColor,
-    alignItems: "center",
-    justifyContent: "center",
-    paddingTop: Platform.OS === "ios" ? px2dp(20) : 0
-  },
-  title: {
-    textAlign: "center"
-  },
-  charts: {
-    width: "100%",
-    padding: 10,
-    // height: "20%",
-    // backgroundColor: "gray",
-    borderBottomColor: "#D3D3D3"
-  },
-  txt: {
-    textAlign: "center",
-    textAlignVertical: "center",
-    color: "white",
-    fontSize: 30
-  },
-
-  // test echarts demo
   container: {
     flex: 1,
     justifyContent: "center",
-    alignItems: "stretch",
-    backgroundColor: "#111c4e"
+    alignItems: "stretch"
+    // backgroundColor: "#111c4e"  // 给 echarts 加背景颜色，感觉适合夜景模式.
   },
   title: {
-    fontSize: 20,
-    color: "#fff",
-    marginLeft: 10
+    textAlign: "center",
+    height: 20,
+    fontSize: 14,
+    color: "#333333",
+    top: 5
   },
+  // 每个 chart 的间隔
+  chart: {
+    height: 300,
+    marginTop: 5,
+    marginBottom: 5
+  },
+  // charts: {
+  //   width: "100%",
+  //   padding: 10,
+  //   // height: "20%",
+  //   // backgroundColor: "gray",
+  //   borderBottomColor: "#D3D3D3"
+  // },
+  // txt: {
+  //   textAlign: "center",
+  //   textAlignVertical: "center",
+  //   color: "white",
+  //   fontSize: 20
+  // },
+  btn: {
+    flex: 1,
+    justifyContent: "center"
+    // alignItems: "stretch"
+  },
+
+  // test echarts demo
   tip: {
     fontSize: 14,
     color: "#ccc",
     marginTop: 4,
     marginLeft: 10
-  },
-  chart: {
-    height: 300,
-    marginTop: 10,
-    marginBottom: 40
   }
 });

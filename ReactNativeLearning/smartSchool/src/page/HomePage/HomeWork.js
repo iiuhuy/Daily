@@ -28,23 +28,22 @@ export default class HomeWork extends Component {
 
   constructor(props) {
     super(props);
-    this.state = { itemLenght: null, subjectName: [], content: [], page: 1 };
+    this.state = {
+      itemLenght: null, // 列表长度
+      page: 1, // 页数
+      subjectName: [], //科目
+      content: [], // 内容
+      createDate: [], // 创建时间
+      creator: [] // 创建人
+    };
   }
 
   componentDidMount() {
     storage.load("homeChartData", data => {
-      console.log(data);
+      const params = this.props.navigation.state.params;
 
-      // 查询接口参数
-      const params = {
-        classId: "3f5b29963a8b4aa8bcd6d3171dd8d5fc",
-        queryType: "2",
-        subCode: "",
-        sTime: "",
-        eTime: "",
-        page: "3",
-        pageSize: "1"
-      };
+      console.log("homeChartData", data);
+      console.log("菲欧娜满血复活...", params);
 
       // 按照条件查询的请求
       Connect.queryEverySubjectDataAnalysisList(params, res => {
@@ -61,20 +60,24 @@ export default class HomeWork extends Component {
             data = obj[key];
             time.push(key);
           });
-          // console.log(data, data.length);
+
           const subjectName = [];
           const content = [];
+          const creator = [];
+          const createDate = [];
           for (let i = 0; i < data.length; i++) {
-            // console.log(data[i].subjectName);
-            // console.log(data[i].content);
             subjectName.push(data[i].subjectName);
             content.push(data[i].content);
+            creator.push(data[i].name);
+            createDate.push(data[i].createDate);
           }
           this.setState({
             timeTitle: time[0],
             itemLenght: data.length,
             subjectName: subjectName,
-            content: content
+            content: content,
+            creator: creator,
+            createDate: createDate
           });
           // console.log("嘻..", this.state.subjectName);
           // console.log("哈..", this.state.content);
@@ -85,15 +88,20 @@ export default class HomeWork extends Component {
     });
   }
 
-  _alert() {
+  _alert(item) {
     if (Platform.OS === "android") {
-      Alert.alert("乖孩子", "就要好好学习,天天向上!😀", [
-        { text: "OK", onPress: () => {} }
-      ]);
+      Alert.alert(
+        `${this.state.subjectName[item.index]}
+        ${this.state.content[item.index]}${this.state.creator[item.index]}`,
+        `${this.state.createDate[item.index]}`,
+        [{ text: "OK", onPress: () => {} }]
+      );
     } else if (Platform.OS === "ios") {
-      AlertIOS.alert("乖孩子", "就要好好学习,天天向上!😀", [
-        { text: "OK", onPress: () => {} }
-      ]);
+      AlertIOS.alert(
+        `${this.state.subjectName[item.index]}`,
+        `${this.state.content[item.index]}`,
+        [{ text: "OK", onPress: () => {} }]
+      );
     }
   }
 
@@ -107,12 +115,21 @@ export default class HomeWork extends Component {
       <ScrollView>
         <View style={styles.list}>
           {Platform.OS === "android" ? (
-            <TouchableNativeFeedback onPress={this._alert.bind(this, 1)}>
+            <TouchableNativeFeedback onPress={this._alert.bind(this, item)}>
               <View>
-                <View style={[styles.listItem, { justifyContent: "center" }]}>
-                  <Text style={{ color: "blue", fontSize: px2dp(15) }}>
-                    {this.state.subjectName[item.index]} :
-                    {this.state.content[item.index]}
+                {/* <View style={[styles.listItem, { justifyContent: "center" }]}> */}
+                <View style={styles.listItem}>
+                  <Text style={styles.itemIndex}>
+                    {`科目: ` + this.state.subjectName[item.index]}
+                  </Text>
+                  <Text style={styles.itemIndex}>
+                    {`内容: ` + this.state.content[item.index]}
+                  </Text>
+                  <Text style={styles.itemIndex}>
+                    {`创建人: ` + this.state.creator[item.index]}
+                  </Text>
+                  <Text style={styles.itemIndex}>
+                    {`创建日期: ` + this.state.createDate[item.index]}
                   </Text>
                 </View>
                 <View style={{ height: 1, backgroundColor: "gray" }} />
@@ -123,8 +140,8 @@ export default class HomeWork extends Component {
               <View>
                 <View style={[styles.listItem, { justifyContent: "center" }]}>
                   <Text style={{ color: "blue", fontSize: px2dp(15) }}>
-                    ${this.state.subjectName[item.index]} : $
-                    {this.state.content[item.index]}{" "}
+                    {this.state.subjectName[item.index]} :
+                    {this.state.content[item.index]}
                   </Text>
                 </View>
                 <View style={{ height: 1, backgroundColor: "gray" }} />
@@ -184,13 +201,24 @@ const styles = StyleSheet.create({
   },
   listItem: {
     flex: 1,
-    height: px2dp(55),
+    // flexDirection: "column",
+    // alignItems: "center",
+    // justifyContent: "center",
+    height: px2dp(150),
     backgroundColor: "white",
-    flexDirection: "row",
-    alignItems: "center",
-    // paddingLeft: px2dp(5),
     paddingRight: px2dp(25),
     borderBottomColor: "#c4c4c4",
     borderBottomWidth: 1 / PixelRatio.get()
+  },
+  itemIndex: {
+    flex: 1,
+    // flexDirection: "row",
+    // alignItems: "center",
+    // justifyContent: "center",
+    top: 10,
+    left: 15,
+    justifyContent: "flex-start",
+    color: "blue",
+    fontSize: px2dp(15)
   }
 });

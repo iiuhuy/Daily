@@ -27,7 +27,8 @@ export default class TeacherLogin extends Component {
       classData: [], // y 每个班级的显示的数据
       className: [], // x 班级名字的数据,
       allGradeClassId: [], // 整个年级的 classId,
-      queryType: "" // queryType 应该从首页过来是统一的
+      queryType: "", // queryType 应该从首页过来是统一的,
+      hint: [] // button 提示作用
     };
   }
 
@@ -41,7 +42,7 @@ export default class TeacherLogin extends Component {
       // console.log(this.props.navigation.state.params);
       // 查询接口参数，如果需要存储到 storage 里面, 简易 JSON 序列化
       let params = this.props.navigation.state.params;
-      console.log("辣鸡接口",params);
+      // console.log("辣鸡接口",params);
 
       // 按照条件查询的请求
       Connect.queryEveryGradeDataAnalysisByConditions(params, res => {
@@ -92,7 +93,9 @@ export default class TeacherLogin extends Component {
             className: showClassName,
             classData: showClassData,
             allGradeClassId: showallGradeClassId,
-            queryType: params.queryType
+            queryType: params.queryType,
+            schoolId: params.schoolId,
+            hint: params.hint
           });
           // console.log("年级数组", this.state.className, this.state.classData);
         } else {
@@ -104,24 +107,37 @@ export default class TeacherLogin extends Component {
 
   // 分隔栏
   _separator = () => {
-    return <View style={{ height: 2, backgroundColor: "gray" }} />;
+    return <View style={{ height: 1, backgroundColor: "gray" }} />;
   };
 
-  // 页面跳转
-  // _jumpClassDataPage = () => {
-  //   this.props.navigation.navigate("ClassDataPage");
-  // };
-
-  // 向下一个页面传递参数
+  // 页面跳转 -> 向下一个页面传递参数
   _jumpClassPage(item) {
-    console.log(this.state.allGradeClassId, this.state.allGradeClassId.length);
+    // 判断 queryType 是否为 4 => 即 老师登录页面
+    // console.log(this.state.allGradeClassId, this.state.allGradeClassId.length);
     let params = {};
-    console.log("羊来...", this.state.allGradeClassId[item]);
-    const classId = this.state.allGradeClassId[item];
-    params.clazzS = classId;
-    params.queryType = this.state.queryType;
-    console.log(params);
-    this.props.navigation.navigate("ClassDataPage", params);
+
+    if (params.queryType === "4") {
+      // params.classId = this.state.classIds[0][item].classId; // 二维数组中的第一个
+      // params.queryType = this.state.queryType;
+      // params.subCode = "";
+      // params.sTime = "";
+      // params.eTime = "";
+      // params.page = 3;
+      // params.pageSize = 1;
+      // console.log("向下一页(ClassDataPage)传递的参数", params);
+
+      this.props.navigation.navigate("HomeWork", params);
+    } else {
+      console.log("羊来...", this.state.allGradeClassId[item]);
+      const classId = this.state.allGradeClassId[item];
+      params.clazzS = classId;
+      params.queryType = this.state.queryType;
+      params.schoolId = this.state.schoolId;
+      params.hint = this.state.hint;
+
+      console.log("向下一页(ClassDataPage)传递的参数", params);
+      this.props.navigation.navigate("ClassDataPage", params);
+    }
   }
 
   // 渲染的条目
@@ -130,10 +146,10 @@ export default class TeacherLogin extends Component {
 
     // ------------- test --------------- //
     const option = {
-      title: {
-        text: this.state.gradeName[item.index],
-        x: "center"
-      },
+      // title: {
+      //   text: this.state.gradeName[item.index],
+      //   x: "center"
+      // },
       tooltip: {},
       xAxis: {
         // x 轴坐标显示名字
@@ -149,8 +165,8 @@ export default class TeacherLogin extends Component {
       ]
     };
     return (
-      <View>
-        {/* <ScrollView> */}
+      <View style={styles.container}>
+        <Text style={styles.title}> {this.state.gradeName[item.index]} </Text>
         <WebChart
           style={styles.chart}
           option={option}
@@ -168,17 +184,17 @@ export default class TeacherLogin extends Component {
           `}
           // onMessage={this.alertMessage}
         />
-        <View style={{ height: px2dp(15) }}>
+        {/* <View style={{ height: px2dp(15) }}>
           <Text style={{ color: "blue", fontSize: px2dp(15) }} />
-        </View>
-        <View style={styles.container}>
-          {/* <Button title="显示详情数据" onPress={this._jumpClassDataPage} /> */}
+        </View> */}
+        <View style={styles.btn}>
           <Button
-            title="显示详情数据"
+            title={`显示 ${this.state.gradeName[item.index]} ${
+              this.state.hint[parseInt(this.state.queryType) - 1]
+            }详情数据`}
             onPress={this._jumpClassPage.bind(this, item.index)}
           />
         </View>
-        {/* </ScrollView> */}
       </View>
     );
   };
@@ -218,44 +234,31 @@ export default class TeacherLogin extends Component {
 }
 
 const styles = StyleSheet.create({
-  title: {
-    textAlign: "center"
-  },
-  charts: {
-    width: "100%",
-    padding: 10,
-    // height: "20%",
-    // backgroundColor: "gray",
-    borderBottomColor: "#D3D3D3"
-  },
-  txt: {
-    textAlign: "center",
-    textAlignVertical: "center",
-    color: "white",
-    fontSize: 30
-  },
-
-  // test echarts demo
   container: {
     flex: 1,
     justifyContent: "center",
-    alignItems: "stretch",
-    backgroundColor: "#111c4e"
+    alignItems: "stretch"
   },
   title: {
-    fontSize: 20,
-    color: "#fff",
-    marginLeft: 10
+    textAlign: "center",
+    height: 20,
+    fontSize: 14,
+    color: "#333333",
+    top: 5
+  },
+  chart: {
+    height: 300,
+    marginTop: 5,
+    marginBottom: 5
+  },
+  btn: {
+    flex: 1,
+    justifyContent: "center"
   },
   tip: {
     fontSize: 14,
     color: "#ccc",
     marginTop: 4,
     marginLeft: 10
-  },
-  chart: {
-    height: 300,
-    marginTop: 10,
-    marginBottom: 40
   }
 });

@@ -1,7 +1,7 @@
 import { Alert } from "react-native";
 import { storage } from "../storage/storage.js";
 
-const host = "http://192.168.1.110:9001";
+const host = "http://192.168.1.61:9001";
 
 export default class HttpUtils {
   /**

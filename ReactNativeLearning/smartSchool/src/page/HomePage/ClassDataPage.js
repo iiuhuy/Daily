@@ -22,11 +22,12 @@ export default class ClassDataPage extends Component {
     super(props);
     this.state = {
       itemLenght: null,
-      classIds: null,
       subjects: null,
       subjectCount: null,
       title: [],
-      graphic: [] // 没有数据的情况下默认暂时
+      classIds: [],
+      graphic: [], // 没有数据的情况下默认暂时
+      hint: [] // button 提示作用
     };
   }
 
@@ -130,13 +131,13 @@ export default class ClassDataPage extends Component {
     // ----------------- test -------------------- //
 
     // 取首页数据
-    storage.load("homeChartData", value => {
-      this.setState({ title: null });
-    });
+    // storage.load("homeChartData", value => {
+    //   this.setState({ title: null });
+    // });
 
-    console.log(this.props.navigation.state.params);
+    // console.log(this.props.navigation.state.params);
     const params = this.props.navigation.state.params;
-    console.log(params);
+    console.log("菲奥娜", params);
 
     Connect.queryEverySubjectDataAnalysisByClazz(params, res => {
       if (res.success === "200") {
@@ -156,44 +157,35 @@ export default class ClassDataPage extends Component {
 
           // 遍历每个年级的班级名字 和 人数
           let count = analysData.length;
-          // console.log("count", count);
-
-          // if (count === 0) {
-          //   console.log("aaaaaaa");
-          //   console.log(this.state.graphic);
-
-          //   this.setState({ graphic: graphicData });
-          //   // return;
-          // }
-          console.log("count1", count);
 
           for (let j = 0; j < count; j++) {
-            console.log("count2", count);
-
-            // if (count === 0) {
-            //   // 如果为空, 默认加上么有数据的 logo
-            //   console.log("aaaaaaa");
-            //   console.log(this.state.graphic);
-
-            //   this.setState({ graphic: graphicData });
-            //   // return;
-            // } else {
             const name = analysData[j].subjectName;
             Subjects.push(name);
 
             const count = analysData[j].count;
             SubjectCount.push(count);
-            // }
           }
           showSubjects.push(Subjects);
           showSubjectCount.push(SubjectCount);
         }
 
+        // 遍历对象
+        const classIdArr = [];
+        for (const key in params) {
+          if (params.hasOwnProperty(key)) {
+            classIdArr.push(params[key]);
+          }
+        }
+        console.log("遍历出来的对象😡", classIdArr);
+
         this.setState({
           itemLenght: res.data.length, // 图形 Item 的个数, 根据返回长度来判断.
           title: showClassName,
           subjects: showSubjects,
-          subjectCount: showSubjectCount
+          subjectCount: showSubjectCount,
+          queryType: params.queryType,
+          classIds: classIdArr,
+          hint: params.hint
         });
       } else {
         Alert.alert("按条件查询数据失败.", response.message);
@@ -203,16 +195,24 @@ export default class ClassDataPage extends Component {
 
   // 分隔栏
   _separator = () => {
-    return <View style={{ height: 2, backgroundColor: "gray" }} />;
+    return <View style={{ height: 1, backgroundColor: "gray" }} />;
   };
 
-  // 页面跳转
-  // _jumpHomeWorkPage = () => {
-  //   this.props.navigation.navigate("HomeWork");
-  // };
   _jumpHomeWorkPage(item) {
-    console.log(item);
-    this.props.navigation.navigate("HomeWork");
+    console.log("_jumpHomeWorkPage", item, this.state.classIds);
+    let params = {};
+
+    params.classId = this.state.classIds[0][item].classId; // 二维数组中的第一个
+    params.queryType = this.state.queryType;
+    params.subCode = "";
+    params.sTime = "";
+    params.eTime = "";
+    params.page = 3;
+    params.pageSize = 1;
+
+    console.log("向下一页(HomeWork)传递的参数", params);
+
+    this.props.navigation.navigate("HomeWork", params);
   }
 
   // 渲染的条目
@@ -220,18 +220,15 @@ export default class ClassDataPage extends Component {
     // ------------- test --------------- //
 
     // ------------- test --------------- //
-
     const option = {
-      title: {
-        text: this.state.title[item.index],
-        // text: title,
-        x: "center"
-      },
+      // title: {
+      //   text: this.state.title[item.index],
+      //   x: "center"
+      // },
       tooltip: {},
       xAxis: {
         // x 轴坐标显示名字
         data: this.state.subjects[item.index]
-        // data: data1
       },
       yAxis: {},
       graphic: this.state.graphic,
@@ -240,17 +237,16 @@ export default class ClassDataPage extends Component {
           name: "人数",
           type: "bar",
           data: this.state.subjectCount[item.index]
-          // data: data2
         }
       ]
     };
     return (
-      <View>
-        <ScrollView>
-          <WebChart
-            style={styles.chart}
-            option={option}
-            exScript={`
+      <View style={styles.container}>
+        <Text style={styles.title}> {this.state.title[item.index]} </Text>
+        <WebChart
+          style={styles.chart}
+          option={option}
+          exScript={`
             chart.on('click', (params) => {
               if(params.componentType === 'series') {
                 window.postMessage(JSON.stringify({
@@ -262,26 +258,24 @@ export default class ClassDataPage extends Component {
               }
             });
           `}
-          />
-          <View style={{ height: px2dp(15) }}>
+        />
+        {/* <View style={{ height: px2dp(15) }}>
             <Text style={{ color: "blue", fontSize: px2dp(15) }} />
-          </View>
-          <View style={styles.container}>
-            {/* <Button title="显示详情数据" onPress={this._jumpHomeWorkPage} /> */}
-            <Button
-              title="显示详情数据"
-              onPress={this._jumpHomeWorkPage.bind(this, item.index)}
-            />
-          </View>
-        </ScrollView>
+          </View> */}
+        <View style={styles.btn}>
+          <Button
+            title={`显示 ${this.state.title[item.index]} ${
+              this.state.hint[parseInt(this.state.queryType) - 1]
+            }详情数据`}
+            onPress={this._jumpHomeWorkPage.bind(this, item.index)}
+          />
+        </View>
       </View>
     );
   };
 
   render() {
-    // 图型的个数,取决于来自后台请求的字段.
     var chatItem = [];
-    // 长度 itemLenght -> 柱状图个数
     console.log("柱状图个数: ", this.state.itemLenght);
     for (var i = 0; i < this.state.itemLenght; i++) {
       chatItem.push({ key: i, title: i + "" });
@@ -311,44 +305,31 @@ export default class ClassDataPage extends Component {
 }
 
 const styles = StyleSheet.create({
-  title: {
-    textAlign: "center"
-  },
-  charts: {
-    width: "100%",
-    padding: 10,
-    // height: "20%",
-    // backgroundColor: "gray",
-    borderBottomColor: "#D3D3D3"
-  },
-  txt: {
-    textAlign: "center",
-    textAlignVertical: "center",
-    color: "white",
-    fontSize: 30
-  },
-
-  // test echarts demo
   container: {
     flex: 1,
     justifyContent: "center",
-    alignItems: "stretch",
-    backgroundColor: "#111c4e"
+    alignItems: "stretch"
   },
   title: {
-    fontSize: 20,
-    color: "#fff",
-    marginLeft: 10
+    textAlign: "center",
+    height: 20,
+    fontSize: 14,
+    color: "#333333",
+    top: 5
+  },
+  chart: {
+    height: 300,
+    marginTop: 5,
+    marginBottom: 5
+  },
+  btn: {
+    flex: 1,
+    justifyContent: "center"
   },
   tip: {
     fontSize: 14,
     color: "#ccc",
     marginTop: 4,
     marginLeft: 10
-  },
-  chart: {
-    height: 300,
-    marginTop: 10,
-    marginBottom: 40
   }
 });
