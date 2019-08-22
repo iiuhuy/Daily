@@ -23,7 +23,13 @@ const NetAddr = {
     "/oa/queryEverySubjectDataAnalysisByClazz/v1",
 
   // 各班级的统计列表
-  queryEverySubjectDataAnalysisList: "/oa/queryEverySubjectDataAnalysisList/v1"
+  queryEverySubjectDataAnalysisList: "/oa/queryEverySubjectDataAnalysisList/v1",
+
+  // 查询时间的 年/月
+  queryConditionDate: "/oa/getTimeCondition/v1",
+
+  // 科目查新
+  getSubjectByClassId: "/oa/getSubjectByClassId/v1"
 };
 
 module.exports = NetAddr;

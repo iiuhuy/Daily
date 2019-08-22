@@ -14,13 +14,16 @@ import px2dp from "../../util/px2dp";
 import { storage } from "../../storage/storage.js";
 
 export default class ClassDataPage extends Component {
-  static navigationOptions = {
-    title: "云书包实验小学"
+  static navigationOptions = ({ navigation }) => {
+    return {
+      title: `${navigation.state.params.schoolName}`
+    };
   };
 
   constructor(props) {
     super(props);
     this.state = {
+      schoolName: "schoolName",
       itemLenght: null,
       subjects: null,
       subjectCount: null,
@@ -179,6 +182,7 @@ export default class ClassDataPage extends Component {
         console.log("遍历出来的对象😡", classIdArr);
 
         this.setState({
+          schoolName: params.schoolName,
           itemLenght: res.data.length, // 图形 Item 的个数, 根据返回长度来判断.
           title: showClassName,
           subjects: showSubjects,
@@ -202,13 +206,14 @@ export default class ClassDataPage extends Component {
     console.log("_jumpHomeWorkPage", item, this.state.classIds);
     let params = {};
 
-    params.classId = this.state.classIds[0][item].classId; // 二维数组中的第一个
+    params.schoolName = this.state.schoolName;
+    params.classId = this.state.classIds[2][item].classId; // 二维数组中的第一个
     params.queryType = this.state.queryType;
     params.subCode = "";
     params.sTime = "";
     params.eTime = "";
-    params.page = 3;
-    params.pageSize = 1;
+    params.page = "1";
+    params.pageSize = "1";
 
     console.log("向下一页(HomeWork)传递的参数", params);
 

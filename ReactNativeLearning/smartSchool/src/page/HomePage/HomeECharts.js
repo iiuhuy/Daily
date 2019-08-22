@@ -122,6 +122,7 @@ class HomeECharts extends Component {
         queryType = all[item][0].queryType;
       }
 
+      params.schoolName = data.schoolName;
       params.schoolId = data.schoolId;
       // console.log("搬砖", gradeCode, queryType);
       params.gradeCodes = gradeCode;

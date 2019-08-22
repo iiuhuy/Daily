@@ -10,7 +10,9 @@ import {
   Alert,
   AlertIOS,
   ScrollView,
-  FlatList
+  FlatList,
+  RefreshControl,
+  Button
 } from "react-native";
 import px2dp from "../../util/px2dp";
 import theme from "../../config/theme";
@@ -22,8 +24,19 @@ import { storage } from "../../storage/storage.js";
 // import Avatar from "../../component/Avatar";
 
 export default class HomeWork extends Component {
-  static navigationOptions = {
-    title: "云书包实验小学"
+  static navigationOptions = ({ navigation }) => {
+    console.log(".@@@", navigation);
+    console.log(".@@@", navigation.state.params.schoolName);
+    return {
+      title: `${navigation.state.params.schoolName}`,
+      headerRight: (
+        <Button
+          title="查询"
+          color="gray"
+          onPress={() => navigation.navigate("QueryCondition")}
+        />
+      )
+    };
   };
 
   constructor(props) {
@@ -34,7 +47,8 @@ export default class HomeWork extends Component {
       subjectName: [], //科目
       content: [], // 内容
       createDate: [], // 创建时间
-      creator: [] // 创建人
+      creator: [], // 创建人
+      refreshing: false
     };
   }
 
@@ -43,7 +57,7 @@ export default class HomeWork extends Component {
       const params = this.props.navigation.state.params;
 
       console.log("homeChartData", data);
-      console.log("菲欧娜满血复活...", params);
+      console.log("菲欧娜...", params);
 
       // 按照条件查询的请求
       Connect.queryEverySubjectDataAnalysisList(params, res => {
@@ -55,8 +69,6 @@ export default class HomeWork extends Component {
           // 遍历对象
           obj = res.data;
           Object.keys(obj).forEach(function(key) {
-            // console.log(key, obj[key]);
-            // let value = [];
             data = obj[key];
             time.push(key);
           });
@@ -79,13 +91,17 @@ export default class HomeWork extends Component {
             creator: creator,
             createDate: createDate
           });
-          // console.log("嘻..", this.state.subjectName);
-          // console.log("哈..", this.state.content);
         } else {
           Alert.alert("按条件查询数据失败.", response.message);
         }
       });
     });
+  }
+
+  // test 目前没有给 UI 标准, 跳转到一另一个页面进行选择条件
+  _selectQuery() {
+    console.log("条件查询页面🔨");
+    this.props.navigation.navigate("TeacherLoginData");
   }
 
   _alert(item) {
@@ -109,6 +125,137 @@ export default class HomeWork extends Component {
   // _separator = () => {
   //   return <View style={{ height: 1, backgroundColor: "gray" }} />;
   // };
+
+  /* ==== 下拉刷新 ==== */
+  _onRefresh = () => {
+    // refreshing 是一个受控属性， 所以必须在 onRefresh 函数中设置为 true，否则 loading 指示器会立即停止。
+    console.log("下拉刷新🌂");
+    this.setState({
+      refreshing: true,
+      page: 1
+    });
+
+    let params = this.props.navigation.state.params;
+
+    params.page = this.state.page;
+
+    Connect.queryEverySubjectDataAnalysisList(params, res => {
+      if (res.success === "200") {
+        this.setState({ refreshing: false }); // 下拉刷新
+        let data = [];
+        let time = [];
+        // 遍历对象
+        obj = res.data;
+        Object.keys(obj).forEach(function(key) {
+          data = obj[key];
+          time.push(key);
+        });
+
+        const subjectName = [];
+        const content = [];
+        const creator = [];
+        const createDate = [];
+        for (let i = 0; i < data.length; i++) {
+          subjectName.push(data[i].subjectName);
+          content.push(data[i].content);
+          creator.push(data[i].name);
+          createDate.push(data[i].createDate);
+        }
+        this.setState({
+          timeTitle: time[0],
+          itemLenght: data.length,
+          subjectName: subjectName,
+          content: content,
+          creator: creator,
+          createDate: createDate
+        });
+      } else {
+        Alert.alert("下拉刷新 -> 按条件查询数据失败.", response.message);
+      }
+    });
+  };
+
+  /* ==== 上拉加载 ==== */
+  _pullLoading() {
+    // 如果有数据正在加载
+    // 如果没有就暂无更多
+    console.log("上拉加载了解一下。。。🚀");
+
+    this.setState({
+      page: this.state.page++
+    });
+    // 路由参数
+    let params = this.props.navigation.state.params;
+
+    console.log("1", params, this.state.page);
+    params.page = this.state.page;
+    console.log("2", params);
+
+    Connect.queryEverySubjectDataAnalysisList(params, res => {
+      if (res.success === "200") {
+        let data = [];
+        let time = [];
+        // 遍历对象
+        obj = res.data;
+        Object.keys(obj).forEach(function(key) {
+          data = obj[key];
+          time.push(key);
+        });
+        const subjectName = [];
+        const content = [];
+        const creator = [];
+        const createDate = [];
+        for (let i = 0; i < data.length; i++) {
+          subjectName.push(data[i].subjectName);
+          content.push(data[i].content);
+          creator.push(data[i].name);
+          createDate.push(data[i].createDate);
+        }
+        this.setState({
+          timeTitle: time[0],
+          itemLenght: data.length,
+          subjectName: subjectName,
+          content: content,
+          creator: creator,
+          createDate: createDate
+        });
+      } else {
+        Alert.alert("上拉加载 -> 按条件查询数据失败.", response.message);
+      }
+    });
+
+    // if (1) {
+    //   return (
+    //     <View
+    //       style={{
+    //         height: 44,
+    //         backgroundColor: "rgb(200,200,200)",
+    //         justifyContent: "center",
+    //         alignItems: "center"
+    //       }}
+    //     >
+    //       <Text>{"正在加载...."}</Text>
+    //     </View>
+    //   );
+    // } else if (this.state.isLoreMoreing == "LoreMoreEmpty") {
+    //   return (
+    //     <View
+    //       style={{
+    //         height: 44,
+    //         backgroundColor: "rgb(200,200,200)",
+    //         justifyContent: "center",
+    //         alignItems: "center"
+    //       }}
+    //     >
+    //       <Text>{"暂无更多"}</Text>
+    //     </View>
+    //   );
+    // } else {
+    //   return null;
+    // }
+
+    // 获取数据 fetch 请求
+  }
 
   _renderList = item => {
     return (
@@ -182,6 +329,16 @@ export default class HomeWork extends Component {
           renderItem={this._renderList}
           // ItemSeparatorComponent={this._separator}
           data={homeWork}
+          /* ---- 上拉加载 ---- */
+          onEndReached={this._pullLoading.bind(this)}
+          onEndReachedThreshold={0.5}
+          /* ---- 下拉刷新 ---- */
+          refreshControl={
+            <RefreshControl
+              refreshing={this.state.refreshing}
+              onRefresh={this._onRefresh}
+            />
+          }
         />
       </View>
     );

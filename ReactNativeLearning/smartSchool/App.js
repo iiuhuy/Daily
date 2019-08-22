@@ -10,7 +10,8 @@ import SignInScreen from "./src/page/SignInAndSignup/SignInPage";
 import HomeCharts from "./src/page/HomePage/HomeECharts";
 import TeacherLogin from "./src/page/HomePage/TeacherLogin";
 import ClassData from "./src/page/HomePage/ClassDataPage";
-import HomeWork from "./src/page/HomePage/HomeWork"
+import HomeWork from "./src/page/HomePage/HomeWork";
+import QueryCondition from "./src/page/HomePage/QueryCondition" // 查询条件页面
 
 // test
 import OtherPage from "./src/page/OtherPage";
@@ -51,11 +52,14 @@ const styles = StyleSheet.create({
 // APP STACK => 路由配置
 const AppStack = createStackNavigator({
   Home: HomeCharts,
-  // Other: OtherPage,
   TeacherLoginData: TeacherLogin, // 老师登录数据图
   ClassDataPage: ClassData,
   HomeWork: HomeWork,
-  AnOther: OtherPageCopy
+  QueryCondition: QueryCondition,
+  
+  /* test page */ 
+  // Other: OtherPage,
+  AnOther: OtherPageCopy 
 });
 
 const AuthStack = createStackNavigator(

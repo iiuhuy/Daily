@@ -85,4 +85,22 @@ export default class Connect {
       }
     );
   }
+
+  /**
+   * 查询时间, 时间不用前端写, 因为创建的日期后台会返回
+   */
+  static queryConditionDate(params, success) {
+    HttpUtils.post(NetAddr.queryConditionDate, params, response => {
+      success && success(response);
+    });
+  }
+
+  /**
+   * 查询科目
+   */
+  static getSubjectByClassId(params, success) {
+    HttpUtils.post(NetAddr.getSubjectByClassId, params, response => {
+      success && success(response);
+    });
+  }
 }

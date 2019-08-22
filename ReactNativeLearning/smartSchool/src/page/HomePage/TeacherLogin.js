@@ -14,13 +14,20 @@ import px2dp from "../../util/px2dp";
 import { storage } from "../../storage/storage.js";
 
 export default class TeacherLogin extends Component {
-  static navigationOptions = {
-    title: "云书包实验小学"
+  static navigationOptions = ({ navigation }) => {
+    console.log(".???", navigation);
+    console.log(".???", navigation.state.params.schoolName);
+    return {
+      // title: navigation.getParam('otherParam', 'A Nested Details Screen'),
+      title: `${navigation.state.params.schoolName}`
+    };
+    // title: "云书包实验小学";
   };
 
   constructor(props) {
     super(props);
     this.state = {
+      schoolName: "schoolName",
       teacherLoginData: "",
       itemLenght: null,
       gradeName: [], // 年级名字, title
@@ -93,8 +100,9 @@ export default class TeacherLogin extends Component {
             className: showClassName,
             classData: showClassData,
             allGradeClassId: showallGradeClassId,
-            queryType: params.queryType,
+            schoolName: params.schoolName,
             schoolId: params.schoolId,
+            queryType: params.queryType,
             hint: params.hint
           });
           // console.log("年级数组", this.state.className, this.state.classData);
@@ -117,22 +125,15 @@ export default class TeacherLogin extends Component {
     let params = {};
 
     if (params.queryType === "4") {
-      // params.classId = this.state.classIds[0][item].classId; // 二维数组中的第一个
-      // params.queryType = this.state.queryType;
-      // params.subCode = "";
-      // params.sTime = "";
-      // params.eTime = "";
-      // params.page = 3;
-      // params.pageSize = 1;
-      // console.log("向下一页(ClassDataPage)传递的参数", params);
-
       this.props.navigation.navigate("HomeWork", params);
     } else {
       console.log("羊来...", this.state.allGradeClassId[item]);
       const classId = this.state.allGradeClassId[item];
+      params;
+      params.schoolName = this.state.schoolName;
+      params.schoolId = this.state.schoolId;
       params.clazzS = classId;
       params.queryType = this.state.queryType;
-      params.schoolId = this.state.schoolId;
       params.hint = this.state.hint;
 
       console.log("向下一页(ClassDataPage)传递的参数", params);
