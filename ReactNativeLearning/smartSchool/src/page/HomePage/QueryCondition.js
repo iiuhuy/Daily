@@ -1,14 +1,21 @@
 import React, { Component } from "react";
-import { StyleSheet, View, Text, Picker, Alert } from "react-native";
+import {
+  Button,
+  StyleSheet,
+  View,
+  Text,
+  Alert,
+  ScrollView
+} from "react-native";
 import Connect from "../../util/Connect";
-
 import RNPickerSelect from "react-native-picker-select";
 
 export default class QueryCondition extends Component {
   static navigationOptions = ({ navigation }) => {
+    console.log(navigation);
     return {
       // title: `${navigation.state.params.schoolName}`,
-      title: `选择条件查询`
+      title: `条件查询`
     };
   };
 
@@ -16,15 +23,20 @@ export default class QueryCondition extends Component {
     super(props);
     this.state = {
       date: [],
-      subject: []
+      subject: [],
+      setDate: null,
+      setSubject: null
     };
   }
 
+  /* 请求两个接口 */
   componentDidMount() {
-    /* 请求两个接口 */
+    const recive = this.props.navigation.state.params;
+    console.log("面对疾风吧, 锐雯.", recive);
+
+    // 查询日期
     Connect.queryConditionDate({}, res => {
       if (res.success === "200") {
-        console.log(res.data);
         const items = [];
         for (let i = 0; i < res.data.length; i++) {
           const obj = {};
@@ -35,19 +47,17 @@ export default class QueryCondition extends Component {
         this.setState({
           date: items
         });
-        console.log(items);
       } else {
         Alert.alert("queryConditionDate 请求数据失败", response.message);
       }
     });
 
-    const params = {
-      classId: "750c5f27b2934505aef09113be4bc99f"
-    };
+    // 查询科目
+    const params = { classId: recive.classId };
 
     Connect.getSubjectByClassId(params, res => {
       if (res.success === "200") {
-        console.log(res.data);
+        console.log("返回的科目", res.data, res.data.length);
         const items = [];
         for (let i = 0; i < res.data.length; i++) {
           const obj = {};
@@ -60,30 +70,119 @@ export default class QueryCondition extends Component {
         });
       }
     });
+
+    // ---------- test ------------- //
+
+    // this.state({ id: this.props.id });
+    // console.log("传递过来的 id test 参数", this.state.id);
+    // ---------- test ------------- //
+  }
+
+  _goBack() {
+    const { navigate, goBack, state } = this.props.navigation;
+    state.params.refresh(this.state.boom);
+    this.props.navigation.goBack();
+  }
+
+  // 点击返回
+  _returnListPage() {
+    const params = {};
+    // 路由参数
+    // const recive = this.props.navigation.state.params;
+    const { recive } = this.props.navigation.state;
+
+    params.classId = recive.classId;
+    params.page = "1";
+    params.pageSize = "1";
+    params.queryType = recive.queryType;
+    params.monthTime = this.state.setDate;
+    params.subCode = this.state.setSubject;
+    // console.log("...0", params);
+    this.props.navigation.navigate("HomeWork", params);
   }
 
   render() {
+    const subject = {
+      label: "请选择一条科目",
+      value: null,
+      color: "#9EA0A4"
+    };
+    const date = {
+      label: "请选择查询日期",
+      value: null,
+      color: "#9EA0A4"
+    };
+
+    // const item = [];
+    // const test = [
+    //   "2019-2",
+    //   "2019-3",
+    //   "2019-4",
+    //   "2019-5",
+    //   "2019-6",
+    //   "2019-7",
+    //   "2019-8",
+    //   "2019-9",
+    //   "2019-10",
+    //   "2019-11",
+    //   "2019-12",
+    //   "2019-13",
+    //   "2019-14",
+    //   "2019-15"
+    // ];
+    // for (let i = 0; i < test.length; i++) {
+    //   const o = {};
+    //   o.label = test[i];
+    //   o.value = test[i];
+    //   item.push(o);
+    // }
+    // console.log(item);
+
     return (
       <View style={styles.container}>
-        <Text style={styles.title}> 使用示例 </Text>
-        {/* <Picker
-          selectedValue={this.state.data}
-          style={{ height: 50, width: 100 }}
-          onValueChange={(itemValue, itemIndex) =>
-            this.setState({ language: itemValue })
-          }
-        >
-          <Picker.Item label={this.state.date} value="java" />
-          <Picker.Item label="JavaScript" value="js" />
-        </Picker> */}
+        {/* <ScrollView> */}
+        <Text style={styles.title}> 选择科目 </Text>
         <RNPickerSelect
-          onValueChange={value => console.log(value)}
-          items={this.state.date}
-        />
-        <RNPickerSelect
-          onValueChange={value => console.log(value)}
+          placeholder={subject}
           items={this.state.subject}
+          onValueChange={value => {
+            console.log(value);
+            this.setState({
+              setSubject: value
+            });
+          }}
+          style={{
+            borderWidth: 1,
+            borderColor: "#ccc",
+            padding: 10,
+            height: 30
+          }}
         />
+        <Text style={styles.title}> 选择时间 </Text>
+        <RNPickerSelect
+          placeholder={date}
+          items={this.state.date}
+          // items={item}
+          onValueChange={value => {
+            console.log(value);
+            this.setState({
+              setDate: value
+            });
+          }}
+          style={styles.test}
+        />
+        {/* </ScrollView> */}
+        <View style={styles.btn}>
+          <Button
+            style={{
+              borderColor: "#ccc",
+              right: 20
+            }}
+            title={"点击查询"}
+            // onPress={this._returnListPage.bind(this)}
+            onPress={this._goBack.bind(this)}
+          />
+        </View>
       </View>
     );
   }
@@ -100,15 +199,20 @@ const styles = StyleSheet.create({
     color: "gray",
     marginLeft: 10
   },
-  tip: {
-    fontSize: 14,
-    color: "#ccc",
-    marginTop: 4,
-    marginLeft: 10
+  btn: {
+    flex: 1,
+    flexDirection: "row",
+    justifyContent: "space-around",
+    alignItems: "center"
   },
-  chart: {
-    height: 300,
-    marginTop: 10,
-    marginBottom: 40
+  test: {
+    fontSize: 16,
+    paddingHorizontal: 10,
+    paddingVertical: 8,
+    borderWidth: 0.5,
+    borderColor: "purple",
+    borderRadius: 8,
+    color: "black",
+    paddingRight: 30 // to ensure the text is never behind the icon
   }
 });

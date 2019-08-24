@@ -291,17 +291,6 @@ export default class ClassDataPage extends Component {
         <FlatList
           data={chatItem}
           renderItem={this._renderItem}
-          // renderItem={({ index }) => (
-          //   <Text
-          //     style={{
-          //       textAlign: "center",
-          //       width: "100%",
-          //       height: 100
-          //     }}
-          //   >
-          //     Settings - {index}
-          //   </Text>
-          // )}
           ItemSeparatorComponent={this._separator}
         />
       </View>

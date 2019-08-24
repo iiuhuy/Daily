@@ -323,27 +323,6 @@ const RouteConfigs = {
   // Home3: { screen: Home3 },
 };
 
-// const StackNavigatorConfig = {
-//   initialRouteName: "Home",
-//   initialRouteParams: { initPara: "初始页面参数" },
-//   navigationOptions: {
-//     title: "标题",
-//     headerTitleStyle: { fontSize: 18, color: "red" },
-//     headerStyle: { height: 49 }
-//   },
-//   paths: "page/main",
-//   mode: "card",
-//   headerMode: "screen",
-//   cardStyle: { backgroundColor: "#ffffff" },
-//   transitionConfig: () => ({}),
-//   onTransitionStart: () => {
-//     console.log("页面跳转动画开始");
-//   },
-//   onTransitionEnd: () => {
-//     console.log("页面跳转动画结束");
-//   }
-// };
-
 export default createAppContainer(
   createBottomTabNavigator(RouteConfigs, {
     defaultNavigationOptions: ({ navigation }) => ({

@@ -6,7 +6,10 @@
     "start": "react-native start",
     "menu": "adb shell input keyevent 82",
     "test": "jest",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "build-apk": "cd android && ./gradlew assembleRelease",
+    "release-apk": "react-native run-android --variant=release",
+    "adb": "adb devices"
   },
   "dependencies": {
     "@react-native-community/async-storage": "^1.6.1",

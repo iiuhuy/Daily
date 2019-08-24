@@ -30,6 +30,7 @@ export default class TeacherLogin extends Component {
       schoolName: "schoolName",
       teacherLoginData: "",
       itemLenght: null,
+      gradeCode: [],
       gradeName: [], // 年级名字, title
       classData: [], // y 每个班级的显示的数据
       className: [], // x 班级名字的数据,
@@ -56,13 +57,16 @@ export default class TeacherLogin extends Component {
         if (res.success === "200") {
           // 这里会展示条件返回全部的数据
           console.log("按条件查询返回数据", res.data, typeof res.data);
+          const showGradeCode = [];
           const showGradeName = []; // 年级名字
           const showClassName = []; // x 轴显示的名字
           const showClassData = []; // y 轴班级的数据
           const showallGradeClassId = []; // 整个年级的 classId
 
           for (let i = 0; i < res.data.length; i++) {
+            const gradeCode = res.data[i].gradeCode;
             const gradeName = res.data[i].gradeName;
+            showGradeCode.push(gradeCode);
             showGradeName.push(gradeName);
 
             let resClassName = []; // 班级名字
@@ -97,6 +101,7 @@ export default class TeacherLogin extends Component {
           this.setState({
             itemLenght: res.data.length, // 图形 Item 的个数, 根据返回长度来判断.
             gradeName: showGradeName,
+            gradeCode: showGradeCode,
             className: showClassName,
             classData: showClassData,
             allGradeClassId: showallGradeClassId,
@@ -124,12 +129,27 @@ export default class TeacherLogin extends Component {
     // console.log(this.state.allGradeClassId, this.state.allGradeClassId.length);
     let params = {};
 
-    if (params.queryType === "4") {
+    console.log(this.state.queryType);
+
+    if (this.state.queryType === "4") {
+      console.log("当前的是老师登录页面.......................");
+
+      params.schoolName = this.state.schoolName;
+      params.queryType = this.state.queryType;
+      params.schoolId = this.state.schoolId;
+      params.gradeCode = this.state.gradeCode[item];
+      params.pageSize = "1"; // pageSize 表示几天的数据
+      params.page = "1";
+
+      console.log(
+        "👅向下一页(queryEverySubjectDataAnalysisByClazz)传递的参数",
+        params
+      );
+
       this.props.navigation.navigate("HomeWork", params);
     } else {
       console.log("羊来...", this.state.allGradeClassId[item]);
       const classId = this.state.allGradeClassId[item];
-      params;
       params.schoolName = this.state.schoolName;
       params.schoolId = this.state.schoolId;
       params.clazzS = classId;
@@ -214,17 +234,6 @@ export default class TeacherLogin extends Component {
         <FlatList
           data={chatItem}
           renderItem={this._renderItem}
-          // renderItem={({ index }) => (
-          //   <Text
-          //     style={{
-          //       textAlign: "center",
-          //       width: "100%",
-          //       height: 100
-          //     }}
-          //   >
-          //     Settings - {index}
-          //   </Text>
-          // )}
           ItemSeparatorComponent={this._separator}
           // keyExtractor 作为每个 item 的标识
           keyExtractor={item => item.id}

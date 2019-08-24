@@ -12,7 +12,8 @@ import {
   ScrollView,
   FlatList,
   RefreshControl,
-  Button
+  Button,
+  ActivityIndicator
 } from "react-native";
 import px2dp from "../../util/px2dp";
 import theme from "../../config/theme";
@@ -25,17 +26,29 @@ import { storage } from "../../storage/storage.js";
 
 export default class HomeWork extends Component {
   static navigationOptions = ({ navigation }) => {
-    console.log(".@@@", navigation);
-    console.log(".@@@", navigation.state.params.schoolName);
+    const params = navigation.state.params;
+    console.log("refresh", params);
     return {
-      title: `${navigation.state.params.schoolName}`,
-      headerRight: (
-        <Button
-          title="查询"
-          color="gray"
-          onPress={() => navigation.navigate("QueryCondition")}
-        />
-      )
+      title: `${navigation.state.params.schoolName}`
+      // headerRight: (
+      //   <Button
+      //     title="查询"
+      //     color="gray"
+      //     onPress={() =>
+      //       // navigation.navigate("QueryCondition", navigation.state.params)
+      //       navigation.navigate("QueryCondition", {
+      //         // boom: this.state.boom,
+      //         params,
+      //         refresh: data => {
+      //           console.log("refresh", data);
+      //           // this.setState({
+      //           //   boom: data
+      //           // });
+      //         }
+      //       })
+      //     }
+      //   />
+      // )
     };
   };
 
@@ -48,17 +61,54 @@ export default class HomeWork extends Component {
       content: [], // 内容
       createDate: [], // 创建时间
       creator: [], // 创建人
+      student: 0, // 学生平均成绩
       refreshing: false
     };
   }
 
-  componentDidMount() {
-    storage.load("homeChartData", data => {
-      const params = this.props.navigation.state.params;
+  _showContentList() {
+    const { navigation } = this.props;
+    console.log("navigation", navigation);
+    const params = navigation.state.params;
+    console.log("fiora %c HomeWork... 导航参数", params);
 
-      console.log("homeChartData", data);
-      console.log("菲欧娜...", params);
+    if (params.query === "4") {
+      Connect.queryEverySubjectDataAnalysisByClazz(params, res => {
+        if (res.success === "200") {
+          console.log("登录的次数", res.data, typeof res.data);
+          let data = [];
+          let time = [];
 
+          // 遍历对象
+          obj = res.data;
+          Object.keys(obj).forEach(function(key) {
+            data = obj[key];
+            time.push(key);
+          });
+
+          const subjectName = [];
+          const content = [];
+          const creator = [];
+          const createDate = [];
+          for (let i = 0; i < data.length; i++) {
+            subjectName.push(data[i].subjectName);
+            content.push(data[i].content);
+            creator.push(data[i].name);
+            createDate.push(data[i].createDate);
+          }
+          this.setState({
+            timeTitle: time[0],
+            itemLenght: data.length,
+            subjectName: subjectName,
+            content: content,
+            creator: creator,
+            createDate: createDate
+          });
+        } else {
+          Alert.alert("按条件查询数据失败.", response.message);
+        }
+      });
+    } else {
       // 按照条件查询的请求
       Connect.queryEverySubjectDataAnalysisList(params, res => {
         if (res.success === "200") {
@@ -95,7 +145,16 @@ export default class HomeWork extends Component {
           Alert.alert("按条件查询数据失败.", response.message);
         }
       });
-    });
+    }
+  }
+
+  componentDidMount() {
+    this._showContentList();
+    console.log("嘻嘻嘻 DidMount");
+  }
+
+  componentWillUnmount() {
+    console.log("嘿嘿嘿 WillUnmount");
   }
 
   // test 目前没有给 UI 标准, 跳转到一另一个页面进行选择条件
@@ -141,6 +200,7 @@ export default class HomeWork extends Component {
 
     Connect.queryEverySubjectDataAnalysisList(params, res => {
       if (res.success === "200") {
+        console.log(res.data);
         this.setState({ refreshing: false }); // 下拉刷新
         let data = [];
         let time = [];
@@ -193,32 +253,36 @@ export default class HomeWork extends Component {
 
     Connect.queryEverySubjectDataAnalysisList(params, res => {
       if (res.success === "200") {
-        let data = [];
-        let time = [];
-        // 遍历对象
-        obj = res.data;
-        Object.keys(obj).forEach(function(key) {
-          data = obj[key];
-          time.push(key);
-        });
-        const subjectName = [];
-        const content = [];
-        const creator = [];
-        const createDate = [];
-        for (let i = 0; i < data.length; i++) {
-          subjectName.push(data[i].subjectName);
-          content.push(data[i].content);
-          creator.push(data[i].name);
-          createDate.push(data[i].createDate);
+        if (JSON.stringify(res.data) === "{}") {
+          return;
+        } else {
+          let data = [];
+          let time = [];
+          // 遍历对象
+          obj = res.data;
+          Object.keys(obj).forEach(function(key) {
+            data = obj[key];
+            time.push(key);
+          });
+          const subjectName = [];
+          const content = [];
+          const creator = [];
+          const createDate = [];
+          for (let i = 0; i < data.length; i++) {
+            subjectName.push(data[i].subjectName);
+            content.push(data[i].content);
+            creator.push(data[i].name);
+            createDate.push(data[i].createDate);
+          }
+          this.setState({
+            timeTitle: time[0],
+            itemLenght: data.length,
+            subjectName: subjectName,
+            content: content,
+            creator: creator,
+            createDate: createDate
+          });
         }
-        this.setState({
-          timeTitle: time[0],
-          itemLenght: data.length,
-          subjectName: subjectName,
-          content: content,
-          creator: creator,
-          createDate: createDate
-        });
       } else {
         Alert.alert("上拉加载 -> 按条件查询数据失败.", response.message);
       }
@@ -257,32 +321,32 @@ export default class HomeWork extends Component {
     // 获取数据 fetch 请求
   }
 
-  _renderList = item => {
+  _renderList = (item, index) => {
     return (
       <ScrollView>
-        <View style={styles.list}>
+        <View style={styles.list} key={index}>
           {Platform.OS === "android" ? (
-            <TouchableNativeFeedback onPress={this._alert.bind(this, item)}>
-              <View>
-                {/* <View style={[styles.listItem, { justifyContent: "center" }]}> */}
-                <View style={styles.listItem}>
-                  <Text style={styles.itemIndex}>
-                    {`科目: ` + this.state.subjectName[item.index]}
-                  </Text>
-                  <Text style={styles.itemIndex}>
-                    {`内容: ` + this.state.content[item.index]}
-                  </Text>
-                  <Text style={styles.itemIndex}>
-                    {`创建人: ` + this.state.creator[item.index]}
-                  </Text>
-                  <Text style={styles.itemIndex}>
-                    {`创建日期: ` + this.state.createDate[item.index]}
-                  </Text>
-                </View>
-                <View style={{ height: 1, backgroundColor: "gray" }} />
+            // <TouchableNativeFeedback onPress={this._alert.bind(this, item)}>
+            <View>
+              {/* <View style={[styles.listItem, { justifyContent: "center" }]}> */}
+              <View style={styles.listItem}>
+                <Text style={styles.itemIndex}>
+                  {`科目: ` + this.state.subjectName[item.index]}
+                </Text>
+                <Text style={styles.itemIndex}>
+                  {`内容: ` + this.state.content[item.index]}
+                </Text>
+                <Text style={styles.itemIndex}>
+                  {`创建人: ` + this.state.creator[item.index]}
+                </Text>
+                <Text style={styles.itemIndex}>
+                  {`创建日期: ` + this.state.createDate[item.index]}
+                </Text>
               </View>
-            </TouchableNativeFeedback>
+              <View style={{ height: 1, backgroundColor: "gray" }} />
+            </View>
           ) : (
+            // </TouchableNativeFeedback>
             <TouchableOpacity activeOpacity={theme.btnActiveOpacity}>
               <View>
                 <View style={[styles.listItem, { justifyContent: "center" }]}>
@@ -301,7 +365,6 @@ export default class HomeWork extends Component {
   };
 
   render() {
-    // 个数根据实际情况定.
     let homeWork = [];
     for (var i = 0; i < this.state.itemLenght; i++) {
       homeWork.push({ key: i, title: i + "" });
@@ -309,6 +372,7 @@ export default class HomeWork extends Component {
 
     return (
       <View style={styles.container}>
+        {/* <Button title="查询" color="gray" /> */}
         <View
           style={{
             height: px2dp(20)
@@ -331,7 +395,7 @@ export default class HomeWork extends Component {
           data={homeWork}
           /* ---- 上拉加载 ---- */
           onEndReached={this._pullLoading.bind(this)}
-          onEndReachedThreshold={0.5}
+          onEndReachedThreshold={0.1}
           /* ---- 下拉刷新 ---- */
           refreshControl={
             <RefreshControl
@@ -339,6 +403,7 @@ export default class HomeWork extends Component {
               onRefresh={this._onRefresh}
             />
           }
+          keyExtractor={item => item}
         />
       </View>
     );

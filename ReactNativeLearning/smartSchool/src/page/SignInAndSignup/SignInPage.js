@@ -44,7 +44,10 @@ export default class SignInPage extends Component {
       pass_text: "", // 密码
       headUrl: "", // 头像
       name: "", // 姓名
-      ysbCode: "" // 书包号
+      ysbCode: "", // 书包号
+      rememberAccount: false, // 记住账号状态
+      loginUserNumber: null, // 记住账号
+      loginPassword: null // 记住账号密码
     };
     SignInPage._handleBack;
   }
@@ -67,40 +70,67 @@ export default class SignInPage extends Component {
   };
 
   _handleBack() {
-    let loginAccount = this.state.user_text;
-    let password = this.state.pass_text;
+    let loginAccount = null;
+    let password = null;
+
+    // 如果记住的状态为 true, 那么就使用记住的账号密码。否则以为输入的为准
+    if (
+      this.state.loginUserNumber === null &&
+      this.state.loginPassword === null
+    ) {
+      console.log("没有记住密码");
+      loginAccount = this.state.user_text;
+      password = this.state.pass_text;
+    } else {
+      storage.load("login", data => {
+        console.log("记住密码");
+        console.log(data);
+        loginAccount = data.loginAccount;
+        password = data.password;
+        // this.setState({
+        // });
+      });
+    }
+    console.log(loginAccount, password);
     let requestData = {
       deviceCode: "1064918841574",
       isHDorPHONE: "HD",
-      password: password,
       loginAccount: loginAccount,
+      password: password,
       loginType: "1",
-      roleCode: "2"
+      roleCode: "2",
+      loginApp: "headMaster"
     };
-    const navigator = this.props.navigator;
+    console.log(requestData);
+    // const navigator = this.props.navigator;
     Connect.login(requestData, response => {
+      console.log(response);
+      Alert.alert(response.message);
+
       if (response.success === "200") {
         const token = response.data.access_token;
-        console.log(response.data);
+        console.log(response);
         storage.save("token", token);
 
         // 存储个人中心需要用到的数据，啊~ 我好菜吖,高清重置版 😖。
         let person = {};
-        // person.headUrl = response.data.headUrl;
-        // person.name = response.data.name;
         person.name = response.data.userInfoVo.name;
         person.headUrl = response.data.userInfoVo.headUrl;
-        // person.ysbCode = response.data.ysbCode;schoolName
         person.ysbCode = response.data.userInfoVo.ysbCode;
         person.schoolName = response.data.userInfoVo.schoolName;
         person.schoolId = response.data.userInfoVo.school;
 
-        this.props.navigation.navigate("App");
+        this.props.navigation.navigate("App"); // 导航栏
+        // 如果记住密码, 那么存储密码。
+        this.setState({ rememberAccount: true });
+        if (this.state.rememberAccount === true) {
+          const login = {};
+          login.loginAccount = requestData.loginAccount;
+          login.password = requestData.password;
+          storage.save("login", login);
+        }
 
         storage.save("person", person);
-        // storage.load("person", data => {
-        //   // console.log(data);
-        // });
 
         // 测试用... 请求首页数据
         Connect.queryHomePageByConditions({}, response => {
@@ -152,7 +182,6 @@ export default class SignInPage extends Component {
         <View style={styles.logo}>
           <Image
             style={{ width: px2dp(45), height: px2dp(45) }}
-            // source={require("../../assets/image/ic_login_logo.png")}
             source={{
               uri:
                 "https://ebag-public-resource.oss-cn-shenzhen.aliyuncs.com/heard_photo/avatar_default.png"
