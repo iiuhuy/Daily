@@ -33,9 +33,9 @@ import { storage } from "../../storage/storage";
 
 export default class MeFragment extends Component {
   static navigationOptions = {
-    // title: "云书包实验小学"
+    title: "个人中心"
     // tabBarVisible: false, // 隐藏底部导航栏
-    header: null //隐藏顶部导航栏
+    // header: null //隐藏顶部导航栏
   };
 
   constructor(props) {
@@ -49,7 +49,7 @@ export default class MeFragment extends Component {
     };
   }
 
-  // 退出清除 token 
+  // 退出清除 token
   _signOutAndRemoveToken = async () => {
     // this.props.navigator.push({
     //   component: SignInPage
@@ -147,9 +147,7 @@ export default class MeFragment extends Component {
                   </Text>
                   <Avatar
                     image={{
-                      uri:
-                        // "https://ebag-public-resource.oss-cn-shenzhen.aliyuncs.com/heard_photo/avatar_default.png"
-                        `${this.state.headUrl}`
+                      uri: `${this.state.headUrl}`
                     }}
                     size={px2dp(40)}
                     textSize={px2dp(20)}
@@ -182,9 +180,7 @@ export default class MeFragment extends Component {
                   </Text>
                   <Avatar
                     image={{
-                      uri:
-                        // "https://ebag-public-resource.oss-cn-shenzhen.aliyuncs.com/heard_photo/avatar_default.png"
-                        `${this.state.headUrl}`
+                      uri: `${this.state.headUrl}`
                     }}
                     size={px2dp(40)}
                     textSize={px2dp(20)}

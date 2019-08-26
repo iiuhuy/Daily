@@ -5432,6 +5432,11 @@ react-native-storage@^1.0.1:
     opencollective "^1.0.3"
     opencollective-postinstall "^2.0.2"
 
+react-native-svg@^9.7.0:
+  version "9.7.0"
+  resolved "https://registry.npm.taobao.org/react-native-svg/download/react-native-svg-9.7.0.tgz#2d0bf1d31d5f1dd061587215b50deb29e626df18"
+  integrity sha1-LQvx0x1fHdBhWHIVtQ3rKeYm3xg=
+
 react-native-tab-view@^1.2.0, react-native-tab-view@^1.4.1:
   version "1.4.1"
   resolved "https://registry.npm.taobao.org/react-native-tab-view/download/react-native-tab-view-1.4.1.tgz#f113cd87485808f0c991abec937f70fa380478b9"

@@ -25,8 +25,13 @@ import TeacherLogin from "../HomePage/TeacherLogin";
 import MyPage from "../MyPage/MeFragment";
 import DetailsScreen from "../../page/DetailsScreen";
 
-// test
+// ----- test ---- //
 import TabBarItemComponent from "../../component/TabBarItemComponent";
+import MeIcon from "../../assets/me";
+import MeIconActive from "../../assets/active_me";
+import HomeIcon from "../../assets/home";
+import HomeIconActive from "../../assets/active_home";
+// ----- test ---- //
 
 class HomeECharts extends Component {
   static navigationOptions = {
@@ -53,8 +58,6 @@ class HomeECharts extends Component {
     // 校长端首页数据统计
     Connect.queryHomePageByConditions({}, response => {
       if (response.success === "200") {
-        // console.warn("校长端首页数据请求成功!", response.data);
-
         let homeChartData = {};
         homeChartData = response.data;
         storage.save("homeChartData", homeChartData);
@@ -134,7 +137,6 @@ class HomeECharts extends Component {
     });
   }
 
-  // 渲染的条目 ({ index })
   _renderItem = item => {
     // 标题没有返回, 自己定了一个数组. 和后台返回的数据对应
     const title = [
@@ -177,7 +179,6 @@ class HomeECharts extends Component {
         datas[k] = grade;
       }
       allData.push(datas);
-      // console.log(allData);
     }
 
     const option = {
@@ -187,12 +188,21 @@ class HomeECharts extends Component {
       // },
       tooltip: {
         trigger: "item",
-        formatter: "{a} <br/>{b}: {c} ({d}%)"
+        formatter: "{a} <br/>{b}: {c} ({d}%)",
       },
       legend: {
         orient: "vertical",
         x: "left"
       },
+      // label: {
+      //   normal: {
+      //     formatter: "{b}:{c}: ({d}%)",
+      //     textStyle: {
+      //       fontWeight: "normal",
+      //       fontSize: 15
+      //     }
+      //   }
+      // },
       series: [
         {
           name: "年级",
@@ -239,12 +249,14 @@ class HomeECharts extends Component {
   };
 
   // ================== test =============================== //
+
+  // ================== test =============================== //
+
   _keyExtractor = (item, index) => {
     item.id;
     // console.log("heihei.", item.key);
   };
 
-  // ================== test =============================== //
   render() {
     // 饼图的个数,取决于来自后台请求的字段
     let chatItem = [];
@@ -258,22 +270,8 @@ class HomeECharts extends Component {
           data={chatItem}
           renderItem={this._renderItem}
           ItemSeparatorComponent={this._separator}
-          // renderItem={this._renderCharts}
-          // onEndReached={info => {
-          //   console.warn(info.distanceFromEnd);
-          // }}
-          //}}
-
           // 使用 id 作为列表每一项的 key
           keyExtractor={this._keyExtractor}
-          // ItemSeparatorComponent={() => (
-          //   <View
-          //     style={{
-          //       height: 1,
-          //       backgroundColor: "#D6D6D6"
-          //     }}
-          //   />
-          // )}
         />
       </View>
     );
@@ -365,21 +363,9 @@ const styles = StyleSheet.create({
   chart: {
     height: 300,
     marginTop: 5,
-    marginBottom: 5
+    marginBottom: 5,
+    fontSize: 32
   },
-  // charts: {
-  //   width: "100%",
-  //   padding: 10,
-  //   // height: "20%",
-  //   // backgroundColor: "gray",
-  //   borderBottomColor: "#D3D3D3"
-  // },
-  // txt: {
-  //   textAlign: "center",
-  //   textAlignVertical: "center",
-  //   color: "white",
-  //   fontSize: 20
-  // },
   btn: {
     flex: 1,
     justifyContent: "center"

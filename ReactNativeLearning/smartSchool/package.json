@@ -8,7 +8,7 @@
     "test": "jest",
     "lint": "eslint .",
     "build-apk": "cd android && ./gradlew assembleRelease",
-    "release-apk": "react-native run-android --variant=release",
+    "test-release-apk": "react-native run-android --variant=release",
     "adb": "adb devices"
   },
   "dependencies": {

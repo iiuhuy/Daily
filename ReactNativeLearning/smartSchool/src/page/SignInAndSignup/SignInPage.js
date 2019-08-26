@@ -105,7 +105,6 @@ export default class SignInPage extends Component {
     // const navigator = this.props.navigator;
     Connect.login(requestData, response => {
       console.log(response);
-      Alert.alert(response.message);
 
       if (response.success === "200") {
         const token = response.data.access_token;

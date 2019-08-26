@@ -68,6 +68,7 @@ export default class WebChart extends React.Component {
           `}
           onMessage={e => {
             this.props.onMessage(JSON.parse(e.nativeEvent.data));
+            console.log(this.props.onMessage(JSON.parse(e.nativeEvent.data)));
           }}
         />
       </View>

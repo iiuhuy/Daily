@@ -62,8 +62,78 @@ export default class HomeWork extends Component {
       createDate: [], // 创建时间
       creator: [], // 创建人
       student: 0, // 学生平均成绩
-      refreshing: false
+      refreshing: false,
+      wait: false // 上拉等待进度条
     };
+  }
+
+  // 列表区分显示
+  _splitShowList(paramsQuery, res) {
+    let data = [];
+    const time = [];
+    let obj = {};
+    console.log(res);
+
+    // 遍历对象
+    obj = res.data;
+    Object.keys(obj).forEach(function(key) {
+      data = obj[key];
+      time.push(key);
+    });
+
+    const subjectName = [];
+    const content = [];
+    const creator = [];
+    const createDate = [];
+
+    // 1-作业, 2-备课, 3-试卷, 5-成绩
+    switch (paramsQuery) {
+      case "1":
+        for (let i = 0; i < data.length; i++) {
+          subjectName.push(`科目: ${data[i].subjectName} (${data[i].name})`);
+          content.push(`作业内容: ${data[i].content}`);
+          creator.push(`作业创建人: ${data[i].name}`);
+          createDate.push(`作业创建日期: ${data[i].createDate}`);
+        }
+        break;
+      case "2":
+        for (let i = 0; i < data.length; i++) {
+          subjectName.push(`科目: ${data[i].subjectName} (${data[i].name})`);
+          content.push(`课件内容: ${data[i].content}`);
+          creator.push(`课件创建人: ${data[i].name}`);
+          createDate.push(`课件创建日期: ${data[i].createDate}`);
+        }
+        break;
+      case "3":
+        for (let i = 0; i < data.length; i++) {
+          subjectName.push(`科目: ${data[i].subjectName} (${data[i].name})`);
+          content.push(`试卷内容: ${data[i].content}`);
+          creator.push(`试卷创建人: ${data[i].name}`);
+          createDate.push(`试卷创建日期: ${data[i].createDate}`);
+        }
+        break;
+      case "5":
+        for (let i = 0; i < data.length; i++) {
+          subjectName.push(`科目: ${data[i].subjectName} (${data[i].name})`);
+          // content.push(`作业内容: ${data[i].content}`);
+          content.push(`学生平均成绩: ${data[i].count}`);
+          creator.push(`创建人: ${data[i].name}`);
+          createDate.push(`创建日期: ${data[i].createDate}`);
+        }
+        break;
+
+      default:
+        break;
+    }
+    // 状态值
+    this.setState({
+      timeTitle: time[0],
+      itemLenght: data.length,
+      subjectName: subjectName,
+      content: content,
+      creator: creator,
+      createDate: createDate
+    });
   }
 
   // 显示内容列表
@@ -78,9 +148,10 @@ export default class HomeWork extends Component {
     if (params.queryType === "4") {
       Connect.queryEverySubjectDataAnalysisByClazz(params, res => {
         if (res.success === "200") {
-          console.log("登录的次数", res.data, typeof res.data);
+          console.log("登录的次数", res.data);
           let data = [];
-          let time = [];
+          const time = [];
+          let obj = {};
 
           // 遍历对象
           obj = res.data;
@@ -151,70 +222,15 @@ export default class HomeWork extends Component {
       Connect.queryEverySubjectDataAnalysisList(params, res => {
         console.log("根据 queryType 区分", params);
         if (res.success === "200") {
-          console.log("按条件查询返回数据", res.data, typeof res.data);
-          let data = [];
-          let time = [];
-
-          // 遍历对象
-          obj = res.data;
-          Object.keys(obj).forEach(function(key) {
-            data = obj[key];
-            time.push(key);
-          });
-
-          const subjectName = [];
-          const content = [];
-          const creator = [];
-          const createDate = [];
-
-          // 1-作业, 2-备课, 3-试卷, 5-成绩
-          switch (params.queryType) {
-            case "1":
-              for (let i = 0; i < data.length; i++) {
-                subjectName.push(`科目: ${data[i].subjectName}`);
-                content.push(`作业内容: ${data[i].content}`);
-                creator.push(`作业创建人: ${data[i].name}`);
-                createDate.push(`作业创建日期: ${data[i].createDate}`);
-              }
-              break;
-            case "2":
-              for (let i = 0; i < data.length; i++) {
-                subjectName.push(`科目: ${data[i].subjectName}`);
-                content.push(`课件内容: ${data[i].content}`);
-                creator.push(`课件创建人: ${data[i].name}`);
-                createDate.push(`课件创建日期: ${data[i].createDate}`);
-              }
-              break;
-            case "3":
-              for (let i = 0; i < data.length; i++) {
-                subjectName.push(`科目: ${data[i].subjectName}`);
-                content.push(`试卷内容: ${data[i].content}`);
-                creator.push(`试卷创建人: ${data[i].name}`);
-                createDate.push(`试卷创建日期: ${data[i].createDate}`);
-              }
-              break;
-            case "5":
-              for (let i = 0; i < data.length; i++) {
-                subjectName.push(`科目: ${data[i].subjectName}`);
-                // content.push(`作业内容: ${data[i].content}`);
-                content.push(`学生平均成绩: ${data[i].count}`);
-                creator.push(`创建人: ${data[i].name}`);
-                createDate.push(`创建日期: ${data[i].createDate}`);
-              }
-              break;
-
-            default:
-              break;
+          console.log("按条件查询返回数据", res.data);
+          if (JSON.stringify(res.data) === "{}") {
+            Alert.alert("该列表无数据");
+            this.props.navigation.goBack();
+            return;
+          } else {
+            // 判断 queryType
+            this._splitShowList(params.queryType, res);
           }
-
-          this.setState({
-            timeTitle: time[0],
-            itemLenght: data.length,
-            subjectName: subjectName,
-            content: content,
-            creator: creator,
-            createDate: createDate
-          });
         } else {
           Alert.alert("按条件查询数据失败.", response.message);
         }
@@ -227,9 +243,9 @@ export default class HomeWork extends Component {
     console.log("嘻嘻嘻 DidMount");
   }
 
-  componentWillUnmount() {
-    console.log("嘿嘿嘿 WillUnmount");
-  }
+  // componentWillUnmount() {
+  //   console.log("嘿嘿嘿 WillUnmount");
+  // }
 
   _alert(item) {
     if (Platform.OS === "android") {
@@ -270,72 +286,9 @@ export default class HomeWork extends Component {
       if (res.success === "200") {
         console.log(res.data);
         this.setState({ refreshing: false }); // 下拉刷新
-        let data = [];
-        let time = [];
-        // 遍历对象
-        obj = res.data;
-        Object.keys(obj).forEach(function(key) {
-          data = obj[key];
-          time.push(key);
-        });
 
-        const subjectName = [];
-        const content = [];
-        const creator = [];
-        const createDate = [];
-        // for (let i = 0; i < data.length; i++) {
-        //   subjectName.push(data[i].subjectName);
-        //   content.push(data[i].content);
-        //   creator.push(data[i].name);
-        //   createDate.push(data[i].createDate);
-        // }
-        // 1-作业, 2-备课, 3-试卷, 5-成绩
-        switch (params.queryType) {
-          case "1":
-            for (let i = 0; i < data.length; i++) {
-              subjectName.push(`科目: ${data[i].subjectName}`);
-              content.push(`作业内容: ${data[i].content}`);
-              creator.push(`作业创建人: ${data[i].name}`);
-              createDate.push(`作业创建日期: ${data[i].createDate}`);
-            }
-            break;
-          case "2":
-            for (let i = 0; i < data.length; i++) {
-              subjectName.push(`科目: ${data[i].subjectName}`);
-              content.push(`课件内容: ${data[i].content}`);
-              creator.push(`课件创建人: ${data[i].name}`);
-              createDate.push(`课件创建日期: ${data[i].createDate}`);
-            }
-            break;
-          case "3":
-            for (let i = 0; i < data.length; i++) {
-              subjectName.push(`科目: ${data[i].subjectName}`);
-              content.push(`试卷内容: ${data[i].content}`);
-              creator.push(`试卷创建人: ${data[i].name}`);
-              createDate.push(`试卷创建日期: ${data[i].createDate}`);
-            }
-            break;
-          case "5":
-            for (let i = 0; i < data.length; i++) {
-              subjectName.push(`科目: ${data[i].subjectName}`);
-              // content.push(`作业内容: ${data[i].content}`);
-              content.push(`学生平均成绩: ${data[i].count}`);
-              creator.push(`创建人: ${data[i].name}`);
-              createDate.push(`创建日期: ${data[i].createDate}`);
-            }
-            break;
-
-          default:
-            break;
-        }
-        this.setState({
-          timeTitle: time[0],
-          itemLenght: data.length,
-          subjectName: subjectName,
-          content: content,
-          creator: creator,
-          createDate: createDate
-        });
+        // 判断 queryType
+        this._splitShowList(params.queryType, res);
       } else {
         Alert.alert("下拉刷新 -> 按条件查询数据失败.", response.message);
       }
@@ -343,10 +296,23 @@ export default class HomeWork extends Component {
   };
 
   /* ==== 上拉加载 ==== */
+  // 上拉加载进度条
+  pullLoadingWait() {
+    return (
+      <View style={styles.container}>
+        <ActivityIndicator animating={true} color="red" size="large" />
+      </View>
+    );
+  }
+  // 上拉操作
   _pullLoading() {
     // 如果有数据正在加载
     // 如果没有就暂无更多
-    console.log("上拉加载了解一下。。。🚀");
+    // if (this.state.wait) {
+    if (true) {
+      this.pullLoadingWait();
+    }
+    // console.log("上拉加载了解一下。。。🚀");
 
     this.setState({
       page: this.state.page++
@@ -356,78 +322,18 @@ export default class HomeWork extends Component {
 
     console.log("1", params, this.state.page);
     params.page = this.state.page;
-    console.log("2", params);
+    console.log("2", params, this.state.page);
 
     Connect.queryEverySubjectDataAnalysisList(params, res => {
       if (res.success === "200") {
         if (JSON.stringify(res.data) === "{}") {
+          // 按理说无数据不应该展示的,但是这里还是没有...
+          Alert.alert("该列表无数据");
+          this.props.navigation.goBack();
           return;
         } else {
-          let data = [];
-          let time = [];
-          // 遍历对象
-          obj = res.data;
-          Object.keys(obj).forEach(function(key) {
-            data = obj[key];
-            time.push(key);
-          });
-          const subjectName = [];
-          const content = [];
-          const creator = [];
-          const createDate = [];
-          // for (let i = 0; i < data.length; i++) {
-          //   subjectName.push(data[i].subjectName);
-          //   content.push(data[i].content);
-          //   creator.push(data[i].name);
-          //   createDate.push(data[i].createDate);
-          // }
-          // 1-作业, 2-备课, 3-试卷, 5-成绩
-          switch (params.queryType) {
-            case "1":
-              for (let i = 0; i < data.length; i++) {
-                subjectName.push(`科目: ${data[i].subjectName}`);
-                content.push(`作业内容: ${data[i].content}`);
-                creator.push(`作业创建人: ${data[i].name}`);
-                createDate.push(`作业创建日期: ${data[i].createDate}`);
-              }
-              break;
-            case "2":
-              for (let i = 0; i < data.length; i++) {
-                subjectName.push(`科目: ${data[i].subjectName}`);
-                content.push(`课件内容: ${data[i].content}`);
-                creator.push(`课件创建人: ${data[i].name}`);
-                createDate.push(`课件创建日期: ${data[i].createDate}`);
-              }
-              break;
-            case "3":
-              for (let i = 0; i < data.length; i++) {
-                subjectName.push(`科目: ${data[i].subjectName}`);
-                content.push(`试卷内容: ${data[i].content}`);
-                creator.push(`试卷创建人: ${data[i].name}`);
-                createDate.push(`试卷创建日期: ${data[i].createDate}`);
-              }
-              break;
-            case "5":
-              for (let i = 0; i < data.length; i++) {
-                subjectName.push(`科目: ${data[i].subjectName}`);
-                // content.push(`作业内容: ${data[i].content}`);
-                content.push(`学生平均成绩: ${data[i].count}`);
-                creator.push(`创建人: ${data[i].name}`);
-                createDate.push(`创建日期: ${data[i].createDate}`);
-              }
-              break;
-
-            default:
-              break;
-          }
-          this.setState({
-            timeTitle: time[0],
-            itemLenght: data.length,
-            subjectName: subjectName,
-            content: content,
-            creator: creator,
-            createDate: createDate
-          });
+          // 判断 queryType
+          this._splitShowList(params.queryType, res);
         }
       } else {
         Alert.alert("上拉加载 -> 按条件查询数据失败.", response.message);
@@ -435,15 +341,7 @@ export default class HomeWork extends Component {
     });
   }
 
-  // 上拉加载进度条
-  renderLoadingView() {
-    return (
-      <View style={styles.container}>
-        <ActivityIndicator animating={true} color="red" size="large" />
-      </View>
-    );
-  }
-
+  // 内容列表
   _renderList = (item, index) => {
     return (
       <ScrollView>
