@@ -66,13 +66,16 @@ export default class HomeWork extends Component {
     };
   }
 
+  // 显示内容列表
   _showContentList() {
     const { navigation } = this.props;
     console.log("navigation", navigation);
     const params = navigation.state.params;
-    console.log("fiora %c HomeWork... 导航参数", params);
 
-    if (params.query === "4") {
+    console.log("HomeWork... 导航参数", params);
+    console.log(params);
+
+    if (params.queryType === "4") {
       Connect.queryEverySubjectDataAnalysisByClazz(params, res => {
         if (res.success === "200") {
           console.log("登录的次数", res.data, typeof res.data);
@@ -86,19 +89,54 @@ export default class HomeWork extends Component {
             time.push(key);
           });
 
+          console.log(data, time);
           const subjectName = [];
           const content = [];
           const creator = [];
           const createDate = [];
           for (let i = 0; i < data.length; i++) {
-            subjectName.push(data[i].subjectName);
-            content.push(data[i].content);
-            creator.push(data[i].name);
-            createDate.push(data[i].createDate);
+            console.log(data[i].loginDevice);
+            switch (data[i].loginDevice) {
+              case "1":
+                // 1-书包号, 2-账号, 3-新浪微博, 4-QQ, 5-微信
+                subjectName.push("登录方式: 书包号登录"); // loginDevice 登录通道
+                break;
+              case "2":
+                subjectName.push("登录方式: 账号登录");
+                break;
+              case "3":
+                subjectName.push("登录方式: 新浪微博登录");
+                break;
+              case "4":
+                subjectName.push("登录方式: QQ 登录");
+                break;
+              case "5":
+                subjectName.push("登录方式: 微信登录");
+                break;
+              default:
+                break;
+            }
+            switch (data[i].loginWay) {
+              case "1":
+                // 1-手机, 2-PC, 3-平板
+                content.push("登录通道: 手机端"); // loginWay 登录方式
+                break;
+              case "2":
+                content.push("登录通道: PC 端");
+                break;
+              case "3":
+                content.push("登录通道: 平板 端");
+                break;
+
+              default:
+                break;
+            }
+            creator.push(`登录人: ${data[i].name}`);
+            createDate.push(`登录时间: ${data[i].createDate}`);
           }
           this.setState({
-            timeTitle: time[0],
             itemLenght: data.length,
+            timeTitle: time[0], // 日期
             subjectName: subjectName,
             content: content,
             creator: creator,
@@ -111,6 +149,7 @@ export default class HomeWork extends Component {
     } else {
       // 按照条件查询的请求
       Connect.queryEverySubjectDataAnalysisList(params, res => {
+        console.log("根据 queryType 区分", params);
         if (res.success === "200") {
           console.log("按条件查询返回数据", res.data, typeof res.data);
           let data = [];
@@ -127,12 +166,47 @@ export default class HomeWork extends Component {
           const content = [];
           const creator = [];
           const createDate = [];
-          for (let i = 0; i < data.length; i++) {
-            subjectName.push(data[i].subjectName);
-            content.push(data[i].content);
-            creator.push(data[i].name);
-            createDate.push(data[i].createDate);
+
+          // 1-作业, 2-备课, 3-试卷, 5-成绩
+          switch (params.queryType) {
+            case "1":
+              for (let i = 0; i < data.length; i++) {
+                subjectName.push(`科目: ${data[i].subjectName}`);
+                content.push(`作业内容: ${data[i].content}`);
+                creator.push(`作业创建人: ${data[i].name}`);
+                createDate.push(`作业创建日期: ${data[i].createDate}`);
+              }
+              break;
+            case "2":
+              for (let i = 0; i < data.length; i++) {
+                subjectName.push(`科目: ${data[i].subjectName}`);
+                content.push(`课件内容: ${data[i].content}`);
+                creator.push(`课件创建人: ${data[i].name}`);
+                createDate.push(`课件创建日期: ${data[i].createDate}`);
+              }
+              break;
+            case "3":
+              for (let i = 0; i < data.length; i++) {
+                subjectName.push(`科目: ${data[i].subjectName}`);
+                content.push(`试卷内容: ${data[i].content}`);
+                creator.push(`试卷创建人: ${data[i].name}`);
+                createDate.push(`试卷创建日期: ${data[i].createDate}`);
+              }
+              break;
+            case "5":
+              for (let i = 0; i < data.length; i++) {
+                subjectName.push(`科目: ${data[i].subjectName}`);
+                // content.push(`作业内容: ${data[i].content}`);
+                content.push(`学生平均成绩: ${data[i].count}`);
+                creator.push(`创建人: ${data[i].name}`);
+                createDate.push(`创建日期: ${data[i].createDate}`);
+              }
+              break;
+
+            default:
+              break;
           }
+
           this.setState({
             timeTitle: time[0],
             itemLenght: data.length,
@@ -155,12 +229,6 @@ export default class HomeWork extends Component {
 
   componentWillUnmount() {
     console.log("嘿嘿嘿 WillUnmount");
-  }
-
-  // test 目前没有给 UI 标准, 跳转到一另一个页面进行选择条件
-  _selectQuery() {
-    console.log("条件查询页面🔨");
-    this.props.navigation.navigate("TeacherLoginData");
   }
 
   _alert(item) {
@@ -215,11 +283,50 @@ export default class HomeWork extends Component {
         const content = [];
         const creator = [];
         const createDate = [];
-        for (let i = 0; i < data.length; i++) {
-          subjectName.push(data[i].subjectName);
-          content.push(data[i].content);
-          creator.push(data[i].name);
-          createDate.push(data[i].createDate);
+        // for (let i = 0; i < data.length; i++) {
+        //   subjectName.push(data[i].subjectName);
+        //   content.push(data[i].content);
+        //   creator.push(data[i].name);
+        //   createDate.push(data[i].createDate);
+        // }
+        // 1-作业, 2-备课, 3-试卷, 5-成绩
+        switch (params.queryType) {
+          case "1":
+            for (let i = 0; i < data.length; i++) {
+              subjectName.push(`科目: ${data[i].subjectName}`);
+              content.push(`作业内容: ${data[i].content}`);
+              creator.push(`作业创建人: ${data[i].name}`);
+              createDate.push(`作业创建日期: ${data[i].createDate}`);
+            }
+            break;
+          case "2":
+            for (let i = 0; i < data.length; i++) {
+              subjectName.push(`科目: ${data[i].subjectName}`);
+              content.push(`课件内容: ${data[i].content}`);
+              creator.push(`课件创建人: ${data[i].name}`);
+              createDate.push(`课件创建日期: ${data[i].createDate}`);
+            }
+            break;
+          case "3":
+            for (let i = 0; i < data.length; i++) {
+              subjectName.push(`科目: ${data[i].subjectName}`);
+              content.push(`试卷内容: ${data[i].content}`);
+              creator.push(`试卷创建人: ${data[i].name}`);
+              createDate.push(`试卷创建日期: ${data[i].createDate}`);
+            }
+            break;
+          case "5":
+            for (let i = 0; i < data.length; i++) {
+              subjectName.push(`科目: ${data[i].subjectName}`);
+              // content.push(`作业内容: ${data[i].content}`);
+              content.push(`学生平均成绩: ${data[i].count}`);
+              creator.push(`创建人: ${data[i].name}`);
+              createDate.push(`创建日期: ${data[i].createDate}`);
+            }
+            break;
+
+          default:
+            break;
         }
         this.setState({
           timeTitle: time[0],
@@ -268,11 +375,50 @@ export default class HomeWork extends Component {
           const content = [];
           const creator = [];
           const createDate = [];
-          for (let i = 0; i < data.length; i++) {
-            subjectName.push(data[i].subjectName);
-            content.push(data[i].content);
-            creator.push(data[i].name);
-            createDate.push(data[i].createDate);
+          // for (let i = 0; i < data.length; i++) {
+          //   subjectName.push(data[i].subjectName);
+          //   content.push(data[i].content);
+          //   creator.push(data[i].name);
+          //   createDate.push(data[i].createDate);
+          // }
+          // 1-作业, 2-备课, 3-试卷, 5-成绩
+          switch (params.queryType) {
+            case "1":
+              for (let i = 0; i < data.length; i++) {
+                subjectName.push(`科目: ${data[i].subjectName}`);
+                content.push(`作业内容: ${data[i].content}`);
+                creator.push(`作业创建人: ${data[i].name}`);
+                createDate.push(`作业创建日期: ${data[i].createDate}`);
+              }
+              break;
+            case "2":
+              for (let i = 0; i < data.length; i++) {
+                subjectName.push(`科目: ${data[i].subjectName}`);
+                content.push(`课件内容: ${data[i].content}`);
+                creator.push(`课件创建人: ${data[i].name}`);
+                createDate.push(`课件创建日期: ${data[i].createDate}`);
+              }
+              break;
+            case "3":
+              for (let i = 0; i < data.length; i++) {
+                subjectName.push(`科目: ${data[i].subjectName}`);
+                content.push(`试卷内容: ${data[i].content}`);
+                creator.push(`试卷创建人: ${data[i].name}`);
+                createDate.push(`试卷创建日期: ${data[i].createDate}`);
+              }
+              break;
+            case "5":
+              for (let i = 0; i < data.length; i++) {
+                subjectName.push(`科目: ${data[i].subjectName}`);
+                // content.push(`作业内容: ${data[i].content}`);
+                content.push(`学生平均成绩: ${data[i].count}`);
+                creator.push(`创建人: ${data[i].name}`);
+                createDate.push(`创建日期: ${data[i].createDate}`);
+              }
+              break;
+
+            default:
+              break;
           }
           this.setState({
             timeTitle: time[0],
@@ -287,38 +433,15 @@ export default class HomeWork extends Component {
         Alert.alert("上拉加载 -> 按条件查询数据失败.", response.message);
       }
     });
+  }
 
-    // if (1) {
-    //   return (
-    //     <View
-    //       style={{
-    //         height: 44,
-    //         backgroundColor: "rgb(200,200,200)",
-    //         justifyContent: "center",
-    //         alignItems: "center"
-    //       }}
-    //     >
-    //       <Text>{"正在加载...."}</Text>
-    //     </View>
-    //   );
-    // } else if (this.state.isLoreMoreing == "LoreMoreEmpty") {
-    //   return (
-    //     <View
-    //       style={{
-    //         height: 44,
-    //         backgroundColor: "rgb(200,200,200)",
-    //         justifyContent: "center",
-    //         alignItems: "center"
-    //       }}
-    //     >
-    //       <Text>{"暂无更多"}</Text>
-    //     </View>
-    //   );
-    // } else {
-    //   return null;
-    // }
-
-    // 获取数据 fetch 请求
+  // 上拉加载进度条
+  renderLoadingView() {
+    return (
+      <View style={styles.container}>
+        <ActivityIndicator animating={true} color="red" size="large" />
+      </View>
+    );
   }
 
   _renderList = (item, index) => {
@@ -331,16 +454,16 @@ export default class HomeWork extends Component {
               {/* <View style={[styles.listItem, { justifyContent: "center" }]}> */}
               <View style={styles.listItem}>
                 <Text style={styles.itemIndex}>
-                  {`科目: ` + this.state.subjectName[item.index]}
+                  {this.state.subjectName[item.index]}
                 </Text>
                 <Text style={styles.itemIndex}>
-                  {`内容: ` + this.state.content[item.index]}
+                  {this.state.content[item.index]}
                 </Text>
                 <Text style={styles.itemIndex}>
-                  {`创建人: ` + this.state.creator[item.index]}
+                  {this.state.creator[item.index]}
                 </Text>
                 <Text style={styles.itemIndex}>
-                  {`创建日期: ` + this.state.createDate[item.index]}
+                  {this.state.createDate[item.index]}
                 </Text>
               </View>
               <View style={{ height: 1, backgroundColor: "gray" }} />
@@ -442,5 +565,12 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
     color: "blue",
     fontSize: px2dp(15)
+  },
+  loadingContainer: {
+    flex: 1,
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#005DD0"
   }
 });

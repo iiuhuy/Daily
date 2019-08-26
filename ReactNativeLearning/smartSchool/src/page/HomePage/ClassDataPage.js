@@ -138,9 +138,19 @@ export default class ClassDataPage extends Component {
     //   this.setState({ title: null });
     // });
 
-    // console.log(this.props.navigation.state.params);
-    const params = this.props.navigation.state.params;
-    console.log("菲奥娜", params);
+    console.log(this.props.navigation.state.params);
+
+    const resparams = this.props.navigation.state.params;
+    const params = {};
+    params.queryType = resparams.queryType;
+    params.schoolId = resparams.schoolId;
+    // params.gradeCode = resparams.gradeCode;
+    params.pageSize = resparams.pageSize;
+    params.page = resparams.page;
+    params.schoolName = resparams.schoolName;
+    params.clazzS = resparams.clazzS;
+    params.hint = resparams.hint;
+    console.log("🎈每个班级页面... ", params);
 
     Connect.queryEverySubjectDataAnalysisByClazz(params, res => {
       if (res.success === "200") {
@@ -160,9 +170,11 @@ export default class ClassDataPage extends Component {
 
           // 遍历每个年级的班级名字 和 人数
           let count = analysData.length;
+          console.log(count);
 
           for (let j = 0; j < count; j++) {
             const name = analysData[j].subjectName;
+            console.log(analysData[j].subjectName);
             Subjects.push(name);
 
             const count = analysData[j].count;
@@ -172,15 +184,34 @@ export default class ClassDataPage extends Component {
           showSubjectCount.push(SubjectCount);
         }
 
+        console.log(showSubjects, showSubjectCount);
+
         // 遍历对象
         const classIdArr = [];
-        for (const key in params) {
-          if (params.hasOwnProperty(key)) {
-            classIdArr.push(params[key]);
-          }
-        }
-        console.log("遍历出来的对象😡", classIdArr);
+        const clazzS = params.clazzS;
+        console.log("params.clazzS", params.clazzS);
+        Object.keys(clazzS).forEach(function(i) {
+          console.log(i, clazzS[i].classId);
+          classIdArr.push(clazzS[i].classId);
+        });
 
+        // for (const i in clazzS) {
+        //   if (clazzS.hasOwnProperty(i)) {
+        //     classIdArr.push(clazzS[i]);
+        //   }
+        // }
+        console.log("遍历出来的对象😡", classIdArr);
+        console.log(
+          "😡",
+          params.schoolName,
+          res.data.length,
+          showClassName,
+          showSubjects,
+          showSubjectCount,
+          params.queryType,
+          classIdArr,
+          params.hint
+        );
         this.setState({
           schoolName: params.schoolName,
           itemLenght: res.data.length, // 图形 Item 的个数, 根据返回长度来判断.
@@ -191,6 +222,7 @@ export default class ClassDataPage extends Component {
           classIds: classIdArr,
           hint: params.hint
         });
+        console.log(this.state.classIds);
       } else {
         Alert.alert("按条件查询数据失败.", response.message);
       }
@@ -207,11 +239,11 @@ export default class ClassDataPage extends Component {
     let params = {};
 
     params.schoolName = this.state.schoolName;
-    params.classId = this.state.classIds[2][item].classId; // 二维数组中的第一个
+    params.classId = this.state.classIds[item];
     params.queryType = this.state.queryType;
-    params.subCode = "";
-    params.sTime = "";
-    params.eTime = "";
+    // params.subCode = "";
+    // params.sTime = "";
+    // params.eTime = "";
     params.page = "1";
     params.pageSize = "1";
 

@@ -50,7 +50,7 @@ export default class TeacherLogin extends Component {
       // console.log(this.props.navigation.state.params);
       // 查询接口参数，如果需要存储到 storage 里面, 简易 JSON 序列化
       let params = this.props.navigation.state.params;
-      // console.log("辣鸡接口",params);
+      console.log("辣鸡接口",params);
 
       // 按照条件查询的请求
       Connect.queryEveryGradeDataAnalysisByConditions(params, res => {
@@ -155,6 +155,9 @@ export default class TeacherLogin extends Component {
       params.clazzS = classId;
       params.queryType = this.state.queryType;
       params.hint = this.state.hint;
+      params.pageSize = "1";
+      params.page = "1";
+
 
       console.log("向下一页(ClassDataPage)传递的参数", params);
       this.props.navigation.navigate("ClassDataPage", params);
