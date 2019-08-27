@@ -36,108 +36,6 @@ export default class ClassDataPage extends Component {
 
   // 在页面渲染前调用
   componentDidMount() {
-    // ----------------- test -------------------- //
-    const graphicData = [
-      {
-        type: "image",
-        id: "logo",
-        right: 20,
-        top: 20,
-        z: -10,
-        bounding: "raw",
-        origin: [75, 75],
-        style: {
-          image: "http://echarts.baidu.com/images/favicon.png",
-          width: 150,
-          height: 150,
-          opacity: 0.4
-        }
-      }
-      // {
-      //     type: 'group',
-      //     rotation: Math.PI / 4,
-      //     bounding: 'raw',
-      //     right: 110,
-      //     bottom: 110,
-      //     z: 100,
-      //     children: [
-      //         {
-      //             type: 'rect',
-      //             left: 'center',
-      //             top: 'center',
-      //             z: 100,
-      //             shape: {
-      //                 width: 400,
-      //                 height: 50
-      //             },
-      //             style: {
-      //                 fill: 'rgba(0,0,0,0.3)'
-      //             }
-      //         },
-      //         {
-      //             type: 'text',
-      //             left: 'center',
-      //             top: 'center',
-      //             z: 100,
-      //             style: {
-      //                 fill: '#fff',
-      //                 text: 'ECHARTS BAR CHART',
-      //                 font: 'bold 26px Microsoft YaHei'
-      //             }
-      //         }
-      //     ]
-      // },
-      // {
-      //     type: 'group',
-      //     left: '10%',
-      //     top: 'center',
-      //     children: [
-      //         {
-      //             type: 'rect',
-      //             z: 100,
-      //             left: 'center',
-      //             top: 'middle',
-      //             shape: {
-      //                 width: 190,
-      //                 height: 90
-      //             },
-      //             style: {
-      //                 fill: '#fff',
-      //                 stroke: '#555',
-      //                 lineWidth: 2,
-      //                 shadowBlur: 8,
-      //                 shadowOffsetX: 3,
-      //                 shadowOffsetY: 3,
-      //                 shadowColor: 'rgba(0,0,0,0.3)'
-      //             }
-      //         },
-      //         {
-      //             type: 'text',
-      //             z: 100,
-      //             left: 'center',
-      //             top: 'middle',
-      //             style: {
-      //                 fill: '#333',
-      //                 text: [
-      //                     '横轴表示温度，单位是°C',
-      //                     '纵轴表示高度，单位是km',
-      //                     '右上角有一个图片做的水印',
-      //                     '这个文本块可以放在图中各',
-      //                     '种位置'
-      //                 ].join('\n'),
-      //                 font: '14px Microsoft YaHei'
-      //             }
-      //         }
-      //     ]
-      // }
-    ];
-    // ----------------- test -------------------- //
-
-    // 取首页数据
-    // storage.load("homeChartData", value => {
-    //   this.setState({ title: null });
-    // });
-
     console.log(this.props.navigation.state.params);
 
     const resparams = this.props.navigation.state.params;
@@ -173,8 +71,13 @@ export default class ClassDataPage extends Component {
           console.log(count);
 
           for (let j = 0; j < count; j++) {
-            const name = analysData[j].subjectName;
-            console.log(analysData[j].subjectName);
+            const name = "";
+            if (analysData[j].name === null) {
+              name = analysData[j].subjectName;
+            } else {
+              name = `${analysData[j].subjectName}(${analysData[j].name})`;
+            }
+            console.log(analysData[j].subjectName, analysData[j].name);
             Subjects.push(name);
 
             const count = analysData[j].count;

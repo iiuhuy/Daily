@@ -223,14 +223,14 @@ export default class HomeWork extends Component {
         console.log("根据 queryType 区分", params);
         if (res.success === "200") {
           console.log("按条件查询返回数据", res.data);
-          if (JSON.stringify(res.data) === "{}") {
-            Alert.alert("该列表无数据");
-            this.props.navigation.goBack();
-            return;
-          } else {
-            // 判断 queryType
-            this._splitShowList(params.queryType, res);
-          }
+          // if (JSON.stringify(res.data) === "{}") {
+          //   Alert.alert("该列表无数据");
+          //   this.props.navigation.goBack();
+          //   return;
+          // } else {
+          // 判断 queryType
+          this._splitShowList(params.queryType, res);
+          // }
         } else {
           Alert.alert("按条件查询数据失败.", response.message);
         }
@@ -306,39 +306,41 @@ export default class HomeWork extends Component {
   }
   // 上拉操作
   _pullLoading() {
-    // 如果有数据正在加载
-    // 如果没有就暂无更多
-    // if (this.state.wait) {
-    if (true) {
-      this.pullLoadingWait();
-    }
+    // if (true) {
+    //   this.pullLoadingWait();
+    // }
     // console.log("上拉加载了解一下。。。🚀");
+    if (!this.onEndReachedCalledDuringMomentum) {
+      //TODO：此处添加处理上拉加载方法
 
-    this.setState({
-      page: this.state.page++
-    });
-    // 路由参数
-    let params = this.props.navigation.state.params;
+      this.setState({
+        page: this.state.page + 1
+      });
+      // 路由参数
+      let params = this.props.navigation.state.params;
 
-    console.log("1", params, this.state.page);
-    params.page = this.state.page;
-    console.log("2", params, this.state.page);
+      console.log("1", params, this.state.page);
+      params.page = this.state.page;
+      console.log("2", params, this.state.page);
 
-    Connect.queryEverySubjectDataAnalysisList(params, res => {
-      if (res.success === "200") {
-        if (JSON.stringify(res.data) === "{}") {
-          // 按理说无数据不应该展示的,但是这里还是没有...
-          Alert.alert("该列表无数据");
-          this.props.navigation.goBack();
-          return;
+      Connect.queryEverySubjectDataAnalysisList(params, res => {
+        if (res.success === "200") {
+          if (JSON.stringify(res.data) === "{}") {
+            // 按理说无数据不应该展示的,但是这里还是没有...
+            Alert.alert("没有更多数据!");
+            // this.props.navigation.goBack();
+            return;
+          } else {
+            // 判断 queryType
+            this._splitShowList(params.queryType, res);
+          }
         } else {
-          // 判断 queryType
-          this._splitShowList(params.queryType, res);
+          Alert.alert("上拉加载 -> 按条件查询数据失败.", response.message);
         }
-      } else {
-        Alert.alert("上拉加载 -> 按条件查询数据失败.", response.message);
-      }
-    });
+      });
+
+      this.onEndReachedCalledDuringMomentum = true;
+    }
   }
 
   // 内容列表
@@ -425,6 +427,10 @@ export default class HomeWork extends Component {
             />
           }
           keyExtractor={item => item}
+          // 滚动动画开始时调用此函数
+          onMomentumScrollBegin={() => {
+            this.onEndReachedCalledDuringMomentum = false;
+          }}
         />
       </View>
     );

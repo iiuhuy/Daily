@@ -1,5 +1,5 @@
 import React from "react";
-import { ActivityIndicator, StatusBar, StyleSheet, View } from "react-native";
+import { ActivityIndicator, StyleSheet, View } from "react-native";
 import {
   createStackNavigator,
   createSwitchNavigator,
@@ -11,10 +11,8 @@ import HomeCharts from "./src/page/HomePage/HomeECharts";
 import TeacherLogin from "./src/page/HomePage/TeacherLogin";
 import ClassData from "./src/page/HomePage/ClassDataPage";
 import HomeWork from "./src/page/HomePage/HomeWork";
-import QueryCondition from "./src/page/HomePage/QueryCondition" // 查询条件页面
+import QueryCondition from "./src/page/HomePage/QueryCondition"; // 查询条件页面
 
-// test
-import OtherPage from "./src/page/OtherPage";
 import OtherPageCopy from "./src/page/OtherPageCopy";
 
 class AuthLoadingScreen extends React.Component {
@@ -41,14 +39,6 @@ class AuthLoadingScreen extends React.Component {
   }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center"
-  }
-});
-
 // APP STACK => 路由配置
 const AppStack = createStackNavigator({
   Home: HomeCharts,
@@ -56,10 +46,10 @@ const AppStack = createStackNavigator({
   ClassDataPage: ClassData,
   HomeWork: HomeWork,
   QueryCondition: QueryCondition,
-  
-  /* test page */ 
+
+  /* test page */
   // Other: OtherPage,
-  AnOther: OtherPageCopy 
+  AnOther: OtherPageCopy
 });
 
 const AuthStack = createStackNavigator(
@@ -91,3 +81,11 @@ export default createAppContainer(
     }
   )
 );
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center"
+  }
+});

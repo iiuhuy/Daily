@@ -31,9 +31,14 @@ import { storage } from "../../storage/storage";
 
 // component:
 export default class SignInPage extends Component {
-  static navigationOptions = {
-    // tabBarVisible: false, // 隐藏底部导航栏
-    header: "云书包实验中学" //隐藏顶部导航栏
+  static navigationOptions = ({ navigation }) => {
+    const params = navigation.state.params;
+    console.log("登录页面导航...", params);
+
+    return {
+      // tabBarVisible: false, // 隐藏底部导航栏
+      header: "云书包实验中学" //隐藏顶部导航栏
+    };
   };
 
   constructor(props) {
@@ -101,6 +106,7 @@ export default class SignInPage extends Component {
       roleCode: "2",
       loginApp: "headMaster"
     };
+    
     console.log(requestData);
     // const navigator = this.props.navigator;
     Connect.login(requestData, response => {

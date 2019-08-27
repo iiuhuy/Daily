@@ -1,35 +1,23 @@
 import React, { Component } from "react";
-import PropTypes from "prop-types";
 
 import {
   Text,
   View,
   StyleSheet,
   Platform,
-  Button,
   PixelRatio,
   TouchableNativeFeedback,
   TouchableOpacity,
-  ToastAndroid,
   Alert,
   AlertIOS,
-  ScrollView,
-  CameraRoll
+  ScrollView
 } from "react-native";
 import AsyncStorage from "@react-native-community/async-storage";
-
 import px2dp from "../../util/px2dp";
-// import Icon from "react-native-vector-icons/Ionicons";
 import theme from "../../config/theme";
 import Avatar from "../../component/Avatar";
-import TextButton from "../../component/TextButton";
-import HeaderBar from "../../component/HeaderBar";
-import SignInPage from "../../page/SignInAndSignup/SignInPage";
-// import Toast, { DURATION } from "react-native-easy-toast";
-import Item from "../../component/Item";
-import PersonPage from "../PersonPage";
-
 import { storage } from "../../storage/storage";
+import Item from "../../component/Item";
 
 export default class MeFragment extends Component {
   static navigationOptions = {
@@ -60,10 +48,9 @@ export default class MeFragment extends Component {
 
   _onHandlePress(position) {
     switch (position) {
-      case 0: //title
-        this.props.navigator.push({
-          component: PersonPage
-        });
+      case 0: // title
+        console.log("头像", `${this.state.headUrl}`);
+        // this.props.navigation.navigate("PersonPage"); // 导航栏
         break;
 
       case 1:
