@@ -1,7 +1,7 @@
-const generator = require("@babel/generator");
-const parser = require("@babel/parser");
-const traverse = require("@babel/traverse");
-const types = require("@babel/types");
+// const generator = require("@babel/generator");
+// const parser = require("@babel/parser");
+// const traverse = require("@babel/traverse");
+// const types = require("@babel/types");
 
 function compile(code) {
   // 1.parser: 字符串转换成语法树
