@@ -1,0 +1,12 @@
+{
+  "scripts": {
+    "test": "umi-test"
+  },
+  "devDependencies": {
+    "@testing-library/react": "^9.1.4",
+    "dva": "^2.4.1",
+    "react": "^16.9.0",
+    "react-dom": "^16.9.0",
+    "umi-test": "^1.7.1"
+  }
+}
