@@ -63,3 +63,10 @@ Java 后端的分层清晰
 
 ## Node.js 是如何执行的？
 
+## Node 模块与核心
+
+CommongJS 规范
+
+Node.js 模块详解：从 SDK、内置模块、全局对象、C/C++ 拓展
+
+详细介绍 ES 模块
