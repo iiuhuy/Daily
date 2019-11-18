@@ -1,1 +1,2 @@
-export default () => <span>worinige</span>;
+import { Button } from "antd";
+export default () => <Button>worinige</Button>;
