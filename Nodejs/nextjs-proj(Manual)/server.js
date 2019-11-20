@@ -55,6 +55,20 @@ const handle = app.getRequestHandler();
 
 app.prepare().then(() => {
   const server = new Koa();
+  const router = new Router();
+
+  router.get("/a/:id", async ctx => {
+    // 这样可以解决, next.js 路由映射 URL 报 404 的错.
+    const id = ctx.params.id;
+    console.log(id);
+    await handle(ctx.req, ctx.res, {
+      pathname: "/a",
+      query: { id }
+    });
+    ctx.respond = false;
+  });
+
+  server.use(router.routes());
 
   server.use(async (ctx, next) => {
     await handle(ctx.req, ctx.res);
