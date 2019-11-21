@@ -50,32 +50,40 @@ const next = require("next");
 const Router = require("koa-router");
 
 const dev = process.env.NODE_ENV !== "production";
-const app = next({ dev });
+const app = next({
+  dev
+});
+
 const handle = app.getRequestHandler();
 
+// 等 pages 下面的所有页面编译完成之后启动服务，响应请求
 app.prepare().then(() => {
+  // 实例化 Koa Server
   const server = new Koa();
   const router = new Router();
-
-  router.get("/a/:id", async ctx => {
-    // 这样可以解决, next.js 路由映射 URL 报 404 的错.
-    const id = ctx.params.id;
-    console.log(id);
-    await handle(ctx.req, ctx.res, {
-      pathname: "/a",
-      query: { id }
-    });
-    ctx.respond = false;
-  });
-
   server.use(router.routes());
-
-  server.use(async (ctx, next) => {
-    await handle(ctx.req, ctx.res);
+  // 根据浏览器地址栏请求的 params 来进行相关 query 的配置
+  router.get("/a/:id", async ctx => {
+    const id = ctx.params.id;
+    await app.render(ctx.req, ctx.res, "/a", { id });
     ctx.respond = false;
   });
 
+  // 通配符
+  router.get("*", async ctx => {
+    await handle(ctx.req, ctx.res);
+    // hack 手段，兼容 node 底层的 req 和 res
+    ctx.respond = false;
+  });
+
+  // 使用中间件
+  server.use(async (ctx, next) => {
+    ctx.res.statusCode = 200;
+    await next();
+  });
+
+  // 监听端口
   server.listen(3000, () => {
-    console.log("koa server listening 3000: http://localhos:3000");
+    console.log("koa server listening on 3000");
   });
 });
