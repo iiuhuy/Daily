@@ -27,10 +27,11 @@ export default class Index extends Component {
     return (
       <>
         {/* 通过 link 组件的 as 属性, 动态改变 */}
-        <Link href="/a?id=123" as="/a/123" title="PageA">
+        {/* <Link href="/a?id=123" as="/a/123" title="PageA">
           <Button>Index</Button>
         </Link>
-        <Button onClick={this.gotoTestB}>Test BB</Button>
+        <Button onClick={this.gotoTestB}>Test BB</Button> */}
+        <span>Index</span>
       </>
     );
   }

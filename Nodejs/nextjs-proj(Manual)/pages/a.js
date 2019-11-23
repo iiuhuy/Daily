@@ -8,7 +8,7 @@ class Show extends Component {
   static getInitialProps = async () => {
     const promise = new Promise(resolve => {
       setTimeout(() => {
-        resolve({ name: "Yuhui" });
+        resolve({ name: "余辉" });
       }, 1000);
     });
     return await promise;
