@@ -32,6 +32,7 @@ export default class Index extends Component {
         </Link>
         <Button onClick={this.gotoTestB}>Test BB</Button> */}
         <span>Index</span>
+        <a>index </a>
       </>
     );
   }

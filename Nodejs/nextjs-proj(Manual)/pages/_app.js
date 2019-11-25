@@ -5,11 +5,11 @@ import Layout from "../component/Layout";
 
 class MyApp extends App {
   // getInitialProps 获取全局信息
-  static getInitialProps = async ({ Component }) => {
+  static getInitialProps = async ({ Component,ctx }) => {
     let pageProps = {};
     // 判断当前页面是否存在 getInitialProps 方法
     if (Component.getInitialProps) {
-      pageProps = await Component.getInitialProps();
+      pageProps = await Component.getInitialProps(ctx);
     }
     return { pageProps };
   };

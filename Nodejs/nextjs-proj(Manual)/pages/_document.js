@@ -1,5 +1,5 @@
-import Document, { Html, Head, Main, NextScript } from "next/document";
-
+import Document, { Html, Main, NextScript } from "next/document";
+import Head from "next/head";
 export default class MyDocument extends Document {
   // 不必重写该方法，重写了就必须执行D ocument.getInitialProps 方法
   static getInitialProps = async ctx => {
@@ -13,12 +13,8 @@ export default class MyDocument extends Document {
   render() {
     return (
       <Html>
-        <Head>
-          <title>next-document</title>
-
-          <style>{`.test {color: red}`}</style>
-        </Head>
-        <body className="test">
+        <Head></Head>
+        <body>
           <Main />
           <NextScript />
         </body>
