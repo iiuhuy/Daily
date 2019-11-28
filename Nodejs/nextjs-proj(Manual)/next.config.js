@@ -41,7 +41,16 @@ const configs = {
     customKey: "value"
   },
 
-  // 
+  // 下面两个通过 'next/config' 来读取
+  // 只有在服务端渲染时才会获取的配置
+  serverRuntimeConfig: {
+    mySecret: "secret",
+    secondSecret: process.env.SECOND_SECRET
+  },
+  // 在服务端渲染和客户端渲染都可以获取的配置
+  publicRuntimeConfig: {
+    staticFolder: "/static"
+  }
 };
 
 if (typeof require !== undefined) {
@@ -51,4 +60,5 @@ if (typeof require !== undefined) {
 
 module.exports = withCSS({
   /* config options here */
+  // destDir: "dest"   // 例如这样设置, 就会在项目生成 dest 目录, 和 .next 里面的文件一样。
 });
