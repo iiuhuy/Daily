@@ -1,5 +1,11 @@
-import react, { useState, useEffect, useReducer } from "react";
-
+import react, {
+  useState,
+  useLayoutEffect,
+  useEffect,
+  useReducer,
+  useContext
+} from "react";
+import MyContext from "../../lib/my-context";
 // 类的写法
 class MyCount extends React.Component {
   state = {
@@ -11,6 +17,7 @@ class MyCount extends React.Component {
       this.setState({
         count: this.state.count + 1
       });
+      layout;
     }, 1000);
   }
 
@@ -30,7 +37,7 @@ function countReducer(state, action) {
   switch (action.type) {
     case "add":
       return state + 1;
-      // return Object.assign;
+    // return Object.assign;
     case "minus":
       return state - 1;
 
@@ -45,23 +52,61 @@ function MyCountFunc() {
 
   // useReducer 写法
   const [count, dispatchCount] = useReducer(countReducer, 10); // 第二个参数是初始值。没有初始值就为 NAN
+  const [name, setName] = useState("yuhui");
+
+  const context = useContext(MyContext);
+  // useEffect(() => {
+  //   const interval = setInterval(() => {
+  //     // setCount 更新状态
+  //     // setCount(1); // 不基于最新的值
+  //     // setCount(c => c + 1); // 基于最新的值(回调)
+
+  //     // --- useReducer
+  //     // dispatchCount({ type: "add" });
+  //     dispatchCount({ type: "minus" });
+  //   }, 1000);
+
+  //   return () => {
+  //     clearInterval(interval);
+  //   };
+  // }, []);
+
   useEffect(() => {
-    const interval = setInterval(() => {
-      // setCount 更新状态
-      // setCount(1); // 不基于最新的值
-      // setCount(c => c + 1); // 基于最新的值(回调)
-
-      // --- useReducer
-      // dispatchCount({ type: "add" });
-      dispatchCount({ type: "minus" });
-    }, 1000);
-
+    console.log("effect invoked");
     return () => {
-      clearInterval(interval);
+      console.log("effcet deteched");
     };
-  }, []);
+  }, [count]);
 
-  return <span>{count}</span>;
+  // 会先执行； 并且在 render 之前执行, useEffect 在 render 之后执行
+  // useLayoutEffect(() => {
+  //   console.log("layout effect invoked");
+  //   return () => {
+  //     console.log("layout effcet deteched");
+  //   };
+  // }, [count]);
+
+  return (
+    <div>
+      <input
+        value={name}
+        onChange={e => {
+          setName(e.target.value);
+        }}
+      />
+      <button
+        onClick={() => {
+          dispatchCount({
+            type: "add"
+          });
+        }}
+      >
+        Click me ！{count}
+      </button>
+      <p>{context}</p>
+      <span>span: {count}</span>
+    </div>
+  );
 }
 // export default MyCount;
 export default MyCountFunc;
