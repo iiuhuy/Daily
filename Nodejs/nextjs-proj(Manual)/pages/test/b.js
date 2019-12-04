@@ -38,8 +38,16 @@ function MyCountFunc() {
     [count]
   );
 
-  const handleButtonClick = useCallback(
-    () => dispatchCount({ type: "add" }),
+  // const handleButtonClick = useCallback(
+  //   () => dispatchCount({ type: "add" }),
+  //   []
+  // );
+
+  // memo 写法
+  const handleButtonClick = useMemo(
+    () => () => {
+      dispatchCount({ type: "add" });
+    },
     []
   );
 
