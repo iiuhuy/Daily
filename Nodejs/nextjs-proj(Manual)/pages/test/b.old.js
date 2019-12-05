@@ -28,6 +28,12 @@ class MyCount extends React.Component {
     }
   }
 
+  handleButtonClick() {
+    setTimeout(() => {
+      alert(this.state.count);
+    }, 2000);
+  }
+
   render() {
     return <span>{this.state.count}</span>;
   }

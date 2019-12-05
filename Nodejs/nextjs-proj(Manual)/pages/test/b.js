@@ -30,6 +30,11 @@ function MyCountFunc() {
   const [count, dispatchCount] = useReducer(countReducer, 0); // 第二个参数是初始值。没有初始值就为 NAN
   const [name, setName] = useState("yuhui");
 
+  // 规避闭包的方法: useRef
+  // 这个不是 bug, 是函数执行的正常状态
+  const countRef = useRef(); // {current: ''}
+  countRef.current = count;
+
   const config = useMemo(
     () => ({
       text: `count is ${count}`,
@@ -51,6 +56,12 @@ function MyCountFunc() {
     []
   );
 
+  const handleAlertButtonClick = function() {
+    setTimeout(() => {
+      alert(countRef.current);
+    }, 2000);
+  };
+
   return (
     <div>
       <input
@@ -60,6 +71,9 @@ function MyCountFunc() {
         }}
       />
       <Child config={config} onButtonClick={handleButtonClick}></Child>
+      <button onClick={handleAlertButtonClick} style={{ color: config.color }}>
+        alert count
+      </button>
     </div>
   );
 }
