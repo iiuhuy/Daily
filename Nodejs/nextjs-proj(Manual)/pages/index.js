@@ -3,6 +3,8 @@ import Link from "next/link";
 import Router from "next/router";
 import { Button } from "antd";
 
+// 测试 store
+import store from "../store/store";
 export default class Index extends Component {
   emitEvent = type => {
     return (...args) => {
