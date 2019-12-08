@@ -1,4 +1,5 @@
-import { createStore, combineReducers } from "redux";
+import { createStore, combineReducers, applyMiddleware } from "redux";
+import ReduxThunk from "redux-thunk";
 
 const initialState = {
   count: 0
@@ -11,10 +12,10 @@ const userInitialState = {
 
 const ADD = "ADD";
 function countReducer(state = initialState, action) {
-  console.log(state, action);
+  console.log("countReducer", state, action);
   switch (action.type) {
     case ADD:
-      return { count: state.count + 1 };
+      return { count: state.count + (action.num || 1) };
 
     default:
       return state;
@@ -24,6 +25,7 @@ function countReducer(state = initialState, action) {
 //
 const UPDATE_USERNAME = "UPDATE_USERNAME";
 function userReducer(state = userInitialState, action) {
+  console.log("userReducer", state, action);
   switch (action.type) {
     case UPDATE_USERNAME:
       return {
@@ -45,21 +47,45 @@ const allReducers = combineReducers({
 
 // 自动将 state 进行了模块区分 {counter: initialState}
 
-const store = createStore(allReducers, {
-  count: initialState,
-  user: userInitialState
-});
+const store = createStore(
+  allReducers,
+  {
+    count: initialState,
+    user: userInitialState
+  },
+  applyMiddleware(ReduxThunk)
+);
+
+// Create action
+function add(num) {
+  return {
+    type: ADD,
+    num
+  };
+}
+
 console.log("store", store);
 console.log("getState", store.getState());
 
-store.dispatch({ type: ADD });
-store.dispatch({ type: UPDATE_USERNAME, name: "worinige" });
+// 异步
+function addAsync(num) {
+  // 这里的 dispatch 等同于 store.dispatch
+  // getState —— 在异步完成之后获取最新的一个状态
+  return dispatch => {
+    setTimeout(() => {
+      dispatch(add(num));
+    }, 1000);
+  };
+}
+
+store.dispatch(add(3));
 
 // 监听 store 变化的 API
 store.subscribe(() => {
-  console.log("subscribe", store.getState());
+  console.log("changed", store.getState());
 });
 
-store.dispatch({ type: ADD });
+store.dispatch(addAsync(5));
+store.dispatch({ type: UPDATE_USERNAME, name: "worinige" });
 
 export default store;
