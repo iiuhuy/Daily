@@ -35,7 +35,8 @@ function userReducer(state = userInitialState, action) {
       };
 
     default:
-      // break;
+      // break;  // console.log("我傻了", dispatch, getState);
+
       return state;
   }
 }
