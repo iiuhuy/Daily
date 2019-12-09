@@ -31,7 +31,7 @@ function userReducer(state = userInitialState, action) {
       return {
         // 如果 key 多的情况下
         ...state,
-        username: action.name
+        userName: action.name
       };
 
     default:
@@ -87,6 +87,6 @@ store.subscribe(() => {
 });
 
 store.dispatch(addAsync(5));
-store.dispatch({ type: UPDATE_USERNAME, name: "worinige" });
+// store.dispatch({ type: UPDATE_USERNAME, name: "worinige" });
 
 export default store;

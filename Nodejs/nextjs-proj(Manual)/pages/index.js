@@ -37,7 +37,13 @@ const Index = ({ counter, username, rename, add }) => {
         <Button onClick={this.gotoTestB}>Test BB</Button> */}
       <span style={{ color: "red" }}>Count: {counter}</span>
       <a>UserName: {username} </a>
-      <input value={username} onChange={e => rename(e.target.value)} />
+      <input
+        value={username}
+        onChange={e => {
+          rename(e.target.value);
+          // console.log("suisuisuisuis", e.target.value);
+        }}
+      />
       <button
         onClick={() => {
           add(counter);
