@@ -1,5 +1,6 @@
 import { createStore, combineReducers, applyMiddleware } from "redux";
 import ReduxThunk from "redux-thunk";
+import { composeWithDevTools } from "redux-devtools-extension";
 
 const initialState = {
   count: 0
@@ -54,7 +55,8 @@ const store = createStore(
     count: initialState,
     user: userInitialState
   },
-  applyMiddleware(ReduxThunk)
+  // composeWithDevTools 加入 React dev tool
+  composeWithDevTools(applyMiddleware(ReduxThunk))
 );
 
 // Create action
