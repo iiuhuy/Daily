@@ -62,4 +62,5 @@ class Show extends Component {
     );
   }
 }
+
 export default withRouter(Show);

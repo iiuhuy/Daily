@@ -7,6 +7,7 @@ import Layout from "../component/Layout";
 import MyContext from "../lib/my-context";
 import { Button } from "antd";
 import store from "../store/store";
+import testHoc from "../lib/test-hoc";
 class MyApp extends App {
   state = {
     context: "context"
@@ -38,7 +39,7 @@ class MyApp extends App {
                   this.setState({ context: `${this.state.context}OwO` });
                 }}
               >
-                update context
+                update contex
               </Button>
             </MyContext.Provider>
           </Provider>
@@ -48,4 +49,4 @@ class MyApp extends App {
   }
 }
 
-export default MyApp;
+export default testHoc(MyApp);
