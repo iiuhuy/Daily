@@ -49,16 +49,6 @@ const allReducers = combineReducers({
 
 // 自动将 state 进行了模块区分 {counter: initialState}
 
-const store = createStore(
-  allReducers,
-  {
-    count: initialState,
-    user: userInitialState
-  },
-  // composeWithDevTools 加入 React dev tool
-  composeWithDevTools(applyMiddleware(ReduxThunk))
-);
-
 // Create action
 function add(num) {
   return {
@@ -91,4 +81,18 @@ store.subscribe(() => {
 store.dispatch(addAsync(5));
 // store.dispatch({ type: UPDATE_USERNAME, name: "worinige" });
 
-export default store;
+// export default store;
+
+export default function initializeStore() {
+  const store = createStore(
+    allReducers,
+    {
+      count: initialState,
+      user: userInitialState
+    },
+    // composeWithDevTools 加入 React dev tool
+    composeWithDevTools(applyMiddleware(ReduxThunk))
+  );
+
+  return store;
+}

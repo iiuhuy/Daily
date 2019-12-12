@@ -7,7 +7,7 @@ import Layout from "../component/Layout";
 import MyContext from "../lib/my-context";
 import { Button } from "antd";
 import store from "../store/store";
-import testHoc from "../lib/test-hoc";
+import testHoc from "../lib/with-redux";
 class MyApp extends App {
   state = {
     context: "context"
