@@ -83,13 +83,18 @@ store.dispatch(addAsync(5));
 
 // export default store;
 
-export default function initializeStore() {
+export default function initializeStore(state) {
   const store = createStore(
     allReducers,
-    {
-      count: initialState,
-      user: userInitialState
-    },
+    // 传进来的 state 优先级最高放最后
+    object.assign(
+      {},
+      {
+        count: initialState,
+        user: userInitialState
+      },
+      state
+    ),
     // composeWithDevTools 加入 React dev tool
     composeWithDevTools(applyMiddleware(ReduxThunk))
   );

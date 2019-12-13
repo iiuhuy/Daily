@@ -36,7 +36,9 @@ export default Comp => {
       appProps = await Comp.getInitialProps(ctx);
     }
 
-    
+    const reduxStore = getOrCreateStore();
+
+    return { ...appProps };
   };
   return TestHocComp;
 };
