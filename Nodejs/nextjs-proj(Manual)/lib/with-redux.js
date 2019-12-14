@@ -1,3 +1,4 @@
+import react from "react";
 import createStore from "../store/store";
 const isServer = typeof window === undefined; // 是否处于 Windows 环境
 
@@ -17,14 +18,27 @@ function getOrCreateStore(initialState) {
 }
 
 export default Comp => {
-  function TestHocComp({ Componet, pageProps, ...rest }) {
-    console.log("?????????", Componet, pageProps);
-
-    // 并不是每个页面都有 pageProps
-    if (pageProps) {
-      pageProps.test = "123";
+  class withReduxApp extends React.component {
+    constructor(props) {
+      super(props);
+      this.reduxStore = getOrCreateStore(props.initialState);
     }
-    return <Comp Componet={Componet} pageProps={pageProps} {...rest} />;
+    render({ Componet, pageProps, ...rest }) {
+      console.log("?????????", Componet, pageProps);
+
+      // 并不是每个页面都有 pageProps
+      if (pageProps) {
+        pageProps.test = "123";
+      }
+      return (
+        <Comp
+          Componet={Componet}
+          pageProps={pageProps}
+          {...rest}
+          reduxStore={this.reduxStore}
+        />
+      );
+    }
   }
 
   // 将 getInitialProps 传递进来
@@ -38,7 +52,7 @@ export default Comp => {
 
     const reduxStore = getOrCreateStore();
 
-    return { ...appProps };
+    return { ...appProps, initialReduxState: reduxStore.getState };
   };
   return TestHocComp;
 };

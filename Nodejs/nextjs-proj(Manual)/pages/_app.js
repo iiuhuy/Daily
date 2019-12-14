@@ -6,7 +6,7 @@ import "antd/dist/antd.css";
 import Layout from "../component/Layout";
 import MyContext from "../lib/my-context";
 import { Button } from "antd";
-import store from "../store/store";
+// import store from "../store/store";
 import testHoc from "../lib/with-redux";
 class MyApp extends App {
   state = {
@@ -24,13 +24,13 @@ class MyApp extends App {
 
   render() {
     // 这个 Component 即渲染的页面
-    const { Component, pageProps } = this.props;
+    const { Component, pageProps, reduxStore } = this.props;
     console.log(Component, pageProps);
     return (
       <Container>
         <Layout>
           {/* redux Provider */}
-          <Provider store={store}>
+          <Provider store={store} reduxStore={reduxStore}>
             {/* 这样引用后就可以在所有的组件中就可以使用 MyContext.Provider 提供的 value 了 */}
             <MyContext.Provider value={this.state.context}>
               <Component {...pageProps} />
