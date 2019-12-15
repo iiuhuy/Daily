@@ -30,7 +30,7 @@ class MyApp extends App {
       <Container>
         <Layout>
           {/* redux Provider */}
-          <Provider store={store} reduxStore={reduxStore}>
+          <Provider store={reduxStore}>
             {/* 这样引用后就可以在所有的组件中就可以使用 MyContext.Provider 提供的 value 了 */}
             <MyContext.Provider value={this.state.context}>
               <Component {...pageProps} />

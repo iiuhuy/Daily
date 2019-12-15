@@ -1,6 +1,6 @@
 import react from "react";
 import createStore from "../store/store";
-const isServer = typeof window === undefined; // 是否处于 Windows 环境
+const isServer = typeof window === "undefined"; // 是否处于 Windows 环境
 
 const __NEXT_REDUX_STORE__ = "__NEXT_REDUX_STORE__";
 
@@ -9,6 +9,7 @@ function getOrCreateStore(initialState) {
     return createStore(initialState); // 是服务端
   }
 
+  // 不是服务端的情况下
   if (!window[__NEXT_REDUX_STORE__]) {
     // 先判断是否存在, 如果不存在就设置
     window[__NEXT_REDUX_STORE__] = createStore(initialState);
@@ -18,12 +19,13 @@ function getOrCreateStore(initialState) {
 }
 
 export default Comp => {
-  class withReduxApp extends React.component {
+  class withReduxApp extends React.Component {
     constructor(props) {
       super(props);
-      this.reduxStore = getOrCreateStore(props.initialState);
+      this.reduxStore = getOrCreateStore(props.initialReduxState);
     }
-    render({ Componet, pageProps, ...rest }) {
+    render() {
+      const { Componet, pageProps, ...rest } = this.props;
       console.log("?????????", Componet, pageProps);
 
       // 并不是每个页面都有 pageProps
@@ -42,8 +44,8 @@ export default Comp => {
   }
 
   // 将 getInitialProps 传递进来
-  // TestHocComp.getInitialProps = Comp.getInitialProps;
-  TestHocComp.getInitialProps = async () => {
+  // withReduxApp.getInitialProps = Comp.getInitialProps;
+  withReduxApp.getInitialProps = async ctx => {
     // 获取 app props
     let appProps = {};
     if (typeof Comp.getInitialProps === "function") {
@@ -52,7 +54,7 @@ export default Comp => {
 
     const reduxStore = getOrCreateStore();
 
-    return { ...appProps, initialReduxState: reduxStore.getState };
+    return { ...appProps, initialReduxState: reduxStore.getState() };
   };
-  return TestHocComp;
+  return withReduxApp;
 };

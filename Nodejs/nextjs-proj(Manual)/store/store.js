@@ -8,7 +8,7 @@ const initialState = {
 
 // reducer 状态多的情况下, 对 reducer 进行一个拆分
 const userInitialState = {
-  userName: "jokcy"
+  userName: "初始值 Yuhui"
 };
 
 const ADD = "ADD";
@@ -57,8 +57,8 @@ function add(num) {
   };
 }
 
-console.log("store", store);
-console.log("getState", store.getState());
+// console.log("store", store);
+// console.log("getState", store.getState());
 
 // 异步
 function addAsync(num) {
@@ -71,15 +71,15 @@ function addAsync(num) {
   };
 }
 
-store.dispatch(add(3));
+// store.dispatch(add(3));
 
-// 监听 store 变化的 API
-store.subscribe(() => {
-  console.log("changed", store.getState());
-});
+// // 监听 store 变化的 API
+// store.subscribe(() => {
+//   console.log("changed", store.getState());
+// });
 
-store.dispatch(addAsync(5));
-// store.dispatch({ type: UPDATE_USERNAME, name: "worinige" });
+// store.dispatch(addAsync(5));
+// // store.dispatch({ type: UPDATE_USERNAME, name: "worinige" });
 
 // export default store;
 
@@ -87,10 +87,10 @@ export default function initializeStore(state) {
   const store = createStore(
     allReducers,
     // 传进来的 state 优先级最高放最后
-    object.assign(
+    Object.assign(
       {},
       {
-        count: initialState,
+        counter: initialState,
         user: userInitialState
       },
       state
