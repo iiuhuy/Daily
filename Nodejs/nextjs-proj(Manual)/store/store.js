@@ -49,7 +49,7 @@ const allReducers = combineReducers({
 
 // 自动将 state 进行了模块区分 {counter: initialState}
 
-// Create action
+// Create action， 触发一个 action，需要 export
 export function add(num) {
   return {
     type: ADD,

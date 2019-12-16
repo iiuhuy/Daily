@@ -12,16 +12,19 @@ class MyApp extends App {
   state = {
     context: "context"
   };
+
   // getInitialProps 获取全局信息
-  static getInitialProps = async ctx => {
+  static async getInitialProps(ctx) {
     const { Component } = ctx;
+    console.log("app init");
+    // const { Component } = ctx;
     let pageProps = {};
     // 判断当前页面是否存在 getInitialProps 方法
     if (Component.getInitialProps) {
       pageProps = await Component.getInitialProps(ctx);
     }
     return { pageProps };
-  };
+  }
 
   render() {
     // 这个 Component 即渲染的页面

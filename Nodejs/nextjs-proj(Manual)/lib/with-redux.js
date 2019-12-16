@@ -22,6 +22,7 @@ export default Comp => {
   class withReduxApp extends React.Component {
     constructor(props) {
       super(props);
+      console.log("emmm", props);
       this.reduxStore = getOrCreateStore(props.initialReduxState);
     }
     render() {
