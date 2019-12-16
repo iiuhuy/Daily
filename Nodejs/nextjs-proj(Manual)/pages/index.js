@@ -4,8 +4,9 @@ import Router from "next/router";
 import { Button } from "antd";
 import { connect } from "react-redux";
 
+import { add } from "../store/store";
 // 测试 store
-import store from "../store/store";
+// import store from "../store/store";
 
 const Index = ({ counter, username, rename, add }) => {
   // emitEvent = type => {
@@ -70,12 +71,17 @@ const Index = ({ counter, username, rename, add }) => {
   }
 };
 
+Index.getInitialProps = async ({ reduxStore }) => {
+  reduxStore.dispatch(add(3));
+  return {};
+};
+
 export default connect(
   // 使用这个拿到 State
   function mapStateToProps(state) {
     console.log(".......", state);
     return {
-      counter: state.count.count,
+      counter: state.counter.count,
       username: state.user.userName
     };
   },

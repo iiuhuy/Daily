@@ -13,7 +13,8 @@ class MyApp extends App {
     context: "context"
   };
   // getInitialProps 获取全局信息
-  static getInitialProps = async ({ Component, ctx }) => {
+  static getInitialProps = async ctx => {
+    const { Component } = ctx;
     let pageProps = {};
     // 判断当前页面是否存在 getInitialProps 方法
     if (Component.getInitialProps) {

@@ -16,7 +16,7 @@ function countReducer(state = initialState, action) {
   console.log("countReducer", state, action);
   switch (action.type) {
     case ADD:
-      return { count: state.count + (action.num || 1) };
+      return { counter: state.count + (action.num || 1) };
 
     default:
       return state;
@@ -50,7 +50,7 @@ const allReducers = combineReducers({
 // 自动将 state 进行了模块区分 {counter: initialState}
 
 // Create action
-function add(num) {
+export function add(num) {
   return {
     type: ADD,
     num

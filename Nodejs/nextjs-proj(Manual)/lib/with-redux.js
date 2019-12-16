@@ -45,14 +45,17 @@ export default Comp => {
 
   // 将 getInitialProps 传递进来
   // withReduxApp.getInitialProps = Comp.getInitialProps;
+  // 该方法是 App 的，在客户端渲染和服务端渲染都会被执行
   withReduxApp.getInitialProps = async ctx => {
+    const reduxStore = getOrCreateStore();
+
+    ctx.reduxStore = reduxStore;
+
     // 获取 app props
     let appProps = {};
     if (typeof Comp.getInitialProps === "function") {
       appProps = await Comp.getInitialProps(ctx);
     }
-
-    const reduxStore = getOrCreateStore();
 
     return { ...appProps, initialReduxState: reduxStore.getState() };
   };
