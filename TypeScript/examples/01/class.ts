@@ -57,41 +57,65 @@
 // hor.move(10);
 
 // --- 公共, 私有与受保护的修饰符 --- //
-class Animal {
-  private name: string;
+// class Animal {
+//   private name: string;
 
-  constructor(name: string) {
-    this.name = name;
-  }
+//   constructor(name: string) {
+//     this.name = name;
+//   }
 
-  move(distance: number = 0) {
-    console.log(`${this.name} moved ${distance} m`);
-  }
-}
+//   move(distance: number = 0) {
+//     console.log(`${this.name} moved ${distance} m`);
+//   }
+// }
 
-// 河马类
-class Rhino extends Animal {
-  constructor() {
-    super("Rhino");
-  }
-}
+// // 河马类
+// class Rhino extends Animal {
+//   constructor() {
+//     super("Rhino");
+//   }
+// }
 
-class Employee {
-  private name: string;
-  constructor(name: string) {
-    this.name = name;
-  }
-}
+// class Employee {
+//   private name: string;
+//   constructor(name: string) {
+//     this.name = name;
+//   }
+// }
 
-let animal = new Animal("Goat");
-let rhino = new Rhino();
-let employee = new Employee("Jack");
+// let animal = new Animal("Goat");
+// let rhino = new Rhino();
+// let employee = new Employee("Jack");
 
-animal = rhino; // 可行
-animal = employee; // 不可行
+// animal = rhino; // 可行
+// animal = employee; // 不可行
 
-// readonly 修饰符
-// 存取器
+// --- 存取器 --- //
+// let passcode = "secret passcode";
+
+// class Employee {
+//   private _fullName: string;
+
+//   get fullName(): string {
+//     return this._fullName;
+//   }
+
+//   set fullName(newName: string) {
+//     if (passcode && passcode === "secret passcode") {
+//       this._fullName = newName;
+//     } else {
+//       console.log("Error: Unauthorized update of employee!");
+//     }
+//   }
+// }
+
+// let employee = new Employee();
+// employee.fullName = "Jack Stenve";
+
+// if (employee.fullName) {
+//   console.log(employee.fullName);
+// }
+
 // 静态属性
 // 抽象类
 // 高级技巧
