@@ -66,7 +66,7 @@ let deck = {
       let pickedSuit = Math.floor(pickedCard / 13);
 
       return {
-        suit: this.suits[pickedSuit],
+        suit: this.suits[pickedSuit], // 这个会被推断为 any 
         card: pickedCard % 13
       };
     };
