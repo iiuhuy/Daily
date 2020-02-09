@@ -6,14 +6,12 @@
 // // 怎么用
 // // let output = identity<string>("myString");
 // let output = identity("myString"); // 这种由编译器自动推论类型
-
 // // --- 使用泛型变量 --- //
 // // 打印 T 的长度, T 直接打印是不会有 length 的. 因为这里的类型是任意类型, 而 number 是没有 .length 属性的
 // function loggingIdentity<T>(arg: T[]): T[] {
 //   console.log(arg.length);
 //   return arg;
 // }
-
 // --- 泛型类型 --- //
 // // 使用泛型函数类型
 // function identity<T>(params: T): T {
@@ -26,7 +24,6 @@
 // // 使用
 // // let myIdentity: { <T>(arg: T): T } = identity;
 // let myIdentity: GenericIdentityFn<number> = identity;
-
 // --- 泛型类 --- //
 // class GenericNumber<T> {
 //   zeroValue: T;
@@ -43,15 +40,11 @@
 //   return x + y;
 // };
 // console.log(stringGeneric.add(stringGeneric.zeroValue, " start"));
-
 // --- 泛型约束 --- //
 // 在泛型约束中使用类型参数
-
-function getProperty<T, K extends keyof T>(obj: T, key: K) {
-  return obj[key];
+function getProperty(obj, key) {
+    return obj[key];
 }
-
-let x = { a: 1, b: 2, c: 3, d: 4 };
-
+var x = { a: 1, b: 2, c: 3, d: 4 };
 getProperty(x, "a"); // okay
 // getProperty(x, "m"); // error
