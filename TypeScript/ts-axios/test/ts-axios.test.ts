@@ -1,4 +1,4 @@
-import DummyClass from '../src/ts-axios'
+import DummyClass from '../src'
 
 /**
  * Dummy test
