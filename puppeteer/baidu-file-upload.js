@@ -11,5 +11,7 @@ async function upload() {
   await uploadPic.uploadFile("./assert/c4d.jpg");
   // await uploadPic.uploadFile("/media/alvinmi/Data/yuhui/githubProj/Daily/puppeteer/assert/c4d.jpg");
   // await uploadPic.uploadFile("/home/alvinmi/图片/2019UP一花一世界/02.jpg");
+  console.log(`Current directory: ${process.cwd()}`);
+
 }
 upload();
