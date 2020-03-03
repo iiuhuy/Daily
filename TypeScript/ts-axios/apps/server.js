@@ -25,6 +25,17 @@ app.use(express.static(__dirname))
 app.use(bodyParser.json()) // 解析发送过来的 request body
 app.use(bodyParser.urlencoded({ extended: true }))
 
+//
+const router = express.Router()
+
+router.get('/simple/get', function(req, res) {
+  res.json({
+    msg: 'Hello Express'
+  })
+})
+
+app.use(router)
+
 const port = process.env.PORT || 8084
 module.exports = app.listen(port, () => {
   console.log(`Server listening on http://localhost:${port}, Ctrl+C to stop`)
