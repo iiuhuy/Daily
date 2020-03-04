@@ -25,13 +25,18 @@ app.use(express.static(__dirname))
 app.use(bodyParser.json()) // 解析发送过来的 request body
 app.use(bodyParser.urlencoded({ extended: true }))
 
-//
+// 请求发送
 const router = express.Router()
 
 router.get('/simple/get', function(req, res) {
   res.json({
     msg: 'Hello Express'
   })
+})
+
+// 处理参数 demo 接口
+router.get('/base/get', function(req, res) {
+  res.json(req.query)
 })
 
 app.use(router)
