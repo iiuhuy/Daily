@@ -1,4 +1,4 @@
-import { isDate, isObject } from './util'
+import { isDate, isPlainObject } from './util'
 
 function encode(val: string): string {
   // 需要处理一下特殊字符
@@ -36,7 +36,7 @@ export function buildURL(url: string, params?: any): string {
       if (isDate(val)) {
         // 不能字节使用 toISO 方法, 需要在 util 里面使用类型保护
         val = val.toISOString()
-      } else if (isObject(val)) {
+      } else if (isPlainObject(val)) {
         val = JSON.stringify(val)
       }
       // 添加 encode 的键值对
