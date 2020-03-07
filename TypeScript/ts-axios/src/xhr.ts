@@ -1,20 +1,46 @@
-import { AxiosRequestConfig } from './types'
+import { AxiosRequestConfig, AxiosPromise, AxiosResponse } from './types'
 
-export default function xhr(config: AxiosRequestConfig): void {
-  const { data = null, url, method = 'get', headers } = config
+export default function xhr(config: AxiosRequestConfig): AxiosPromise {
+  return new Promise(resolve => {
+    const { data = null, url, method = 'get', headers, responseType } = config
 
-  const request = new XMLHttpRequest()
+    const request = new XMLHttpRequest()
 
-  request.open(method.toUpperCase(), url, true) // true -> 同步还是异步
-
-  Object.keys(headers).forEach(name => {
-    // 多加一层判断: 假设 data 为 null, 不设置 content-type
-    if (data === null && name.toLowerCase() === 'content-type') {
-      delete headers[name]
-    } else {
-      request.setRequestHeader(name, headers[name])
+    if (responseType) {
+      request.responseType = responseType
     }
-  })
 
-  request.send(data)
+    request.open(method.toUpperCase(), url, true) // true -> 同步还是异步
+
+    // ajax 的知识
+    request.onreadystatechange = function handleLoad() {
+      if (request.readyState !== 4) {
+        return
+      }
+
+      const responseHeaders = request.getAllResponseHeaders()
+      const responseData =
+        responseType && responseType !== 'text' ? request.response : request.responseText
+      const response: AxiosResponse = {
+        data: responseData,
+        status: request.status,
+        statusText: request.statusText,
+        headers: responseHeaders,
+        config,
+        request
+      }
+      resolve(response)
+    }
+
+    Object.keys(headers).forEach(name => {
+      // 多加一层判断: 假设 data 为 null, 不设置 content-type
+      if (data === null && name.toLowerCase() === 'content-type') {
+        delete headers[name]
+      } else {
+        request.setRequestHeader(name, headers[name])
+      }
+    })
+
+    request.send(data)
+  })
 }

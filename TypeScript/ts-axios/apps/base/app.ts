@@ -84,32 +84,67 @@ import axios from '../../src/index'
 // })
 
 // ----- headers ----- //
+// axios({
+//   method: 'post',
+//   url: '/base/post',
+//   data: {
+//     a: 1,
+//     b: 2
+//   }
+// })
+
+// axios({
+//   method: 'post',
+//   url: '/base/post',
+//   headers: {
+//     'content-type': 'application/json;'
+//   },
+//   data: {
+//     a: 1,
+//     b: 2
+//   }
+// })
+
+// const paramsString = 'q=URLUtils.searchParams&topic=api'
+// const searchParams = new URLSearchParams(paramsString)
+
+// axios({
+//   method: 'post',
+//   url: '/base/post',
+//   data: searchParams
+// })
+
+// ----- 数据响应 ----- //
 axios({
   method: 'post',
   url: '/base/post',
   data: {
-    a: 1,
-    b: 2
+    a: 111,
+    b: 222
   }
+}).then(res => {
+  console.log(res)
 })
 
+// axios({
+//   method: 'post',
+//   url: '/base/post',
+//   responseType: 'json',
+//   data: {
+//     c: 333,
+//     d: 444
+//   }
+// }).then(res => {
+//   console.log(res)
+// })
 axios({
   method: 'post',
   url: '/base/post',
-  headers: {
-    'content-type': 'application/json;'
-  },
+  responseType: 'json',
   data: {
-    a: 1,
-    b: 2
+    a: 3,
+    b: 4
   }
-})
-
-const paramsString = 'q=URLUtils.searchParams&topic=api'
-const searchParams = new URLSearchParams(paramsString)
-
-axios({
-  method: 'post',
-  url: '/base/post',
-  data: searchParams
+}).then(res => {
+  console.log(res)
 })

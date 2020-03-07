@@ -1,3 +1,5 @@
+import { request } from 'https'
+
 export type Method =
   | 'get'
   | 'GET'
@@ -20,4 +22,17 @@ export interface AxiosRequestConfig {
   data?: any
   params?: any
   headers?: any
+  responseType?: XMLHttpRequestResponseType // 拓展属性. XMLHttpRequestResponseType 其实是字面量类型
 }
+
+// 数据响应接口
+export interface AxiosResponse {
+  data: any
+  status: number
+  statusText: string
+  headers: any
+  config: AxiosRequestConfig
+  request: any
+}
+
+export interface AxiosPromise extends Promise<AxiosResponse> {}
