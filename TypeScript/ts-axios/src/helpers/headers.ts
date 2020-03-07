@@ -25,3 +25,25 @@ export function processHeaders(headers: any, data: any): any {
   }
   return headers // 没有返回
 }
+
+// 解析 header 字符串为对象
+export function parseHeaders(headers: string): any {
+  let parsed = Object.create(null)
+  if (!headers) {
+    return parsed
+  }
+  headers.split('\r\n').forEach(line => {
+    let [key, value] = line.split(':') // 结构赋值
+
+    key = key.trim().toLowerCase()
+    if (!key) {
+      return
+    }
+    if (value) {
+      value = value.trim() // trim: 删除两端的空格
+    }
+
+    parsed[key] = value
+  })
+  return parsed
+}
