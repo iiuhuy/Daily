@@ -23,6 +23,7 @@ export interface AxiosRequestConfig {
   params?: any
   headers?: any
   responseType?: XMLHttpRequestResponseType // 拓展属性. XMLHttpRequestResponseType 其实是字面量类型
+  timeout?: number // 请求超时时间
 }
 
 // 数据响应接口
