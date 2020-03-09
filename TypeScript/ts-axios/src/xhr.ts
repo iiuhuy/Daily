@@ -24,6 +24,11 @@ export default function xhr(config: AxiosRequestConfig): AxiosPromise {
         return
       }
 
+      // 处理非 200 状态码
+      if (request.status === 0) {
+        return
+      }
+
       // 对 headers 进行一层解析 parseHeaders -> 变成对象
       const responseHeaders = parseHeaders(request.getAllResponseHeaders())
       const responseData =
@@ -36,7 +41,8 @@ export default function xhr(config: AxiosRequestConfig): AxiosPromise {
         config,
         request
       }
-      resolve(response)
+      // resolve(response)
+      handleResponse(response)
     }
 
     request.onerror = function handleError() {
@@ -57,5 +63,13 @@ export default function xhr(config: AxiosRequestConfig): AxiosPromise {
     })
 
     request.send(data)
+
+    function handleResponse(response: AxiosResponse): void {
+      if (response.status >= 200 && response.status < 300) {
+        resolve(response)
+      } else {
+        reject(new Error(`请求失败: status code is ${response.status}`))
+      }
+    }
   })
 }
