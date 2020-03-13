@@ -2,7 +2,17 @@ import { AxiosRequestConfig, AxiosPromise, Method } from '../types'
 import dispatchRequest from './dispatchRequest'
 
 export default class Axios {
-  request(config: AxiosRequestConfig): AxiosPromise {
+  request(url: any, config?: any): AxiosPromise {
+    if (typeof url === 'string') {
+      if (!config) {
+        config = {}
+      }
+      config.url = url
+    } else {
+      // 不是 string 类型, 即为
+      config = url
+    }
+
     return dispatchRequest(config)
   }
 

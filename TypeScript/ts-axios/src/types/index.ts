@@ -67,4 +67,7 @@ export interface Axios {
 // 混合类型接口,继承 Axios 可以使用里面的方法. 也有下面的函数类型的对象
 export interface AxiosInstance extends Axios {
   (config: AxiosRequestConfig): AxiosPromise
+
+  // 函数重载
+  (url: string, config?: AxiosRequestConfig): AxiosPromise
 }
