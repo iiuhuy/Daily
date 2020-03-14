@@ -37,6 +37,8 @@ registerErrorRouter()
 
 registerExtendRouter()
 
+registerInterceptorRouter()
+
 // router.get('/simple/get', function(req, res) {
 //   res.json({
 //     msg: 'Hello Express'
@@ -187,5 +189,12 @@ function registerExtendRouter() {
         age: 18
       }
     })
+  })
+}
+
+// 注册拦截器的接口
+function registerInterceptorRouter() {
+  router.get('/interceptor/get', function(req, res) {
+    res.end('hello interceptor...')
   })
 }
