@@ -11,7 +11,7 @@ import axios from '../../src/index'
 // axios.request({
 //   url: '/extend/post',
 //   method: 'post',
-//   data: {
+//   data: {tianjia
 //     msg: 'hello'
 //   }
 // })
