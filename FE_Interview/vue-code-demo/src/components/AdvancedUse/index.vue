@@ -17,7 +17,7 @@
 
     <br />
 
-		<!-- 作用域插槽： -->
+    <!-- 作用域插槽： -->
     <ScopedSlotDemo :url="website.url">
       <template v-slot="slotProps">
         {{ slotProps.slotData.title }}
@@ -27,6 +27,7 @@
     <h4>动态组件</h4>
     <component :is="NextTickName" />
 
+    <!-- 要看到 ajax 请求的效果,需要注释调 APP.vue 的 FormDemo -->
     <h4>异步组件</h4>
     <FormDemo v-if="showFormDemo" />
     <button @click="showFormDemo = true">show form demo</button>
@@ -65,7 +66,7 @@ export default {
         title: "Github",
         subTitle: "GayHub",
       },
-      NextTickName: "NextTick",
+      NextTickName: "NextTick", // 动态组件引用时候的名字
       showFormDemo: false,
     };
   },
