@@ -49,8 +49,8 @@ class EventDemo extends React.Component {
             // >
             <li
               key={item.id}
-              onClick={(value) =>
-                this.clickHandler5(item.id, item.title, value)
+              onClick={(event) =>
+                this.clickHandler5(item.id, item.title, event)
               }
             >
               index {index}; title {item.title}
@@ -102,7 +102,7 @@ class EventDemo extends React.Component {
   clickHandler5 = (id, title, event) => {
     console.log(id, title);
     console.log("event", event); // 最后追加一个参数，即可接收 event
-  };
+  };  
 }
 
 export default EventDemo;
