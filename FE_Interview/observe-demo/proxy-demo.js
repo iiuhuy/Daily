@@ -23,13 +23,13 @@ const proxyData = new Proxy(data, {
 
     const result = Reflect.set(target, key, val, receiver);
     console.log("set", key, val);
-    // console.log('result', result) // true
+    console.log('result', result) // true
     return result; // 是否设置成功
   },
   deleteProperty(target, key) {
     const result = Reflect.deleteProperty(target, key);
     console.log("delete property", key);
-    // console.log('result', result) // true
+    console.log('result', result) // true
     return result; // 是否删除成功
   },
 });

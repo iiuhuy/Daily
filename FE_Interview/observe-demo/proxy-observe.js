@@ -17,7 +17,7 @@ function reactive(target = {}) {
       const result = Reflect.get(target, key, receiver);
 
       // 深度监听
-      // 性能如何提升的？
+      // 性能如何提升的？ 惰性递归，而 Object.defineProperty 是一次性递归。
       return reactive(result);
     },
     set(target, key, val, receiver) {
@@ -26,6 +26,7 @@ function reactive(target = {}) {
         return true;
       }
 
+      // 如何判断是否为新增的?
       const ownKeys = Reflect.ownKeys(target);
       if (ownKeys.includes(key)) {
         console.log("已有的 key", key);
